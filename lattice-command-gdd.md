@@ -12,7 +12,7 @@ Design pillars:
 
 - **Real systems, real names.** The fiction is space logistics. The mechanics are called what they are called in Claude: subagent, tool\_choice, PreToolUse, CLAUDE.md, Message Batches.
 - **Every exam distinction decides an outcome.** If the certification tests a difference (Grep vs Glob, project vs local scope), some mission fails when you get it wrong.
-- **Late consequences, readable causes.** A misconfiguration surfaces turns later as an incident, with a cause the player can trace.
+- **Late consequences, readable causes.** A misconfiguration surfaces later as an incident, at a simulation tick scheduled when the decision was made and often turns away, with a cause the player can trace.
 - **Fun without the exam.** It must stand as a strategy game for people who never plan to certify.
 - **Built the way it teaches.** The game is developed with Claude Code, eval-first, so the team practises the same skills the game teaches.
 
@@ -22,9 +22,9 @@ Design pillars:
 
 1. **The content is the rules.** Every certification concept is a game system the player operates, not a fact the player reads.
 2. **Exact terms in the interface.** Fiction names sit on top ("Interlock"), but every tooltip, menu and log line carries the real term ("PreToolUse hook"). Transfer to the exam depends on the vocabulary.
-3. **The simulation behaves like the real system.** A PostToolUse interlock can never stop an action. A subagent knows only its delegation message. A batch can take up to 24 hours. A wrong rule teaches a wrong answer.
+3. **The simulation behaves like the real system.** A PostToolUse interlock can never stop an action. A subagent knows nothing of the parent conversation except its delegation message, and a fork is the exception because it inherits the whole conversation (corrected 2026-11-04). A batch can take up to 24 hours and expires if processing has not finished by then (corrected 2026-11-04). A wrong rule teaches a wrong answer.
 4. **Distractors are tempting moves.** The exam's recurring wrong answers (stronger prompt, self-rated confidence, more retries, wider window) are offered as cheap, attractive options in the game. They work just often enough to tempt, and fail at the moments that matter.
-5. **Delayed, traceable consequences.** Damage from a misconfiguration surfaces several turns later. The incident log always shows the causal chain back to the decision.
+5. **Delayed, traceable consequences.** Damage from a misconfiguration surfaces later, as an event scheduled at an absolute simulation tick, which on the strategic layer means several turns after the decision ([ADR-0020](docs/adr/0020-fixed-step-clock-and-numerics.md)). The incident log always shows the causal chain back to the decision.
 6. **A thin bridge to the exam's format.** After-action reports are written as exam scenarios (situation, symptom, question, four options), so intuition from play becomes recall under exam conditions.
 
 The exam's structure, distilled from two 60-question practice tests and the CCA-F question decoder in this project, sets the targets:
@@ -81,17 +81,17 @@ A refit at the wrong layer sends the player back to watching the log; only a fix
 The player designs agent-craft and the systems they run in.
 
 - **Hull class** = model choice: Haiku couriers (fast, cheap, high volume), Sonnet frigates (balanced, strong at code), Opus flagships (deep multi-step reasoning, slow and costly).
-- **Loadout** = the tools list. Anything not fitted cannot be used; an empty loadout slot means the craft inherits everything.
+- **Loadout** = the tools list. Anything not fitted cannot be used; a craft with no loadout declared inherits everything (corrected 2026-11-04).
 - **Standing orders** = system prompt, with optional example missions wrapped in tags.
 - **Interlocks** = hooks: PreToolUse (before an action, can deny), PostToolUse (after), Stop (blocks the craft from reporting done).
 - **Fire control** = tool\_choice: auto, any, a named tool, none.
 - **Cargo manifests** = structured output schemas, with strict mode, enums, nullable fields.
 - **Formations** = workflow patterns: pipeline, parallel fan-out, router, evaluator-optimizer, or an open-ended agent.
-- **Comms** = delegation messages. A subagent craft knows only what its message carries.
+- **Comms** = delegation messages. A subagent craft knows nothing of the parent's conversation except what its message carries; a fork is the exception and inherits the whole conversation (corrected 2026-11-04).
 
 ### Incident layer: real time with pause
 
-Missions run as a visible simulation. Each craft's **ship's log** is its literal message history: every tool\_use, tool\_result and stop\_reason, in order. When something goes wrong:
+Missions run as a visible simulation. Each craft's **ship's log** is its literal message history plus each response's stop\_reason, which is a field of the response and not part of the messages array: every tool\_use, tool\_result and stop\_reason, in order (corrected 2026-11-04). When something goes wrong:
 
 1. An incident fires with a symptom ("37 credits issued without an eligibility check").
 2. The player pauses and reads the logs and traces.
@@ -108,9 +108,9 @@ Some incidents need two orders at once, mirroring the exam's "select TWO" questi
 
 | Game system | Certification concept | What the player learns by playing | Concord trap it trains against |
 | --- | --- | --- | --- |
-| Ship's log | The agentic loop: tool\_use → tool\_result → repeat until stop\_reason is end\_turn | A craft acts only on what its log holds; the log is resent every turn | Envoy: assuming the model remembers between calls |
-| Mission complete signal | stop\_reason values (end\_turn, tool\_use, max\_tokens) | Read the signal; don't parse prose for "done" | Hand: a mechanism with the wrong contract |
-| Flagship and escorts | Coordinator + subagents | Escorts start with a fresh context and know only the comms message | Envoy: vague delegation |
+| Ship's log | The agentic loop: tool\_use → tool\_result → repeat while stop\_reason is tool\_use (corrected 2026-11-04) | A craft acts only on what its log holds; the log is resent every turn | Envoy: assuming the model remembers between calls |
+| Mission complete signal | stop\_reason values, including end\_turn, tool\_use and max\_tokens. This is not the complete set; the documentation lists seven values, and which others the game teaches is undecided (corrected 2026-11-04) | Read the signal; don't parse prose for "done" | Hand: a mechanism with the wrong contract |
+| Flagship and escorts | Coordinator + subagents | Escorts start with a fresh context and know nothing of the flagship's conversation except the comms message; a fork is the exception and inherits the whole conversation (corrected 2026-11-04) | Envoy: vague delegation |
 | Parallel launch | Several Agent calls in one turn | Independent sorties launched together finish faster | Tower: structure that ignores the dependency graph |
 | Formations | Pipeline, routing, parallelisation, orchestrator-workers, evaluator-optimizer | Pick the simplest formation that solves the mission | Tower: the impressive architecture |
 | Checkpoint gates | Inter-step validation in multi-step pipelines | Validate between stages so errors don't compound | Latewatch: checking only the final output |
@@ -150,7 +150,7 @@ Some incidents need two orders at once, mirroring the exam's "select TWO" questi
 | Manifest fields | Enums, nullable fields, "other" + detail | Let the craft say "unknown" instead of inventing | Silencer: hiding gaps |
 | Example missions | Few-shot examples at ambiguous boundaries | Examples fix judgement calls, not structural causes | Brute: more of the same examples |
 | Explicit criteria | Concrete criteria over vague adjectives | "Flag if X or Y" beats "flag important ones" | Plea: stronger adjectives |
-| Bulk freight | Message Batches API: up to 24h, custom\_id, about half the cost | Cheap for overnight work, wrong for anything blocking | Hand: Batch for a blocking step |
+| Bulk freight | Message Batches API: up to 24h, then expiry if processing has not finished, though most finish within 1h; results can return in any order and are matched by custom\_id; about half the cost (corrected 2026-11-04) | Cheap for overnight work, wrong for anything blocking | Hand: Batch for a blocking step |
 | Second opinion | Independent review instance | A fresh reviewer catches what the author can't | Mirror: self-review in the same context |
 
 ### Domain 5: Context management and reliability (15%)
@@ -295,7 +295,7 @@ Incidents the player resolved at the wrong layer return as **echoes**: the same 
 
 | Scale | View | What 3D adds |
 | --- | --- | --- |
-| Cluster | A slowly rotating star map; colonies as lit stations, supply lanes as glowing arcs | Depth separates the colony types; Concord influence shows as fog creeping along lanes |
+| Cluster | A slowly rotating star map; colonies as lit stations, supply lanes as glowing arcs | Depth separates the colony types; Concord influence shows as quad or shader fog creeping along lanes, because volumetric fog is unavailable under the Compatibility renderer |
 | Colony | A station in orbit with docked craft, cargo flows and port connections | The player sees which craft is calling which tool as a beam to a port; MCP servers are physical docking rings |
 | Bridge | The Steward's command deck, where advisors stand and incidents are reviewed | Characters and emotion; the ship's log projected as a holographic timeline you can scrub |
 
@@ -323,30 +323,32 @@ An ambient score that tightens as incidents stack up, distinct sound signatures 
 
 **Recommendation: Godot 4 with GDScript, and a simulation core that knows nothing about the engine.** Godot is the right fit for a small team building with Claude Code, and your colleague's experience removes most of the learning risk.
 
+Architecture decisions are recorded in [docs/adr/README.md](docs/adr/README.md).
+
 ### Why Godot 4
 
 - **Text all the way down.** Scenes (.tscn), resources (.tres), scripts (.gd) and project settings are plain text. Claude Code can read, diff and edit nearly everything, and every change shows up in a normal code review.
 - **Headless mode.** `godot --headless` runs tests and exports in CI with no display, so Claude Code can verify its own work.
 - **Real 3D at indie scale.** The game uses the Compatibility renderer (WebGL 2), the only one Godot 4.7 supports on the web; Forward+ and Mobile are not available there (corrected 2026-11-04). Whether it carries the stylized look still has to be proven in the vertical slice; we are not chasing photorealism.
-- **Open source, no royalties, small download.** Nothing to negotiate later.
+- **Open source, no royalties.** Nothing to negotiate later. The web download is not small, though: a nearly empty test export on 2026-11-04 produced a 39.5 MB `index.wasm`, about 10.1 MB when gzipped ([ADR-0004](docs/adr/0004-compatibility-renderer-single-threaded-web.md)) (corrected 2026-11-04).
 - **Strong 2D UI.** Control nodes, themes and containers suit a panel-heavy strategy game better than most 3D-first engines.
 
 ### Language: GDScript or C#
 
 |  | GDScript | C# (.NET) |
 | --- | --- | --- |
-| Web export | Yes | Not officially supported in Godot 4 as of this writing; only an untested community build exists |
+| Web export | Yes | No: Godot's documentation says that projects written in C# using Godot 4 "currently cannot be exported to the web" (corrected 2026-11-04) |
 | Iteration speed | Fastest; hot reload in the editor | Compile step; still quick |
 | Typing | Optional static typing; enforce it by convention | Full static typing, mature tooling |
 | Claude Code fluency | Good, but models sometimes write Godot 3 syntax; a CLAUDE.md rule fixes this | Excellent; C# is heavily represented in training data |
-| Testing | GUT or gdUnit4, headless | xUnit/NUnit for the sim core with no engine needed; gdUnit4 for scenes |
+| Testing | A small in-repo runner, headless ([ADR-0019](docs/adr/0019-test-framework.md)); GUT and gdUnit4 are deferred until a test needs a scene runner, input simulation or doubles | xUnit/NUnit for the sim core with no engine needed; gdUnit4 for scenes |
 | Best when | A browser demo matters (itch.io, sharing with colleagues) | Desktop-only release and a team that already lives in .NET |
 
-**Decision (2026-11-04): GDScript.** A playable web build matters for a learning game you want people to try with one click, and C# has no official web export in Godot 4. C# would only have made sense for a desktop-only release with a team stronger in .NET.
+**Decision (2026-11-04): GDScript.** A playable web build matters for a learning game you want people to try with one click, and Godot's documentation says that C# projects "currently cannot be exported to the web" in Godot 4 (corrected 2026-11-04). C# would only have made sense for a desktop-only release with a team stronger in .NET.
 
 ### Architecture: three layers
 
-1. **Simulation core.** Pure logic: colonies, craft, tool calls, incidents, resources, the Concord. Deterministic and seeded, so any run can be replayed exactly. No nodes, no rendering. In GDScript these are RefCounted classes; in C# a plain class library.
+1. **Simulation core.** Pure logic: colonies, craft, tool calls, incidents, resources, the Concord. Deterministic and seeded, so any run can be replayed exactly. Time advances in integer ticks, commands carry their tick and rule values are integers ([ADR-0020](docs/adr/0020-fixed-step-clock-and-numerics.md)). No nodes, no rendering. In GDScript these are RefCounted classes; in C# a plain class library.
 2. **Content as data.** Incidents, doctrines, tech nodes and the fact sheet live in JSON files validated by a JSON Schema in CI. Designers and Claude Code add content without touching code.
 3. **Presentation.** Godot scenes subscribe to simulation events and draw them. The presentation layer never changes simulation state directly; it sends commands.
 
@@ -411,13 +413,15 @@ lattice-command/
 
 ### Hooks (in .claude/settings.json)
 
-| Hook | Matcher | Purpose |
+| Hook | Matcher and handler `if` | Purpose |
 | --- | --- | --- |
-| PreToolUse | Edit, Write | Deny edits to generated files: `.godot/`, `*.import`, exported builds, `art/models/**` |
-| PostToolUse | Edit, Write on `content/**` | Run the content validator and return errors to Claude immediately |
-| Stop | all | Block "done" until headless sim tests and content validation pass |
+| PreToolUse | Matcher `Edit\|Write` | Deny edits to generated files: `.godot/`, `*.import`, exported builds, `art/models/**` |
+| PostToolUse | Matcher `Edit\|Write`; handler `if` `Edit(/content/**)` | Run the content validator and return errors to Claude immediately |
+| Stop | (no matcher) | Block "done" until headless sim tests and content validation pass |
 
 Hook commands use absolute paths via `$CLAUDE_PROJECT_DIR`, so they work from any subdirectory.
+
+A matcher tests the tool name only, so a path condition goes in the handler's `if` field, which holds one permission rule. In permission rules `Edit(path)` applies to all built-in tools that edit files and `Write(path)` never matches; whether `Edit(/content/**)` also catches Write in a hook's `if` has not been tested and must be checked when this hook is added. Stop takes no matcher and no `if`, because a hook with `if` set never runs on Stop. A Stop hook should check `stop_hook_active` in its input, which is true when Claude Code is already continuing because of a stop hook, and Claude Code overrides a Stop hook after eight consecutive blocks with no tool call in between, a cap that `CLAUDE_CODE_STOP_HOOK_BLOCK_CAP` can raise. "Block" in the table above is therefore limited by that cap (corrected 2026-11-04).
 
 ### Subagents
 
@@ -436,8 +440,8 @@ Hook commands use absolute paths via `$CLAUDE_PROJECT_DIR`, so they work from an
 ### CI with Claude Code
 
 - GitHub Actions runs Godot headless: sim tests, content validation, web export.
-- The Claude Code GitHub Action reviews each pull request with a review prompt and a turn limit.
-- A nightly headless job (`claude -p` with `--max-turns` and JSON output) re-runs the fact-checker over all content and opens an issue for any claim whose source changed.
+- The Claude Code GitHub Action reviews each pull request with a review prompt and a turn limit. The turn limit goes in the action's `claude_args` input as `--max-turns`.
+- A nightly headless job (`claude -p` with `--max-turns` and JSON output) re-runs the fact-checker over all content. The job passes `--agents` and `--allowedTools` explicitly, because the documentation says that `--bare`, which skips auto-discovery of subagents, hooks, skills and CLAUDE.md, will become the default for `-p`. Bare mode offers only Bash, file read and file edit tools, `--allowedTools` only pre-approves tools, and bare mode needs an API key rather than a subscription login, so whether the fact-checker keeps WebFetch there has to be tested before the job is relied on. The fact-checker has only WebFetch and Read, so a job step parses the JSON output and runs `gh issue create` for any claim whose source changed. How a changed source is detected is not yet defined.
 
 ### Art pipeline: Blender driven by Claude Code
 
@@ -445,7 +449,7 @@ Hook commands use absolute paths via `$CLAUDE_PROJECT_DIR`, so they work from an
 
 | Mode | How it works | Use it for |
 | --- | --- | --- |
-| Scripted (headless) | Claude Code writes a Python script and runs `blender --background --python art/scripts/<asset>.py`. The script builds the model and exports a `.glb` to `art/models/`, which Godot imports natively. | Every shipped asset: stations, craft hulls, docking rings, port gates, modular parts. Reproducible and rebuildable. |
+| Scripted (headless) | Claude Code writes a Python script and runs `/Applications/Blender.app/Contents/MacOS/Blender --background --python art/scripts/<asset>.py` (corrected 2026-11-04). The script builds the model and exports a `.glb` to `art/models/`, which Godot imports natively. | Every shipped asset: stations, craft hulls, docking rings, port gates, modular parts. Reproducible and rebuildable. |
 | Live (MCP) | Claude drives a running Blender through an MCP server, inspects the scene and takes viewport screenshots. | Exploring a look, tuning materials and lighting, before the result is frozen into a script. |
 
 **Rule:** a live session ends with Claude writing the script that reproduces the result. Nothing ships from a hand-saved scene.

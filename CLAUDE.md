@@ -4,9 +4,11 @@ Lattice Command is a 3D grand strategy game in which the player runs an autonomo
 
 The design source of truth is `lattice-command-gdd.md`, and this file only distils what is needed on every task. Read the relevant GDD section before implementing a feature, and cite it in the plan. If the GDD turns out to be wrong during implementation, record the correction there instead of quietly building something else.
 
+Architecture decisions are recorded in `docs/adr/`, with an index and the state of their checks in its `README.md`. A plan for a large feature cites the ADRs it touches, and a change that conflicts with an Accepted ADR must come with a superseding one.
+
 ## Project status
 
-The project structure and Claude Code setup are in place, but there is no game code, content or test framework yet. The first milestones are a two-week paper prototype and then an eight-week vertical slice (one Harbour colony in 3D, ship's log, refit menu, interlocks, three Concord doctrines, the first two hours of onboarding). The slice is the go/no-go point, so do not build the strategy layer ahead of it.
+The project structure and Claude Code setup are in place, but there is no game code, content or test runner yet. The first milestones are a two-week paper prototype and then an eight-week vertical slice (one Harbour colony in 3D, ship's log, refit menu, interlocks, three Concord doctrines, the first two hours of onboarding). The slice is the go/no-go point, so do not build the strategy layer ahead of it.
 
 ## Tools
 
@@ -36,7 +38,7 @@ Use `--headless` for tests and exports so that work can be verified without a di
 
 The web export templates are installed in `~/Library/Application Support/Godot/export_templates/4.7.2.stable/`, taken from the official `Godot_v4.7.2-stable_export_templates.tpz` and limited to the `web_*` files. Templates must match the engine version exactly, so a Godot upgrade needs a new set, and exporting to another platform means installing that platform's files from the same archive.
 
-Export the web build with the command below, once the project has a main scene. The `build/web/` directory must exist first:
+Export the web build with the command below. The `build/web/` directory must exist first, and the exported build cannot run until the project has a main scene:
 
 ```
 /Applications/Godot.app/Contents/MacOS/Godot --headless --path . --export-release Web build/web/index.html
@@ -56,7 +58,7 @@ The game does not call the Claude API during play. The simulation models Claude'
 
 ## Code conventions
 
-This is Godot 4 with GDScript, a decision made on 2026-11-04 because a playable web build matters and C# has no official web export in Godot 4. Use typed GDScript, `@export`, `signal` syntax and `Callable`, and never Godot 3 APIs.
+This is Godot 4 with GDScript, a decision made on 2026-11-04 because a playable web build matters and Godot's documentation says that C# projects "currently cannot be exported to the web" in Godot 4. Use typed GDScript, `@export`, `signal` syntax and `Callable`, and never Godot 3 APIs.
 
 The project uses the Compatibility renderer because it is the only one Godot supports on the web. The web preset exports single-threaded, which Godot's documentation prefers because it needs no special server headers.
 
@@ -66,10 +68,10 @@ Write the failing simulation test first and then the code. Start large features 
 
 The accuracy of the simulation is the product, because a wrong rule teaches a wrong exam answer.
 
-- **The simulation behaves like the real system.** A PostToolUse interlock can never stop an action, a subagent knows only its delegation message, and a batch can take up to 24 hours.
+- **The simulation behaves like the real system.** A PostToolUse interlock can never stop an action, a subagent knows nothing of the parent conversation except its delegation message (a fork is the exception and inherits the whole conversation), and a batch can take up to 24 hours and expires if processing has not finished by then.
 - **Real terms stay visible.** Fiction names sit on top, but every tooltip, menu and log line carries the real term, for example "Interlock" with "PreToolUse hook".
-- **A craft's ship's log is its literal message history.** It shows every tool_use, tool_result and stop_reason, in order.
-- **Consequences are delayed and traceable.** Damage surfaces turns later, and the incident log always shows the causal chain back to the decision. Only a fix at the causal layer closes an incident; a fix at the wrong layer appears to work and then recurs.
+- **A craft's ship's log is its literal message history plus each response's stop_reason.** It shows every tool_use, tool_result and stop_reason, in order.
+- **Consequences are delayed and traceable.** Damage surfaces later, as an event scheduled at an absolute tick, which on the strategic layer means several turns after the decision ([ADR-0020](docs/adr/0020-fixed-step-clock-and-numerics.md)), and the incident log always shows the causal chain back to the decision. Only a fix at the causal layer closes an incident; a fix at the wrong layer appears to work and then recurs.
 - **Distractors are tempting moves.** The exam's recurring wrong answers are cheap, attractive options that work just often enough to tempt and fail when it matters. The ten Hollow Concord doctrines are Plea, Mirror, Latewatch, Envoy, Liar, Tower, Brute, Scroll, Hand and Silencer.
 - **The game never quizzes during play.** Nothing interrupts a crisis, the exam bridge uses no vocabulary that play has not already taught, and speed is never rewarded over reading the log.
 
@@ -97,7 +99,7 @@ Live Blender sessions over MCP are for exploring a look before freezing it, and 
 
 The project's Claude Code configuration is itself a worked example of Domain 3, and the GDD's "Building it with Claude Code" section specifies it. Verify frontmatter fields, hook event names and settings keys against the current documentation when changing them.
 
-- **Hooks.** PreToolUse denies Edit and Write on `.godot/`, `build/`, `*.import` and `art/models/**`. It does not cover Bash, which is how generated files get regenerated. Two hooks wait for tooling that does not exist yet: PostToolUse on `content/**` needs the content validator, and Stop needs the headless test command. Add each one with its tool, using absolute paths through `$CLAUDE_PROJECT_DIR`.
+- **Hooks.** PreToolUse denies Edit and Write on `.godot/`, `build/`, `*.import` and `art/models/**`. It does not cover Bash, which is how generated files get regenerated. Two hooks wait for tooling that does not exist yet: PostToolUse on `content/**` needs the content validator, and Stop needs the headless test command and the content validator. Add each one with its tool, using absolute paths through `$CLAUDE_PROJECT_DIR`.
 - **Path-scoped rules in `.claude/rules/`.** `sim.md`, `content.md`, `scenes.md` and `art.md`.
 - **Skills in `.claude/skills/`.** `add-incident`, `balance-check` and `fact-check`. `balance-check` cannot run until the seeded simulation runner exists.
 - **Subagents in `.claude/agents/`.** `content-writer`, `sim-reviewer` and `fact-checker`.
