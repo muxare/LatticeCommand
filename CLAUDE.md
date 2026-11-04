@@ -6,6 +6,12 @@ The design source of truth is `lattice-command-gdd.md`, and this file only disti
 
 Architecture decisions are recorded in `docs/adr/`, with an index and the state of their checks in its `README.md`. A plan for a large feature cites the ADRs it touches, and a change that conflicts with an Accepted ADR must come with a superseding one.
 
+## Picking up where we left off
+
+`docs/next.md` is the handoff between sessions, so that a cleared context loses nothing. Update it every time you stop, before writing your final message, unless nothing in it has changed. It must say where the work stands (branch, what is committed, what is not), what is next in order, and what is waiting on a person. Keep it to the current state and remove what is finished, because git history and the ADRs hold the past. It is imported below, so start from it when a session opens.
+
+@docs/next.md
+
 ## Project status
 
 The project structure and Claude Code setup are in place, but there is no game code, content or test runner yet. The first milestones are a two-week paper prototype and then an eight-week vertical slice (one Harbour colony in 3D, ship's log, refit menu, interlocks, three Concord doctrines, the first two hours of onboarding). The slice is the go/no-go point, so do not build the strategy layer ahead of it.
