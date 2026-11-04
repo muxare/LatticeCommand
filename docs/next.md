@@ -4,11 +4,11 @@ Last updated 2026-11-04.
 
 ## Where the work stands
 
-The ADRs, the design document corrections and this handoff file are all committed on `docs/adr-baseline`, which is not merged into `main`. The repository has no git remote, so nothing is pushed. No game code, content or test runner exists.
+The ADRs, the design document corrections and this handoff file are merged into `main` at `3f6eddc`. The `docs/adr-baseline` branch still exists and can be deleted. The repository has no git remote, so nothing is pushed. No game code, content or test runner exists.
 
 ## Waiting on Mikael
 
-1. Review `docs/adr-baseline` and decide whether to merge it, and whether to add a GitHub remote, which CI needs ([ADR-0021](adr/0021-ci-on-github-actions.md)).
+1. Decide whether to add a GitHub remote, which CI needs ([ADR-0021](adr/0021-ci-on-github-actions.md)).
 2. Decide D3 in [the findings register](adr/findings-2026-11-04.md): is the vertical slice widened, or is its onboarding trimmed or stubbed? It decides what the slice builds, so it comes first.
 3. Decide the other open choices in that register: T2, T3's definition of a changed source, D1, D2 and D5 to D12.
 
