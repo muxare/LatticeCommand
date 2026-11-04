@@ -1,0 +1,14 @@
+# Godot generated cache (.import and .uid files stay committed)
+.godot/
+
+# Exported builds
+build/
+
+# Personal Claude Code overrides
+.claude/settings.local.json
+CLAUDE.local.md
+
+# Blender backups and macOS metadata
+*.blend1
+__pycache__/
+.DS_Store
