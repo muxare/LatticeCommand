@@ -2,11 +2,11 @@
 
 | | |
 | --- | --- |
-| **Status** | Accepted |
+| **Status** | Accepted, amended by [ADR-0022](0022-claude-config-guards-worktrees-and-fails-closed.md) |
 | **Date** | 2026-11-04 |
 | **Deciders** | Mikael Axelsson |
 | **Sources** | `lattice-command-gdd.md` ("Technology: engine, language and architecture", in particular "Why Godot 4" and "Alternatives considered"; "CI with Claude Code"; "Open questions"); `CLAUDE.md` ("Tools", "Code conventions") |
-| **Related** | [ADR-0001](0001-record-architecture-decisions.md), [ADR-0003](0003-typed-gdscript.md), [ADR-0004](0004-compatibility-renderer-single-threaded-web.md), [ADR-0017](0017-test-first-headless-verification.md) (test-first and headless verification), [ADR-0018](0018-vertical-slice-gate-and-scope.md) (vertical slice gate), [ADR-0021](0021-ci-on-github-actions.md) (CI on GitHub Actions) |
+| **Related** | [ADR-0001](0001-record-architecture-decisions.md), [ADR-0003](0003-typed-gdscript.md), [ADR-0004](0004-compatibility-renderer-single-threaded-web.md), [ADR-0017](0017-test-first-headless-verification.md) (test-first and headless verification), [ADR-0018](0018-vertical-slice-gate-and-scope.md) (vertical slice gate), [ADR-0021](0021-ci-on-github-actions.md) (CI on GitHub Actions), [ADR-0022](0022-claude-config-guards-worktrees-and-fails-closed.md) |
 
 ## Context
 
@@ -46,7 +46,7 @@ The GDD's opening line for this section still reads "Recommendation", while `CLA
 
 | Check | Enforced by | State |
 | --- | --- | --- |
-| Agents cannot Edit or Write engine-generated files under `.godot/`, `build/` or `*.import` | PreToolUse hook `.claude/hooks/deny-generated-edits.sh`, which does not cover Bash or, as [ADR-0016](0016-claude-code-config-as-worked-example.md) records, paths inside a worktree | Active |
+| Agents cannot Edit or Write engine-generated files under `.godot/`, `build/` or `*.import` | PreToolUse hook `.claude/hooks/deny-generated-edits.sh`, which does not cover Bash or, as [ADR-0016](0016-claude-code-config-as-worked-example.md) records, paths inside a worktree. [ADR-0022](0022-claude-config-guards-worktrees-and-fails-closed.md) amends this, because the hook now judges each path from the root of the checkout holding it, so paths inside a worktree are denied too. | Active |
 | The installed engine reports the pinned version before a version-sensitive change | `godot --version` compared with `CLAUDE.md` by the person making the change | Manual |
 | CI runs the Godot version string that `CLAUDE.md` pins | GitHub Actions workflow | Pending (needs CI, [ADR-0021](0021-ci-on-github-actions.md)) |
 | Simulation tests run headlessly on the pinned build | Headless test command | Pending (needs the test runner, [ADR-0019](0019-test-framework.md), and game code) |

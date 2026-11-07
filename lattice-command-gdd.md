@@ -426,7 +426,7 @@ A matcher tests the tool name only, so a path condition goes in the handler's `i
 ### Subagents
 
 - **content-writer** turns a scenario brief into an incident file. It gets a structured brief (domain, concept, trap, fact-sheet entries), not a vague request.
-- **sim-reviewer** reviews simulation diffs in a fresh context and checks determinism and test coverage. It never sees the author's reasoning, so it can't be talked into agreement.
+- **sim-reviewer** reviews simulation diffs in a fresh context and checks determinism, test coverage and that each modelled Claude behaviour is backed by a fact id. It never sees the author's reasoning, so it can't be talked into agreement.
 - **fact-checker** verifies each technical claim in new content against current documentation and flags anything unverifiable.
 
 ### Daily workflow
@@ -504,6 +504,8 @@ One JSON file, `content/facts.json`, holds every technical claim the game makes.
 
 Incidents, tooltips and after-action reports reference fact ids, never free text about features. The validator fails the build if content names a feature without a fact id.
 
+The main session drafts each entry from the current official documentation, the fact-checker subagent verifies it against its source, and a person approves it. No agent writes an entry from memory ([ADR-0022](docs/adr/0022-claude-config-guards-worktrees-and-fails-closed.md)).
+
 ### Incident schema
 
 Each incident file holds: the scenario, the colony type, the domain and task statement, the correct order(s), three or four tempting wrong orders each tagged with its Concord doctrine, the delayed consequence of each wrong order, fact ids, and the exam-format rewrite for the after-action report.
@@ -513,7 +515,7 @@ Each incident file holds: the scenario, the colony type, the domain and task sta
 1. **Source.** A designer or the content-writer subagent drafts from a scenario brief.
 2. **Validate.** The schema check runs automatically through the PostToolUse hook.
 3. **Fact-check.** The fact-checker subagent compares each referenced claim against its source.
-4. **Simulate.** The balance-check skill plays the incident with each order under fixed seeds and confirms that only the correct order resolves it at the causal layer.
+4. **Simulate.** The balance-check skill plays the incident under fixed seeds with each correct order or set of orders needed together, each part of such a set and each wrong order, and confirms that the correct orders, and nothing else, resolve it at the causal layer.
 5. **Human review.** A person who has studied for the certification approves the incident. AI drafts; humans sign off.
 
 ### Freshness

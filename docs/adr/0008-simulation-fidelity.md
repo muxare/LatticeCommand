@@ -2,11 +2,11 @@
 
 | | |
 | --- | --- |
-| **Status** | Accepted |
+| **Status** | Accepted, amended by [ADR-0022](0022-claude-config-guards-worktrees-and-fails-closed.md) |
 | **Date** | 2026-11-04 |
 | **Deciders** | Mikael Axelsson |
 | **Sources** | `lattice-command-gdd.md` ("Learning design" rules 3 and 5, "Core loop and game systems", "Content mapping" for Domain 1); `CLAUDE.md` ("Teaching rules that constrain the code"). Checked on 2026-11-04 against [Hooks reference](https://code.claude.com/docs/en/hooks), [Subagents](https://code.claude.com/docs/en/sub-agents), [Batch processing](https://platform.claude.com/docs/en/build-with-claude/batch-processing), [How tool use works](https://platform.claude.com/docs/en/agents-and-tools/tool-use/how-tool-use-works) and [Stop reasons](https://platform.claude.com/docs/en/api/handling-stop-reasons) |
-| **Related** | [ADR-0005](0005-three-layer-split.md), [ADR-0006](0006-deterministic-seeded-replay.md), [ADR-0007](0007-no-live-claude-api-in-play.md), [ADR-0010](0010-fact-sheet-single-source.md), [ADR-0011](0011-hand-authored-incidents-human-signoff.md), [ADR-0013](0013-teach-through-play.md), [ADR-0017](0017-test-first-headless-verification.md), [ADR-0019](0019-test-framework.md), [ADR-0020](0020-fixed-step-clock-and-numerics.md), [ADR-0021](0021-ci-on-github-actions.md) |
+| **Related** | [ADR-0005](0005-three-layer-split.md), [ADR-0006](0006-deterministic-seeded-replay.md), [ADR-0007](0007-no-live-claude-api-in-play.md), [ADR-0010](0010-fact-sheet-single-source.md), [ADR-0011](0011-hand-authored-incidents-human-signoff.md), [ADR-0013](0013-teach-through-play.md), [ADR-0017](0017-test-first-headless-verification.md), [ADR-0019](0019-test-framework.md), [ADR-0020](0020-fixed-step-clock-and-numerics.md), [ADR-0021](0021-ci-on-github-actions.md), [ADR-0022](0022-claude-config-guards-worktrees-and-fails-closed.md) |
 
 ## Context
 
@@ -46,7 +46,7 @@ The cost is that the game is tied to a moving target. A Claude change can turn a
 
 | Check | Enforced by | State |
 | --- | --- | --- |
-| Rules in a `sim/` diff match the Claude behaviour they model | `sim-reviewer` subagent, invoked by hand; it has only Read, Grep and Glob, so its brief must carry the documented behaviour | Manual |
+| Rules in a `sim/` diff match the Claude behaviour they model | `sim-reviewer` subagent, invoked by hand; it has only Read, Grep and Glob, so its brief must carry the documented behaviour. [ADR-0022](0022-claude-config-guards-worktrees-and-fails-closed.md) amends this, because `sim-reviewer` now accepts a modelled behaviour only when a fact id in `content/facts.json` backs it, never on its brief, and reports any other as unverified. | Manual |
 | Sessions touching `sim/` are told rules must match the real system; this informs and does not verify | `.claude/rules/sim.md` | Active |
 | PostToolUse never prevents a side effect, a subagent sees only its delegation from the parent, and batches respect the 24-hour limit | Headless rule tests | Pending (needs the test runner, [ADR-0019](0019-test-framework.md), and `sim/` code) |
 | The ship's log holds every `tool_use`, `tool_result` and `stop_reason`, in order | Headless rule tests | Pending (needs the test runner, [ADR-0019](0019-test-framework.md), and `sim/` code) |

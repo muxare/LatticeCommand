@@ -8,6 +8,9 @@ build/
 .claude/settings.local.json
 CLAUDE.local.md
 
+# Claude Code worktrees, each a separate checkout of this repository
+.claude/worktrees/
+
 # Blender backups and macOS metadata
 *.blend1
 __pycache__/

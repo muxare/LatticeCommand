@@ -2,11 +2,11 @@
 
 | | |
 | --- | --- |
-| **Status** | Accepted |
+| **Status** | Accepted, amended by [ADR-0022](0022-claude-config-guards-worktrees-and-fails-closed.md) |
 | **Date** | 2026-11-04 |
 | **Deciders** | Mikael Axelsson |
 | **Sources** | `lattice-command-gdd.md` ("Language: GDScript or C#", "CLAUDE.md essentials", "Risks"); `CLAUDE.md` ("Code conventions"); Godot 4.7 documentation, [C#/.NET](https://docs.godotengine.org/en/stable/tutorials/scripting/c_sharp/index.html), [Exporting for the Web](https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_web.html) and [Static typing in GDScript](https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/static_typing.html), read 2026-11-04 |
-| **Related** | [ADR-0001](0001-record-architecture-decisions.md), [ADR-0002](0002-godot-4-as-engine.md), [ADR-0004](0004-compatibility-renderer-single-threaded-web.md), [ADR-0005](0005-three-layer-split.md) (three-layer split), [ADR-0019](0019-test-framework.md) (test runner), [ADR-0021](0021-ci-on-github-actions.md) (CI on GitHub Actions) |
+| **Related** | [ADR-0001](0001-record-architecture-decisions.md), [ADR-0002](0002-godot-4-as-engine.md), [ADR-0004](0004-compatibility-renderer-single-threaded-web.md), [ADR-0005](0005-three-layer-split.md) (three-layer split), [ADR-0019](0019-test-framework.md) (test runner), [ADR-0021](0021-ci-on-github-actions.md) (CI on GitHub Actions), [ADR-0022](0022-claude-config-guards-worktrees-and-fails-closed.md) |
 
 ## Context
 
@@ -39,7 +39,7 @@ The costs follow directly from what C# would have given. Typing rests on convent
 | Check | Enforced by | State |
 | --- | --- | --- |
 | Every Claude Code session is told to use typed GDScript and never Godot 3 APIs | `CLAUDE.md`, "Code conventions"; this instructs and does not block | Active |
-| Sessions touching `scenes/**` or `ui/**` get the same rule again | `.claude/rules/scenes.md`; `.claude/rules/sim.md` does not repeat it, so `sim/**` and `tests/**` rely on `CLAUDE.md` alone | Active |
+| Sessions touching `scenes/**` or `ui/**` get the same rule again | `.claude/rules/scenes.md`; `.claude/rules/sim.md` does not repeat it, so `sim/**` and `tests/**` rely on `CLAUDE.md` alone. [ADR-0022](0022-claude-config-guards-worktrees-and-fails-closed.md) amends this, because `sim.md` now repeats the rule, so only `tests/**` relies on `CLAUDE.md` alone. | Active |
 | Declarations are typed and no Godot 3 pattern gets through | Pull request review | Manual |
 | No C# source or .NET project file enters the repository | Pull request review | Manual |
 | All GDScript parses on the pinned engine | The CI parse check named in the GDD's risk table | Pending (needs CI, [ADR-0021](0021-ci-on-github-actions.md), and GDScript files to check) |

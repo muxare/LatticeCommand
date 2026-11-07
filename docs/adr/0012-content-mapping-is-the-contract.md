@@ -2,11 +2,11 @@
 
 | | |
 | --- | --- |
-| **Status** | Accepted |
+| **Status** | Accepted, amended by [ADR-0022](0022-claude-config-guards-worktrees-and-fails-closed.md) |
 | **Date** | 2026-11-04 |
 | **Deciders** | Mikael Axelsson |
 | **Sources** | `lattice-command-gdd.md` ("Learning design", "Setting and fiction", "Content mapping", "Rival faction: the Hollow Concord", "Coverage targets", "Open questions"); `CLAUDE.md` ("Teaching rules that constrain the code") |
-| **Related** | [ADR-0001](0001-record-architecture-decisions.md), [ADR-0008](0008-simulation-fidelity.md), [ADR-0009](0009-content-as-validated-json.md), [ADR-0011](0011-hand-authored-incidents-human-signoff.md), [ADR-0013](0013-teach-through-play.md), [ADR-0018](0018-vertical-slice-gate-and-scope.md) |
+| **Related** | [ADR-0001](0001-record-architecture-decisions.md), [ADR-0008](0008-simulation-fidelity.md), [ADR-0009](0009-content-as-validated-json.md), [ADR-0011](0011-hand-authored-incidents-human-signoff.md), [ADR-0013](0013-teach-through-play.md), [ADR-0018](0018-vertical-slice-gate-and-scope.md), [ADR-0022](0022-claude-config-guards-worktrees-and-fails-closed.md) |
 
 ## Context
 
@@ -47,7 +47,7 @@ The contract constrains design, because a good idea with no concept behind it ha
 | Each incident's domain and doctrine tags are valid values | JSON Schema for incidents | Pending (needs the schema and the validator) |
 | A new or changed game system has its row in the mapping tables | Pull request review | Manual |
 | System share per domain follows the weights, which it does not on 2026-11-04 | Review of the GDD tables against the weights | Manual |
-| A system's behaviour matches the concept in its row | `sim-reviewer` subagent on changes under `sim/`, then human review | Manual |
+| A system's behaviour matches the concept in its row | `sim-reviewer` subagent on changes under `sim/`, then human review. [ADR-0022](0022-claude-config-guards-worktrees-and-fails-closed.md) amends this, because `sim-reviewer` now accepts a modelled Claude behaviour only when a fact id in `content/facts.json` backs it, and reports any other as unverified rather than passing it. | Manual |
 
 **Drift signals.** The domain share in the content folder drifts from the weights, for example D3 climbing well above 20% because the dogfooding rule makes repository incidents easy to write. A doctrine stays near its floor while Plea and Brute fill most wrong-order tags. Two-order incidents move well away from seven or eight in 60. A feature ships with no row in the tables, or a row has no system at Beta. A table row changes and no incident referencing that system is reviewed.
 

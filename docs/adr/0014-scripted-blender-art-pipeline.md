@@ -2,11 +2,11 @@
 
 | | |
 | --- | --- |
-| **Status** | Accepted |
+| **Status** | Accepted, amended by [ADR-0022](0022-claude-config-guards-worktrees-and-fails-closed.md) |
 | **Date** | 2026-11-04 |
 | **Deciders** | Mikael Axelsson |
 | **Sources** | `lattice-command-gdd.md` ("Art pipeline: Blender driven by Claude Code", including "Conventions" and "Limits and safety"; "Visual style"; "Repository layout"); `CLAUDE.md` ("Art pipeline", "Tools") |
-| **Related** | [ADR-0015](0015-live-blender-mcp-exploration-only.md), [ADR-0016](0016-claude-code-config-as-worked-example.md), [ADR-0021](0021-ci-on-github-actions.md) |
+| **Related** | [ADR-0015](0015-live-blender-mcp-exploration-only.md), [ADR-0016](0016-claude-code-config-as-worked-example.md), [ADR-0021](0021-ci-on-github-actions.md), [ADR-0022](0022-claude-config-guards-worktrees-and-fails-closed.md) |
 
 ## Context
 
@@ -38,7 +38,7 @@ The costs are real. Every regenerated model adds a binary to git history, and th
 
 | Check | Enforced by | State |
 | --- | --- | --- |
-| Edit and Write calls on `art/models/**` are denied | `.claude/hooks/deny-generated-edits.sh` through PreToolUse; sample JSON piped in on 2026-11-04 was denied for top-level and nested model paths and allowed for `art/scripts/`, with the worktree limit recorded in [ADR-0016](0016-claude-code-config-as-worked-example.md) | Active |
+| Edit and Write calls on `art/models/**` are denied | `.claude/hooks/deny-generated-edits.sh` through PreToolUse; sample JSON piped in on 2026-11-04 was denied for top-level and nested model paths and allowed for `art/scripts/`, with the worktree limit recorded in [ADR-0016](0016-claude-code-config-as-worked-example.md). [ADR-0022](0022-claude-config-guards-worktrees-and-fails-closed.md) amends this, because the hook now judges each path from the root of the checkout holding it, so `art/models/**` inside a worktree is denied too. | Active |
 | `.glb` files are stored as binary and are not ignored | `.gitattributes` and `.gitignore`; confirmed with `git check-attr` and `git check-ignore` on 2026-11-04 | Active |
 | Every `.glb` in `art/models/` has one script, and every script has one `.glb` | CI job from [ADR-0021](0021-ci-on-github-actions.md) | Pending (needs CI and the first asset script) |
 | Rerunning a script on the pinned Blender reproduces the committed model | CI job from [ADR-0021](0021-ci-on-github-actions.md) | Pending (needs CI, and an answer on whether Blender's export is reproducible) |
