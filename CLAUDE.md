@@ -14,7 +14,7 @@ Architecture decisions are recorded in `docs/adr/`, with an index and the state 
 
 ## Project status
 
-The project structure and Claude Code setup are in place, but there is no game code, content or test runner yet. The first milestones are a two-week paper prototype and then an eight-week vertical slice (one Harbour colony in 3D, ship's log, refit menu, interlocks, three Concord doctrines, the first two hours of onboarding). The slice is the go/no-go point, so do not build the strategy layer ahead of it.
+The project structure and Claude Code setup are in place, but there is no game code, content or test runner yet. The first milestones are a two-week paper prototype and then an eight-week vertical slice (one Harbour colony in 3D, ship's log, refit menu, interlocks, three Concord doctrines, and the onboarding trimmed to that one colony). The slice is the go/no-go point, so do not build the strategy layer ahead of it.
 
 ## Tools
 
@@ -81,17 +81,17 @@ The accuracy of the simulation is the product, because a wrong rule teaches a wr
 - **Distractors are tempting moves.** The exam's recurring wrong answers are cheap, attractive options that work just often enough to tempt and fail when it matters. The ten Hollow Concord doctrines are Plea, Mirror, Latewatch, Envoy, Liar, Tower, Brute, Scroll, Hand and Silencer.
 - **The game never quizzes during play.** Nothing interrupts a crisis, the exam bridge uses no vocabulary that play has not already taught, and speed is never rewarded over reading the log.
 
-The GDD's content mapping tables are the contract between game systems and certification concepts, and the share of systems and incidents per domain follows the exam weights: D1 Agentic architecture 27%, D2 Tools and MCP 18%, D3 Claude Code configuration 20%, D4 Prompts and structured output 20%, D5 Context and reliability 15%.
+The GDD's content mapping tables are the contract between game systems and certification concepts, and the share of incidents per domain follows the exam weights: D1 Agentic architecture 27%, D2 Tools and MCP 18%, D3 Claude Code configuration 20%, D4 Prompts and structured output 20%, D5 Context and reliability 15%.
 
 ## Content and fact accuracy
 
-Every technical claim lives in `content/facts.json`, with an `id`, a one-sentence `claim`, an official-docs `source` URL, a `verified` date, a `verifier` and the `domains` it supports. Incidents, tooltips and after-action reports reference fact ids and never carry free text about features, and no feature name may appear in content without a fact-sheet entry. Do not write a claim about a Claude feature from memory; check it against the current documentation. The main session drafts each entry from the current official documentation, the `fact-checker` subagent verifies it, and a person approves it, so no agent writes an entry from memory.
+Every technical claim lives in `content/facts.json`, with an `id`, a one-sentence `claim`, an official-docs `source` URL, a `verified` date and a `verifier`, which record when a person approved the entry and who, the `domains` it supports and the feature-name `terms` it backs. A subagent never counts as the `verifier`. Incidents, tooltips and after-action reports reference fact ids and never carry free text about features, and no feature name may appear in content without a fact-sheet entry. Do not write a claim about a Claude feature from memory; check it against the current documentation. The main session drafts each entry from the current official documentation, the `fact-checker` subagent verifies it, and a person approves it, so no agent writes an entry from memory.
 
-Each incident file holds the scenario, the colony type, the domain and task statement, the correct order or orders, three or four tempting wrong orders each tagged with its doctrine, the delayed consequence of each wrong order, fact ids and the exam-format rewrite for the after-action report. Incidents are hand-authored and original, must not reproduce real exam items, and need approval from a person who has studied for the certification. AI drafts; humans sign off.
+Each incident file holds the scenario, the colony type, the domain and task statement, the solution (one correct order, or one set of orders needed together, never alternatives), three or four tempting wrong orders each tagged with its doctrine, the delayed consequence of each wrong order, fact ids and the exam-format rewrite for the after-action report. Incidents are hand-authored and original, must not reproduce real exam items, and need approval from a person who has studied for the certification. AI drafts; humans sign off.
 
 ## Art pipeline
 
-Every shipped asset comes from a script in the repo, and nothing ships from a hand-saved scene. Each asset has one Blender Python script in `art/scripts/` that exports a `.glb` to `art/models/`.
+Every shipped hard-surface asset comes from a script in the repo, and nothing ships from a hand-saved scene. Hand-made and bought assets, such as advisor characters, are listed in `art/third-party.md` with their author or vendor, source and licence. Each asset has one Blender Python script in `art/scripts/` that exports a `.glb` to `art/models/`.
 
 - **Exports.** Use binary glTF (`.glb`) with transforms applied and metric scale.
 - **Names.** Name files by kind and variant, such as `hull_frigate_a.glb`, and use Godot import suffixes such as `-col` for collision meshes.

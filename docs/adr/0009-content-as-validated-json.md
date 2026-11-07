@@ -2,7 +2,7 @@
 
 | | |
 | --- | --- |
-| **Status** | Accepted |
+| **Status** | Accepted, amended by [ADR-0023](0023-owner-decisions-on-the-open-register.md) |
 | **Date** | 2026-11-04 |
 | **Deciders** | Mikael Axelsson |
 | **Sources** | `lattice-command-gdd.md` ("Content pipeline and fact accuracy", "Repository layout", "Hooks", "CI with Claude Code", "Out of scope for 1.0", "Risks"); `CLAUDE.md` ("Architecture", "Content and fact accuracy", "Claude Code setup") |
@@ -20,7 +20,7 @@ Authors get the same check earlier: a PostToolUse hook on `content/**` runs the 
 
 The 1.0 content covers the CCA-F and its supporting courses only. The GDD says the schema "leaves room for future certifications as new campaigns", so the schema must not make a second campaign impossible. The sources do not say how it leaves that room, and this ADR adds no campaign field or other mechanism on their behalf. Nothing beyond the CCA-F is built for 1.0.
 
-Two points stay open. JSON Schema validates the shape of a document, while the GDD also expects "the validator" to fail the build when content names a feature without a fact id, which needs cross-file and text checks that a schema cannot express. The project therefore needs a validator that does more than run schemas, although `CLAUDE.md` describes only the schema. The implementation is also undecided. The GDD has Godot headless run content validation in CI, but the API dump of the pinned Godot 4.7.2 build lists `JSON` and `JSONRPC` and no JSON Schema class, so the work needs either a validator written for the project or a separate tool in CI. Neither [ADR-0019](0019-test-framework.md) nor [ADR-0021](0021-ci-on-github-actions.md) settles that choice, so it needs a decision before the validator is built; the location of the schema files is likewise unstated.
+Two points stay open. JSON Schema validates the shape of a document, while the GDD also expects "the validator" to fail the build when content names a feature without a fact id, which needs cross-file and text checks that a schema cannot express. The project therefore needs a validator that does more than run schemas, although `CLAUDE.md` describes only the schema. The implementation is also undecided. The GDD has Godot headless run content validation in CI, but the API dump of the pinned Godot 4.7.2 build lists `JSON` and `JSONRPC` and no JSON Schema class, so the work needs either a validator written for the project or a separate tool in CI. Neither [ADR-0019](0019-test-framework.md) nor [ADR-0021](0021-ci-on-github-actions.md) settles that choice, so it needs a decision before the validator is built; the location of the schema files is likewise unstated. [ADR-0023](0023-owner-decisions-on-the-open-register.md) settles the implementation as a standard JSON Schema validator outside Godot plus a project script, with feature names recognised through the fact sheet's `terms`, and leaves the schema location unstated.
 
 ## Alternatives considered
 

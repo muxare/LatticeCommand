@@ -31,7 +31,7 @@ The exam's structure, distilled from two 60-question practice tests and the CCA-
 
 | Exam property | Design target |
 | --- | --- |
-| 5 domains: D1 Agentic architecture 27%, D2 Tools & MCP 18%, D3 Claude Code config 20%, D4 Prompts & structured output 20%, D5 Context & reliability 15% | Share of game systems and incidents per domain matches these weights |
+| 5 domains: D1 Agentic architecture 27%, D2 Tools & MCP 18%, D3 Claude Code config 20%, D4 Prompts & structured output 20%, D5 Context & reliability 15% | Share of incidents per domain matches these weights; systems follow the concepts the certification covers (corrected 2026-11-07, [ADR-0023](docs/adr/0023-owner-decisions-on-the-open-register.md)) |
 | Questions sit inside 4–5 recurring scenarios | Each scenario becomes a colony type with its own recurring crises |
 | The ask's superlative names the winning property ("most reliably" → deterministic mechanism; "most maintainable" → single source of truth) | Mission objectives use the same verbs and score the same property |
 | About 10 recurring distractor patterns | The rival faction's sabotage doctrines (see The rival faction) |
@@ -102,7 +102,7 @@ Some incidents need two orders at once, mirroring the exam's "select TWO" questi
 
 ## Content mapping
 
-**Every game system is a certification concept wearing a uniform; the table is the contract the content team builds against.** Domain weights set how much play time each domain gets: D1 is the backbone of the campaign, D5 runs underneath everything as the Drift.
+**Every game system is a certification concept wearing a uniform; the table is the contract the content team builds against.** Domain weights set how many incidents each domain gets (corrected 2026-11-07, [ADR-0023](docs/adr/0023-owner-decisions-on-the-open-register.md)): D1 is the backbone of the campaign, D5 runs underneath everything as the Drift.
 
 ### Domain 1: Agentic architecture and orchestration (27%)
 
@@ -241,7 +241,7 @@ Four advisors, one per AI Fluency competency, comment on every crisis: the Quart
 When an incident closes, the Signals Officer files a one-screen report:
 
 1. The scenario in exam phrasing ("A customer support agent issues refunds without verifying eligibility in 12% of cases…").
-2. The four orders that were on the table, written as answer options, including the Concord's suggestions.
+2. Four of the orders that were on the table, written as answer options: the correct answer, shown as one option when it is a set of orders, and the three most tempting wrong orders, including the Concord's suggestions. This rests on the exam's four-option format, which needs a fact entry, including how select-two questions are shown, before reports are built ([ADR-0023](docs/adr/0023-owner-decisions-on-the-open-register.md)).
 3. Which order the player chose, which one fixed the cause, and why the others fail.
 4. The doctrine each distractor belongs to.
 
@@ -253,7 +253,7 @@ A wing of the Steward's office shows first-attempt accuracy per domain, weighted
 
 ### The War College
 
-An unlockable mode that runs a timed simulation at the real exam's length, with scenario questions drawn from incidents the player has already seen, reframed with fresh numbers and names. Select-two questions appear at the exam's rate. The result is a mock score and a list of doctrines that fooled the player.
+An unlockable mode that runs a timed simulation at the real exam's length, with scenario questions drawn from incidents the player has already seen, reframed with fresh numbers and names. Select-two questions appear at the exam's rate. The result is a mock score and a list of doctrines that fooled the player. The time limit mirrors the exam and is not a speed reward, so finishing early earns nothing (added 2026-11-07).
 
 ### Spaced recurrence
 
@@ -286,6 +286,10 @@ Incidents the player resolved at the wrong layer return as **echoes**: the same 
 - Every UI element appears the first time it is needed, never before.
 - The game pauses automatically on the first incident of each kind.
 - The player can't fail the first two crises; they can only fix them slowly or well.
+
+### In the vertical slice
+
+The slice has one Harbour colony and no research, second colony or after-action reports, so it plays a trimmed onboarding ([ADR-0023](docs/adr/0023-owner-decisions-on-the-open-register.md)). It keeps the beats at 0:00, 0:10, 0:25 and 0:40, with the interlock unlocked by a scripted event instead of research, and the escort beats at 1:10 and 1:30, run at the same colony. The expansion at 0:55, the first after-action report at 1:45 and the Concord's reveal at 2:00 arrive at Alpha with the systems they need, and the table above stays the design for 1.0.
 
 ## 3D presentation and art direction
 
@@ -441,11 +445,11 @@ A matcher tests the tool name only, so a path condition goes in the handler's `i
 
 - GitHub Actions runs Godot headless: sim tests, content validation, web export.
 - The Claude Code GitHub Action reviews each pull request with a review prompt and a turn limit. The turn limit goes in the action's `claude_args` input as `--max-turns`.
-- A nightly headless job (`claude -p` with `--max-turns` and JSON output) re-runs the fact-checker over all content. The job passes `--agents` and `--allowedTools` explicitly, because the documentation says that `--bare`, which skips auto-discovery of subagents, hooks, skills and CLAUDE.md, will become the default for `-p`. Bare mode offers only Bash, file read and file edit tools, `--allowedTools` only pre-approves tools, and bare mode needs an API key rather than a subscription login, so whether the fact-checker keeps WebFetch there has to be tested before the job is relied on. The fact-checker has only WebFetch and Read, so a job step parses the JSON output and runs `gh issue create` for any claim whose source changed. How a changed source is detected is not yet defined.
+- A nightly headless job (`claude -p` with `--max-turns` and JSON output) re-runs the fact-checker over facts whose `verified` date is older than 30 days. The job passes `--agents` and `--allowedTools` explicitly, because the documentation says that `--bare`, which skips auto-discovery of subagents, hooks, skills and CLAUDE.md, will become the default for `-p`. Bare mode offers only Bash, file read and file edit tools, `--allowedTools` only pre-approves tools, and bare mode needs an API key rather than a subscription login, so whether the fact-checker keeps WebFetch there has to be tested before the job is relied on. The fact-checker has only WebFetch and Read, so a job step parses the JSON output and runs `gh issue create` for any claim its source no longer supports, which is what a changed source means here, because a hash of a reworded page would raise false alarms ([ADR-0023](docs/adr/0023-owner-decisions-on-the-open-register.md)).
 
 ### Art pipeline: Blender driven by Claude Code
 
-**Claude Code builds the game's hard-surface 3D assets in Blender, and every shipped asset comes from a script in the repo.** Blender's Python API lets Claude Code create, edit and export models without anyone touching the Blender UI.
+**Claude Code builds the game's hard-surface 3D assets in Blender, and every shipped hard-surface asset comes from a script in the repo.** Blender's Python API lets Claude Code create, edit and export models without anyone touching the Blender UI.
 
 | Mode | How it works | Use it for |
 | --- | --- | --- |
@@ -480,7 +484,7 @@ Each team member does steps 1 and 3 to 5 on their own machine; step 2 is done on
 
 #### Limits and safety
 
-- Claude is strong at procedural hard-surface models and weak at organic ones. Advisor characters and any creatures are modelled by hand or bought.
+- Claude is strong at procedural hard-surface models and weak at organic ones. Advisor characters and any creatures are modelled by hand or bought, and each one is listed in `art/third-party.md` with its file, author or vendor, source, licence and date added ([ADR-0023](docs/adr/0023-owner-decisions-on-the-open-register.md)).
 - Both MCP servers run Python that Claude writes inside Blender; the official one does so with no guards. Run live mode on a machine without sensitive data, or in a virtual machine.
 - Scripted mode runs in the same sandboxed container as the rest of CI.
 
@@ -499,28 +503,29 @@ One JSON file, `content/facts.json`, holds every technical claim the game makes.
 - `id` (for example `hooks.pretooluse.deny`)
 - `claim` in one plain sentence
 - `source` URL in the official docs
-- `verified` date and `verifier`
+- `verified` date and `verifier`: the date a person approved the entry, and that person
+- `terms`: the feature names the entry backs, which together form the glossary the validator checks content against
 - `domains` it supports
 
-Incidents, tooltips and after-action reports reference fact ids, never free text about features. The validator fails the build if content names a feature without a fact id.
+Incidents, tooltips and after-action reports reference fact ids, never free text about features. The validator fails the build if content names a feature without a fact id. It recognises a feature name by the glossary of `terms`, and it runs as a standard JSON Schema validator outside Godot plus a project script for the checks a schema cannot express, because Godot has no JSON Schema class ([ADR-0023](docs/adr/0023-owner-decisions-on-the-open-register.md)).
 
-The main session drafts each entry from the current official documentation, the fact-checker subagent verifies it against its source, and a person approves it. No agent writes an entry from memory ([ADR-0022](docs/adr/0022-claude-config-guards-worktrees-and-fails-closed.md)).
+The main session drafts each entry from the current official documentation, the fact-checker subagent verifies it against its source, and a person approves it. No agent writes an entry from memory ([ADR-0022](docs/adr/0022-claude-config-guards-worktrees-and-fails-closed.md)). The commit that adds or re-approves an entry names the fact-checker's result, and a subagent never counts as the `verifier` ([ADR-0023](docs/adr/0023-owner-decisions-on-the-open-register.md)).
 
 ### Incident schema
 
-Each incident file holds: the scenario, the colony type, the domain and task statement, the correct order(s), three or four tempting wrong orders each tagged with its Concord doctrine, the delayed consequence of each wrong order, fact ids, and the exam-format rewrite for the after-action report.
+Each incident file holds: the scenario, the colony type, the domain and task statement, the solution (one correct order, or one set of orders needed together, with no alternatives, [ADR-0023](docs/adr/0023-owner-decisions-on-the-open-register.md)), three or four tempting wrong orders each tagged with its Concord doctrine, the delayed consequence of each wrong order, fact ids, and the exam-format rewrite for the after-action report.
 
 ### Pipeline
 
 1. **Source.** A designer or the content-writer subagent drafts from a scenario brief.
 2. **Validate.** The schema check runs automatically through the PostToolUse hook.
 3. **Fact-check.** The fact-checker subagent compares each referenced claim against its source.
-4. **Simulate.** The balance-check skill plays the incident under fixed seeds with each correct order or set of orders needed together, each part of such a set and each wrong order, and confirms that the correct orders, and nothing else, resolve it at the causal layer.
+4. **Simulate.** The balance-check skill plays the incident under fixed seeds with the solution, each smaller part of it when it is a set of orders, and each wrong order, and confirms that the correct orders, and nothing else, resolve it at the causal layer.
 5. **Human review.** A person who has studied for the certification approves the incident. AI drafts; humans sign off.
 
 ### Freshness
 
-- A nightly job re-verifies facts older than 30 days and flags any whose source page changed.
+- A nightly job re-checks facts whose `verified` date is older than 30 days and opens an issue for any claim its source no longer supports. A passing check changes nothing in the file, because no agent approves an entry, so a person re-approves a stale entry by updating `verified` ([ADR-0023](docs/adr/0023-owner-decisions-on-the-open-register.md)).
 - The game shows a content version and "last verified" date in the War College.
 - When a feature changes, the fact entry changes once and every incident that references it is flagged for review.
 
@@ -539,9 +544,9 @@ Phases are drawn at equal width, not to scale; the table gives the real lengths.
 | Milestone | Length | Contents | Exit test |
 | --- | --- | --- | --- |
 | 0. Paper prototype | 2 weeks | Ten incidents played as cards with a game master; sim rules in a spreadsheet | Testers name the right fix more often after playing than before |
-| 1. Vertical slice | 8 weeks | One Harbour colony in 3D, ship's log, refit menu, interlocks, three Concord doctrines, the first two hours of onboarding | Five players finish onboarding unaided; they describe a PreToolUse hook in their own words |
+| 1. Vertical slice | 8 weeks | One Harbour colony in 3D, ship's log, refit menu, interlocks, three Concord doctrines, the onboarding trimmed to one colony (see "In the vertical slice") | Five players finish the slice's onboarding unaided; they describe a PreToolUse hook in their own words; testers name the right fix more often after playing than before; the web export plays the first crisis in a current desktop browser |
 | 2. Alpha | 12 weeks | Cluster map, four colony types, full tech tree skeleton, all ten doctrines, 30 incidents, after-action reports | A full campaign is playable; readiness gauges correlate with a practice test score |
-| 3. Beta | 10 weeks | All six colony types, 60+ incidents, War College, echoes, advisors' arcs, audio, web build | Players who finish score higher on a fresh practice test than a study-guide control group |
+| 3. Beta | 10 weeks | All five colony types, plus the Assay Works if it is built, 60+ incidents, War College, echoes, advisors' arcs, audio, web build | Players who finish score higher on a fresh practice test than a study-guide control group |
 | 4. Release | 4 weeks | Polish, accessibility, localization hooks, fact sheet re-verified | Content verified within 30 days of launch |
 
 Total: about nine months for a team of two or three with Claude Code doing most implementation. The vertical slice is the go/no-go point.

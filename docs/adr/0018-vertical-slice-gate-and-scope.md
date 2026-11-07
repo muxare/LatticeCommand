@@ -2,7 +2,7 @@
 
 | | |
 | --- | --- |
-| **Status** | Accepted |
+| **Status** | Accepted, amended by [ADR-0023](0023-owner-decisions-on-the-open-register.md) |
 | **Date** | 2026-11-04 |
 | **Deciders** | Mikael Axelsson |
 | **Sources** | `lattice-command-gdd.md` ("Scope and milestones", "Out of scope for 1.0", "Risks and open questions", "Onboarding: the first two hours"); `CLAUDE.md` ("Project status", "Architecture") |
@@ -16,7 +16,7 @@ The biggest risk to this project is pedagogical and not technical: a game can be
 
 The project must prove the teaching loop before building the strategy layer around it. Work follows the GDD's milestones in order, and the strategy layer must not be built ahead of the vertical slice.
 
-Milestone 0 is a two-week paper prototype of ten incidents played as cards with a game master, with the simulation rules in a spreadsheet. Its exit test is that testers name the right fix more often after playing than before. Milestone 1 is the eight-week vertical slice: one Harbour colony in 3D, the ship's log, the refit menu, interlocks, three Concord doctrines and the first two hours of onboarding. Its exit test is that five players finish onboarding unaided and describe a PreToolUse hook in their own words.
+Milestone 0 is a two-week paper prototype of ten incidents played as cards with a game master, with the simulation rules in a spreadsheet. Its exit test is that testers name the right fix more often after playing than before. Milestone 1 is the eight-week vertical slice: one Harbour colony in 3D, the ship's log, the refit menu, interlocks, three Concord doctrines and the first two hours of onboarding. Its exit test is that five players finish onboarding unaided and describe a PreToolUse hook in their own words. [ADR-0023](0023-owner-decisions-on-the-open-register.md) trims the slice's onboarding to one colony and adds the before-and-after measure and a browser smoke test to this exit test.
 
 Three later milestones follow. Alpha takes 12 weeks and exits when a full campaign is playable and readiness gauges correlate with a practice test score. Beta takes 10 weeks and exits when players who finish score higher on a fresh practice test than a study-guide control group. Release takes 4 weeks and exits with content verified within 30 days of launch.
 

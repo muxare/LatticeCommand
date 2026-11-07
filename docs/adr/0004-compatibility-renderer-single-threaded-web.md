@@ -2,7 +2,7 @@
 
 | | |
 | --- | --- |
-| **Status** | Accepted |
+| **Status** | Accepted, amended by [ADR-0023](0023-owner-decisions-on-the-open-register.md) |
 | **Date** | 2026-11-04 |
 | **Deciders** | Mikael Axelsson |
 | **Sources** | `lattice-command-gdd.md` ("Why Godot 4", "3D presentation and art direction", "Scope and milestones"); `CLAUDE.md` ("Tools", "Code conventions"); `project.godot`; `export_presets.cfg`; Godot 4.7 documentation, [Exporting for the Web](https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_web.html) and [Renderers](https://docs.godotengine.org/en/stable/tutorials/rendering/renderers.html), read 2026-11-04 |
@@ -22,7 +22,7 @@ The project uses the Compatibility renderer, which `project.godot` sets for desk
 
 `export_presets.cfg` holds a single preset named `Web` for the `Web` platform, marked runnable, with `export_filter="all_resources"` and `export_path="build/web/index.html"`. Its only option is `variant/thread_support=false`, so every other export option takes the engine's default. The renderer keys and `variant/thread_support` must not change without a superseding ADR. The export filter and path describe the state on 2026-11-04 and are not part of this decision; [ADR-0019](0019-test-framework.md) notes that the filter may need to exclude `tests/`.
 
-**Open points.** The sources leave three things undecided. The GDD says the vertical slice must prove that Compatibility carries the stylized look, but the slice's contents do not include a web build, which appears only at Beta, so it is undecided whether the look is judged in a browser. How the audio design is realised within the web build's audio limits is undecided. No download size budget exists. The GDD specifies the Concord fog along supply lanes as quad or shader fog, because volumetric fog is unavailable under Compatibility.
+**Open points.** The sources leave three things undecided. The GDD says the vertical slice must prove that Compatibility carries the stylized look, but the slice's contents do not include a web build, which appears only at Beta, so it is undecided whether the look is judged in a browser. [ADR-0023](0023-owner-decisions-on-the-open-register.md) settles this: the slice includes a browser smoke test, and the full web build stays at Beta. How the audio design is realised within the web build's audio limits is undecided. No download size budget exists. The GDD specifies the Concord fog along supply lanes as quad or shader fog, because volumetric fog is unavailable under Compatibility.
 
 ## Alternatives considered
 

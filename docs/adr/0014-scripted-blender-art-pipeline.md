@@ -2,7 +2,7 @@
 
 | | |
 | --- | --- |
-| **Status** | Accepted, amended by [ADR-0022](0022-claude-config-guards-worktrees-and-fails-closed.md) |
+| **Status** | Accepted, amended by [ADR-0022](0022-claude-config-guards-worktrees-and-fails-closed.md) and [ADR-0023](0023-owner-decisions-on-the-open-register.md) |
 | **Date** | 2026-11-04 |
 | **Deciders** | Mikael Axelsson |
 | **Sources** | `lattice-command-gdd.md` ("Art pipeline: Blender driven by Claude Code", including "Conventions" and "Limits and safety"; "Visual style"; "Repository layout"); `CLAUDE.md` ("Art pipeline", "Tools") |
@@ -20,7 +20,7 @@ The generated `.glb` files must be committed so that the game builds without Ble
 
 Files are named by kind and variant, such as `hull_frigate_a.glb`, and collision meshes use Godot import suffixes such as `-col`. Materials are named after the palette so that Godot can swap them per colony: Harbour amber, Conclave teal, Shipyard orange and Concord violet.
 
-Advisor characters and creatures are outside scripted modelling, and they must be modelled by hand or bought.
+Advisor characters and creatures are outside scripted modelling, and they must be modelled by hand or bought. [ADR-0023](0023-owner-decisions-on-the-open-register.md) scopes the script rule to hard-surface assets and lists hand-made and bought assets in `art/third-party.md`.
 
 **Open points.** The sources state both that every shipped asset comes from a script and that characters are modelled by hand or bought, and they do not say how a hand-made or bought asset is stored, named or reconciled with the first rule. The GDD's list of what "every shipped asset" means names only hard-surface parts, which suggests the rule was written with those in mind, but no source settles it. The palette names only three of the colony types listed under "Setting and fiction", so the material names for the Admiralty, the Night Relay and the optional Assay Works are undecided, as is the exact spelling of a material name inside a file. Finally, the GDD says that scripted mode runs in the same sandboxed container as CI, but its list of CI jobs has no regeneration step, and no source says whether Blender's output is byte-for-byte reproducible.
 

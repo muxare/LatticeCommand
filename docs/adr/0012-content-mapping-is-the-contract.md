@@ -2,7 +2,7 @@
 
 | | |
 | --- | --- |
-| **Status** | Accepted, amended by [ADR-0022](0022-claude-config-guards-worktrees-and-fails-closed.md) |
+| **Status** | Accepted, amended by [ADR-0022](0022-claude-config-guards-worktrees-and-fails-closed.md) and [ADR-0023](0023-owner-decisions-on-the-open-register.md) |
 | **Date** | 2026-11-04 |
 | **Deciders** | Mikael Axelsson |
 | **Sources** | `lattice-command-gdd.md` ("Learning design", "Setting and fiction", "Content mapping", "Rival faction: the Hollow Concord", "Coverage targets", "Open questions"); `CLAUDE.md` ("Teaching rules that constrain the code") |
@@ -16,7 +16,7 @@ The game's promise is that playing it covers the certification, in roughly the p
 
 The tables in the GDD's "Content mapping" section are the contract. Each game system must map to a certification concept and, in the five domain tables, to the Concord trap it trains against. A system or incident that changes this mapping must be recorded in the table, as `CLAUDE.md` requires of any correction to the GDD.
 
-The share of game systems and incidents per domain follows the exam weights: D1 27%, D2 18%, D3 20%, D4 20% and D5 15%. At launch the game has at least 60 incidents, about 16 for D1, 11 for D2, 12 each for D3 and D4, and 9 for D5. Every one of the ten Concord doctrines (Plea, Mirror, Latewatch, Envoy, Liar, Tower, Brute, Scroll, Hand and Silencer) appears at least four times, and roughly one incident in eight needs two orders. Each doctrine is a distractor pattern, and every wrong order in an incident must be tagged with one of them. These numbers are launch targets; the sources set no distribution for the smaller incident counts at earlier milestones.
+The share of game systems and incidents per domain follows the exam weights: D1 27%, D2 18%, D3 20%, D4 20% and D5 15%. [ADR-0023](0023-owner-decisions-on-the-open-register.md) narrows this to incidents, so systems are no longer held to the weights. At launch the game has at least 60 incidents, about 16 for D1, 11 for D2, 12 each for D3 and D4, and 9 for D5. Every one of the ten Concord doctrines (Plea, Mirror, Latewatch, Envoy, Liar, Tower, Brute, Scroll, Hand and Silencer) appears at least four times, and roughly one incident in eight needs two orders. Each doctrine is a distractor pattern, and every wrong order in an incident must be tagged with one of them. These numbers are launch targets; the sources set no distribution for the smaller incident counts at earlier milestones.
 
 The incident targets are arithmetically sound. The counts total 60, the weights total 100, and each count is within 0.4 percentage points of its weight. One in eight of 60 is 7.5 incidents, which fits the exam's "about 12%" select-two rate of 7.2. The doctrine floor is coherent but barely binding: 60 incidents with three or four wrong orders give 180 to 240 tags, of which the floor claims 40, so one doctrine could sit at four while others take far more. The sources also do not say whether "appears" counts tags or incidents.
 

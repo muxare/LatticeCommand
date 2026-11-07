@@ -2,7 +2,7 @@
 
 | | |
 | --- | --- |
-| **Status** | Accepted |
+| **Status** | Accepted, amended by [ADR-0023](0023-owner-decisions-on-the-open-register.md) |
 | **Date** | 2026-11-04 |
 | **Deciders** | Mikael Axelsson |
 | **Sources** | `lattice-command-gdd.md` ("The fact sheet", "Freshness", "CI with Claude Code", "Subagents", "Scope and milestones", "Risks"); `CLAUDE.md` ("Content and fact accuracy") |
@@ -14,11 +14,11 @@ The GDD states the problem directly: "a learning game that teaches a wrong fact 
 
 ## Decision
 
-`content/facts.json` is the one place that holds technical claims. Each entry must have an `id`, a one-sentence `claim`, a `source` URL in the official documentation, a `verified` date, a `verifier` and the `domains` it supports. A claim must be checked against the current documentation and must not be written from memory.
+`content/facts.json` is the one place that holds technical claims. Each entry must have an `id`, a one-sentence `claim`, a `source` URL in the official documentation, a `verified` date, a `verifier` and the `domains` it supports. [ADR-0023](0023-owner-decisions-on-the-open-register.md) adds a `terms` field and defines `verifier` as the person who approved the entry, never a subagent. A claim must be checked against the current documentation and must not be written from memory.
 
 Incidents, tooltips and after-action reports must reference fact ids and must not carry free text about features. No feature name may appear in content without a fact-sheet entry, and the validator must fail the build if one does. When a feature changes, its entry changes once and every incident that references it is flagged for review.
 
-A nightly job re-verifies facts older than 30 days and flags any whose source page changed. The War College shows a content version and a "last verified" date, and the release milestone requires content verified within 30 days of launch.
+A nightly job re-verifies facts older than 30 days and flags any whose source page changed. [ADR-0023](0023-owner-decisions-on-the-open-register.md) defines a changed source as one that no longer supports the claim. The War College shows a content version and a "last verified" date, and the release milestone requires content verified within 30 days of launch.
 
 Several points are not settled by the sources and are not settled here. An incident's scenario and exam-format rewrite are prose, and the report must explain why wrong orders fail, so the line between naming a feature and making a claim about it will need a ruling when the first real incident is written. Recognising a feature name requires a list of names, and the entry fields do not include one. The sources do not say whether a subagent can count as the `verifier`. Tooltips must reference fact ids, but `CLAUDE.md` lists only incidents, doctrines, tech nodes and the fact sheet as content files, so where tooltip text lives, and whether the validator reaches it, is unstated.
 
