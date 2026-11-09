@@ -6,12 +6,13 @@ Last updated 2026-11-09.
 
 Mikael's decisions of 2026-11-09 on the three points ADR-0023 left open are committed and merged into `main` as `c1bd451` from the branch `docs/owner-decisions-2026-11-09`, which is deleted. [ADR-0024](adr/0024-fun-measure-asset-storage-and-re-approval-issue.md) records them and amends ADR-0023, and the same change corrects the GDD, `CLAUDE.md` and the ADR index. In short, the slice's exit test measures fun by voluntary play among testers who do not plan to certify, source files of hand-made and bought assets stay in private storage outside the public repository, and the nightly job keeps one rolling issue for facts due for re-approval.
 
-`main` is pushed to `origin/main` up to `6eb3948`; the ADR-0024 commit and the handoff commit that records it are not pushed yet. A push to `main` from a Claude session is blocked by Mikael's global hook `~/.claude/hooks/block-dangerous-git.sh`, so Mikael pushes `main`, or the work goes through a pull request. No game code, content or test runner exists.
+`main` is pushed to `origin/main` up to `24fd962`, and `main` is the only branch. A push to `main` from a Claude session is blocked by Mikael's global hook `~/.claude/hooks/block-dangerous-git.sh`, so Mikael pushes `main`, or the work goes through a pull request. No game code, content or test runner exists.
 
 ## Waiting on Mikael
 
-1. Push `main`, which is two commits ahead of `origin/main`. Work moves to pull requests later, on Mikael's word.
-2. Nothing else is open before Alpha. The palette colours for the other three colony types and the practice tests are deferred to Alpha, and the validator's runtime is chosen when it is built.
+1. Nothing is open before Alpha. The palette colours for the other three colony types and the practice tests are deferred to Alpha, and the validator's runtime is chosen when it is built.
+
+Work merges into `main` locally for now, and moves to pull requests later on Mikael's word.
 
 ## Next, in the suggested order
 
