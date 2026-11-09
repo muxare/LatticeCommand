@@ -1,0 +1,196 @@
+[
+  {
+    "id": "hooks-pretooluse-blocks",
+    "claim": "A PreToolUse hook runs before a tool call and can block it by exiting with code 2 or by returning a permissionDecision of \"deny\" inside hookSpecificOutput, while an exit code of 1 does not block.",
+    "source": "https://code.claude.com/docs/en/hooks",
+    "verified": "2026-11-09",
+    "verifier": "Mikael Axelsson",
+    "domains": [
+      "D3"
+    ],
+    "terms": [
+      "PreToolUse hook"
+    ]
+  },
+  {
+    "id": "hooks-posttooluse-after-the-fact",
+    "claim": "A PostToolUse hook runs after a tool call has completed successfully, so it cannot prevent or undo the call, and its decision \"block\" only adds a reason next to the tool result.",
+    "source": "https://code.claude.com/docs/en/hooks",
+    "verified": "2026-11-09",
+    "verifier": "Mikael Axelsson",
+    "domains": [
+      "D3"
+    ],
+    "terms": [
+      "PostToolUse hook"
+    ]
+  },
+  {
+    "id": "hooks-stop-exit-2",
+    "claim": "A Stop hook that exits with code 2 prevents Claude from stopping and gives Claude its stderr as the reason to continue, until eight consecutive continuations by default, after which Claude Code ends the turn.",
+    "source": "https://code.claude.com/docs/en/hooks",
+    "verified": "2026-11-09",
+    "verifier": "Mikael Axelsson",
+    "domains": [
+      "D3"
+    ],
+    "terms": [
+      "Stop hook"
+    ]
+  },
+  {
+    "id": "subagent-fresh-context",
+    "claim": "A subagent other than a fork starts with a fresh, isolated context window that holds none of the parent conversation's history, and works from the delegation message Claude writes for it together with its own system prompt and, for most subagents, the CLAUDE.md files and a git status snapshot.",
+    "source": "https://code.claude.com/docs/en/sub-agents",
+    "verified": "2026-11-09",
+    "verifier": "Mikael Axelsson",
+    "domains": [
+      "D1"
+    ],
+    "terms": [
+      "subagent"
+    ]
+  },
+  {
+    "id": "subagent-fork-inherits",
+    "claim": "A fork is a subagent that inherits the entire conversation so far instead of starting fresh.",
+    "source": "https://code.claude.com/docs/en/sub-agents",
+    "verified": "2026-11-09",
+    "verifier": "Mikael Axelsson",
+    "domains": [
+      "D1"
+    ],
+    "terms": [
+      "fork"
+    ]
+  },
+  {
+    "id": "stop-reason-tool-use",
+    "claim": "A stop_reason of tool_use means Claude is calling one or more client tools that the caller must run, returning a tool_result for each tool_use block.",
+    "source": "https://platform.claude.com/docs/en/build-with-claude/handling-stop-reasons",
+    "verified": "2026-11-09",
+    "verifier": "Mikael Axelsson",
+    "domains": [
+      "D1"
+    ],
+    "terms": [
+      "stop_reason",
+      "tool_use",
+      "tool_result"
+    ]
+  },
+  {
+    "id": "stop-reason-end-turn",
+    "claim": "A stop_reason of end_turn means Claude completed its response naturally.",
+    "source": "https://platform.claude.com/docs/en/build-with-claude/handling-stop-reasons",
+    "verified": "2026-11-09",
+    "verifier": "Mikael Axelsson",
+    "domains": [
+      "D1"
+    ],
+    "terms": [
+      "end_turn"
+    ]
+  },
+  {
+    "id": "stop-reason-max-tokens",
+    "claim": "A stop_reason of max_tokens means Claude stopped because it reached the max_tokens limit set in the request.",
+    "source": "https://platform.claude.com/docs/en/build-with-claude/handling-stop-reasons",
+    "verified": "2026-11-09",
+    "verifier": "Mikael Axelsson",
+    "domains": [
+      "D1"
+    ],
+    "terms": [
+      "max_tokens"
+    ]
+  },
+  {
+    "id": "batch-24h-expiry",
+    "claim": "A Message Batch expires if processing does not complete within 24 hours, and requests not yet sent to the model by then return as expired and are not billed.",
+    "source": "https://platform.claude.com/docs/en/build-with-claude/batch-processing",
+    "verified": "2026-11-09",
+    "verifier": "Mikael Axelsson",
+    "domains": [
+      "D4"
+    ],
+    "terms": [
+      "Message Batches API"
+    ]
+  },
+  {
+    "id": "exam-question-format",
+    "claim": "Claude certification exams use multiple choice and scenario-based multiple response questions.",
+    "source": "https://anthropic-partners.skilljar.com/page/faq-certifications",
+    "verified": "2026-11-09",
+    "verifier": "Mikael Axelsson",
+    "domains": [
+      "D1",
+      "D2",
+      "D3",
+      "D4",
+      "D5"
+    ],
+    "terms": []
+  },
+  {
+    "id": "exam-item-format",
+    "claim": "The Claude Certified Architect – Foundations exam has 60 multiple-choice and multiple-response items, and each item states how many responses to select.",
+    "source": "https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542750%2FClaude+Certified+Architect+%E2%80%93+Foundations+Exam+Guide.pdf",
+    "verified": "2026-11-09",
+    "verifier": "Mikael Axelsson",
+    "domains": [
+      "D1",
+      "D2",
+      "D3",
+      "D4",
+      "D5"
+    ],
+    "terms": []
+  },
+  {
+    "id": "exam-sample-questions-four-options",
+    "claim": "Each of the twelve sample questions in the Claude Certified Architect – Foundations exam guide has four options, A to D, with one correct answer.",
+    "source": "https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542750%2FClaude+Certified+Architect+%E2%80%93+Foundations+Exam+Guide.pdf",
+    "verified": "2026-11-09",
+    "verifier": "Mikael Axelsson",
+    "domains": [
+      "D1",
+      "D2",
+      "D3",
+      "D4",
+      "D5"
+    ],
+    "terms": []
+  },
+  {
+    "id": "exam-scenarios",
+    "claim": "The Claude Certified Architect – Foundations exam presents 4 scenarios picked at random from a bank of 6, and each scenario frames a set of questions.",
+    "source": "https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542750%2FClaude+Certified+Architect+%E2%80%93+Foundations+Exam+Guide.pdf",
+    "verified": "2026-11-09",
+    "verifier": "Mikael Axelsson",
+    "domains": [
+      "D1",
+      "D2",
+      "D3",
+      "D4",
+      "D5"
+    ],
+    "terms": []
+  },
+  {
+    "id": "exam-domain-weights",
+    "claim": "The Claude Certified Architect – Foundations exam draws approximately 27% of its scored items from Agentic Architecture & Orchestration, 18% from Tool Design & MCP Integration, 20% from Claude Code Configuration & Workflows, 20% from Prompt Engineering & Structured Output and 15% from Context Management & Reliability.",
+    "source": "https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542750%2FClaude+Certified+Architect+%E2%80%93+Foundations+Exam+Guide.pdf",
+    "verified": "2026-11-09",
+    "verifier": "Mikael Axelsson",
+    "domains": [
+      "D1",
+      "D2",
+      "D3",
+      "D4",
+      "D5"
+    ],
+    "terms": []
+  }
+]
