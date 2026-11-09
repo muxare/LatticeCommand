@@ -24,10 +24,10 @@
           "pattern": "^[^\\s][^\\n]*[.!?]$"
         },
         "source": {
-          "$comment": "An https URL on an official Claude documentation host. The host must be followed directly by a slash, so user info, ports and look-alike hosts fail.",
-          "description": "must be an https URL on code.claude.com, platform.claude.com, docs.claude.com, docs.anthropic.com, support.claude.com or anthropic-partners.skilljar.com",
+          "$comment": "An https URL on an official Claude documentation host. The S3 host is allowed only under the one folder that serves the CCAR-F exam guide (ADR-0025). The host must be followed directly by a slash, so user info, ports and look-alike hosts fail.",
+          "description": "must be an https URL on code.claude.com, platform.claude.com, docs.claude.com, docs.anthropic.com, support.claude.com or anthropic-partners.skilljar.com, or under Anthropic's exam-guide folder on everpath-course-content.s3-accelerate.amazonaws.com",
           "type": "string",
-          "pattern": "^https://(code\\.claude\\.com|platform\\.claude\\.com|docs\\.claude\\.com|docs\\.anthropic\\.com|support\\.claude\\.com|anthropic-partners\\.skilljar\\.com)/[^\\s]*$"
+          "pattern": "^https://((code\\.claude\\.com|platform\\.claude\\.com|docs\\.claude\\.com|docs\\.anthropic\\.com|support\\.claude\\.com|anthropic-partners\\.skilljar\\.com)/[^\\s]*|everpath-course-content\\.s3-accelerate\\.amazonaws\\.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2F[^\\s]*)$"
         },
         "verified": {
           "$comment": "The date a person approved the entry (ADR-0023), as YYYY-MM-DD.",

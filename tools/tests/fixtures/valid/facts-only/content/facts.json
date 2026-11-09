@@ -30,7 +30,7 @@
   {
     "id": "fixture.exam.format",
     "claim": "This invented claim backs no feature name, so its terms list is empty.",
-    "source": "https://code.claude.com/docs/en/fixture-page-for-validator-tests",
+    "source": "https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542750%2FFixture+Exam+Guide.pdf",
     "verified": "2026-11-09",
     "verifier": "Test Person",
     "domains": [
