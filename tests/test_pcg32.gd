@@ -115,8 +115,16 @@ func test_pick_weighted_is_integer_and_follows_weights() -> bool:
 	var weights: PackedInt64Array = PackedInt64Array([0, 3, 0, 1])
 	var rng: Pcg32 = Pcg32.new(GOLDEN_SEED)
 	var counts: Array[int] = [0, 0, 0, 0]
+	var out_of_range: int = 0
 	for i: int in 40000:
-		counts[rng.pick_weighted(weights)] += 1
+		var index: int = rng.pick_weighted(weights)
+		# A negative index would silently count from the end, so range-check
+		# before indexing.
+		if index < 0 or index >= counts.size():
+			out_of_range += 1
+		else:
+			counts[index] += 1
+	check_eq(out_of_range, 0, "picks outside [0, weights.size())")
 	check_eq(counts[0], 0, "a zero weight is never picked")
 	check_eq(counts[2], 0, "a zero weight is never picked")
 	check_eq(counts[1] + counts[3], 40000, "every pick is a valid index")
@@ -148,4 +156,77 @@ func test_same_seed_replays_and_state_round_trips() -> bool:
 		if a.next_u32() != b.next_u32():
 			mismatches += 1
 	check_eq(mismatches, 0, "a generator restored from state and inc continues the stream")
+	return true
+
+
+# Invalid inputs must behave the same in debug and release builds: log an
+# engine error, return a defined value and consume no draw, so that a replay
+# never depends on the build type (ADR-0006).
+func _check_rejected(rng: Pcg32, got: int, want: int, state_before: int, label: String) -> void:
+	check_eq(got, want, "%s returns its defined value" % label)
+	check_eq(rng.get_state(), state_before, "%s consumes no draw" % label)
+
+
+func test_next_below_rejects_invalid_bounds_without_drawing() -> bool:
+	var rng: Pcg32 = Pcg32.new(GOLDEN_SEED)
+	for bound: int in [0, -1, -9223372036854775808, 0x100000001, 9223372036854775807]:
+		var before: int = rng.get_state()
+		expect_error("Pcg32.next_below")
+		_check_rejected(rng, rng.next_below(bound), 0, before, "next_below(%d)" % bound)
+	return true
+
+
+func test_range_inclusive_rejects_spans_above_2_pow_32_without_drawing() -> bool:
+	var rng: Pcg32 = Pcg32.new(GOLDEN_SEED)
+	var spans: Array[Array] = [
+		[-9223372036854775808, 9223372036854775807],
+		[9223372036854775807, -9223372036854775808],
+		[0, 0x100000000],
+		[-1, 9223372036854775807],
+	]
+	for pair: Array in spans:
+		var from: int = pair[0]
+		var to: int = pair[1]
+		var before: int = rng.get_state()
+		expect_error("Pcg32.range_inclusive")
+		_check_rejected(rng, rng.range_inclusive(from, to), mini(from, to), before, "range_inclusive(%d, %d)" % [from, to])
+	# The largest valid span, 2^32 values, still draws.
+	var before_valid: int = rng.get_state()
+	var value: int = rng.range_inclusive(0, 0xFFFFFFFF)
+	check(value >= 0 and value <= 0xFFFFFFFF, "range_inclusive(0, 2^32 - 1) in range")
+	check(rng.get_state() != before_valid, "range_inclusive(0, 2^32 - 1) draws")
+	return true
+
+
+func test_range_inclusive_of_one_value_consumes_no_draw() -> bool:
+	var rng: Pcg32 = Pcg32.new(GOLDEN_SEED)
+	var before: int = rng.get_state()
+	check_eq(rng.range_inclusive(7, 7), 7, "range_inclusive(7, 7)")
+	check_eq(rng.get_state(), before, "range_inclusive(x, x) consumes no draw")
+	return true
+
+
+func test_pick_weighted_rejects_invalid_weights_without_drawing() -> bool:
+	var rng: Pcg32 = Pcg32.new(GOLDEN_SEED)
+	var cases: Array[PackedInt64Array] = [
+		PackedInt64Array(),
+		PackedInt64Array([0, 0, 0]),
+		PackedInt64Array([1, -1, 5]),
+		PackedInt64Array([0x100000000, 1]),
+		PackedInt64Array([9223372036854775807, 9223372036854775807]),
+	]
+	for weights: PackedInt64Array in cases:
+		var before: int = rng.get_state()
+		expect_error("Pcg32.pick_weighted")
+		_check_rejected(rng, rng.pick_weighted(weights), -1, before, "pick_weighted(%s)" % str(weights))
+	return true
+
+
+func test_pcg32_has_no_debug_only_asserts() -> bool:
+	# assert() is stripped from release builds, so an assert that guards a
+	# draw makes debug and release consume draws differently and breaks
+	# replay. The headless runner only runs debug, hence this source check.
+	var source: String = FileAccess.get_file_as_string("res://sim/pcg32.gd")
+	check(not source.is_empty(), "sim/pcg32.gd is readable")
+	check(not source.contains("assert("), "sim/pcg32.gd contains no assert(")
 	return true
