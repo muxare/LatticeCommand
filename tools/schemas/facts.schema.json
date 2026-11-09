@@ -25,9 +25,9 @@
         },
         "source": {
           "$comment": "An https URL on an official Claude documentation host. The host must be followed directly by a slash, so user info, ports and look-alike hosts fail.",
-          "description": "must be an https URL on code.claude.com, platform.claude.com, docs.claude.com, docs.anthropic.com or support.claude.com",
+          "description": "must be an https URL on code.claude.com, platform.claude.com, docs.claude.com, docs.anthropic.com, support.claude.com or anthropic-partners.skilljar.com",
           "type": "string",
-          "pattern": "^https://(code\\.claude\\.com|platform\\.claude\\.com|docs\\.claude\\.com|docs\\.anthropic\\.com|support\\.claude\\.com)/[^\\s]*$"
+          "pattern": "^https://(code\\.claude\\.com|platform\\.claude\\.com|docs\\.claude\\.com|docs\\.anthropic\\.com|support\\.claude\\.com|anthropic-partners\\.skilljar\\.com)/[^\\s]*$"
         },
         "verified": {
           "$comment": "The date a person approved the entry (ADR-0023), as YYYY-MM-DD.",

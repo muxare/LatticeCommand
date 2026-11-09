@@ -1,1 +1,1 @@
-content/facts.json: /0/source: 'http://code.claude.com/docs/en/hooks' is not valid: must be an https URL on code.claude.com, platform.claude.com, docs.claude.com, docs.anthropic.com or support.claude.com
+content/facts.json: /0/source: 'http://code.claude.com/docs/en/hooks' is not valid: must be an https URL on code.claude.com, platform.claude.com, docs.claude.com, docs.anthropic.com, support.claude.com or anthropic-partners.skilljar.com
