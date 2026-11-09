@@ -4,20 +4,25 @@ Last updated 2026-11-09.
 
 ## Where the work stands
 
-Mikael's decisions of 2026-11-09 on the three points ADR-0023 left open are committed and merged into `main` as `c1bd451` from the branch `docs/owner-decisions-2026-11-09`, which is deleted. [ADR-0024](adr/0024-fun-measure-asset-storage-and-re-approval-issue.md) records them and amends ADR-0023, and the same change corrects the GDD, `CLAUDE.md` and the ADR index. In short, the slice's exit test measures fun by voluntary play among testers who do not plan to certify, source files of hand-made and bought assets stay in private storage outside the public repository, and the nightly job keeps one rolling issue for facts due for re-approval.
+`main` is at `2a7bf7c`, which adds the Codex mirrors (`AGENTS.md`, `.agents/skills/`, `.codex/agents/`). Their drafts came from a blind Claude-to-Codex replacement that renamed the certification, the API and the `.claude/` paths, and those were restored before the commit. `origin/main` is at `24fd962`, so `f4c839d` and `2a7bf7c` are not pushed. A push to `main` from a Claude session is blocked by Mikael's global hook, so Mikael pushes `main`.
 
-`main` is pushed to `origin/main` up to `24fd962`, and `main` is the only branch. A push to `main` from a Claude session is blocked by Mikael's global hook `~/.claude/hooks/block-dangerous-git.sh`, so Mikael pushes `main`, or the work goes through a pull request. No game code, content or test runner exists.
+Two branches are committed, tested and waiting for Mikael's review. Neither is merged or pushed.
+
+- `feat/test-runner-and-pcg32`, in the worktree `.claude/worktrees/agent-a12af0226113a6bb3`, holds `tests/run.gd` with its broken-fixture self-test (12 fixtures) and `sim/pcg32.gd` pinned to ADR-0020's golden values, with 13 tests passing. `sim-reviewer` found two ways the runner could report a false pass and that `assert` behaves differently in release builds. All were fixed test-first, and ADR-0019 and ADR-0020 record what building it corrected.
+- `feat/content-validator`, in the worktree `.claude/worktrees/agent-ade9beb9211486546`, holds `tools/validate_content.py` with schemas in `tools/schemas/` and 38 invalid fixtures, with its tests passing. [ADR-0025](adr/0025-content-validator-in-python.md) records the Python choice, the schema location and the fact-source host allowlist, which includes `anthropic-partners.skilljar.com` for the exam FAQ.
+
+Both branches replace the same sentence in `CLAUDE.md` and `AGENTS.md` (the commands list), so the second to merge needs that hunk combined by hand.
 
 ## Waiting on Mikael
 
-1. Nothing is open before Alpha. The palette colours for the other three colony types and the practice tests are deferred to Alpha, and the validator's runtime is chosen when it is built.
+1. Review and approve the two branches above for merging.
+2. Approve or correct the ten draft fact entries, which are not yet in the repository. Each was drafted from the official page and checked by `fact-checker`, and approval makes Mikael the `verifier` with the date of approval. The draft passes the validator on `feat/content-validator`. The drafts were at `/private/tmp/claude-501/-Users-mikaelaxelsson-source-repos-AnthropicEducation-LatticeCommand/ae8e10e9-2c83-4819-abfe-6765ecc993f9/scratchpad/facts-draft.json` on 2026-11-09, which is temporary; if it is gone, redraft from the fact-check notes in the session.
+3. The exam's four-option format, on which the after-action report rests (ADR-0023), has no official source. The certification FAQ says only "multiple choice and scenario-based multiple response questions". The option count and the way select-two questions are shown are probably in the CCA-F exam guide on the Partner Academy certification page, which may need a login.
 
 Work merges into `main` locally for now, and moves to pull requests later on Mikael's word.
 
 ## Next, in the suggested order
 
-This order is a suggestion that nobody has confirmed yet.
-
-1. Start Milestone 0, the paper prototype: ten incidents played as cards with a game master, and the simulation rules in a spreadsheet (GDD "Scope and milestones"). The first entries in `content/facts.json` are now unblocked: the main session drafts each from the official documentation, `fact-checker` verifies it, and a person approves it and is named as `verifier` (ADR-0022, ADR-0023). A person who has studied for the certification must approve the incidents. One of the entries should be the exam's question format, which the four-option after-action report rests on.
-2. Build `tests/run.gd` and the first failing simulation test ([ADR-0019](adr/0019-test-framework.md), [ADR-0017](adr/0017-test-first-headless-verification.md)), and then add the test command to `CLAUDE.md`.
-3. Choose the validator's runtime (Python with `jsonschema` or Node, both outside Godot, per ADR-0023), then build the schemas and the validator. That also unblocks the PostToolUse and Stop hooks.
+1. After the merges, add the PostToolUse hook on `content/**` and the Stop hook, checked against the hooks reference. The validator report proposes `"$CLAUDE_PROJECT_DIR"/.venv/bin/python "$CLAUDE_PROJECT_DIR"/tools/validate_content.py 1>&2 || exit 2`, and the Stop hook also runs the test command and guards on `stop_hook_active`. Then recount the "Are we on track?" tally in `docs/adr/README.md`, since both branches move checks from Pending.
+2. Write the approved facts to `content/facts.json`, then draft the ten paper-prototype incidents through `content-writer`. A person who has studied for the certification must approve them.
+3. Choose the next simulation rule to build test-first on top of `Pcg32`, such as the tick clock and the event queue (ADR-0020).
