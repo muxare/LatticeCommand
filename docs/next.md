@@ -4,7 +4,7 @@ Last updated 2026-11-09.
 
 ## Where the work stands
 
-`main` is at `2a7bf7c`, which adds the Codex mirrors (`AGENTS.md`, `.agents/skills/`, `.codex/agents/`). Their drafts came from a blind Claude-to-Codex replacement that renamed the certification, the API and the `.claude/` paths, and those were restored before the commit. `origin/main` is at `24fd962`, so `f4c839d` and `2a7bf7c` are not pushed. A push to `main` from a Claude session is blocked by Mikael's global hook, so Mikael pushes `main`.
+`main` and `origin/main` are at `9cc7106`; Mikael pushed `main` on 2026-11-09. A push to `main` from a Claude session is blocked by Mikael's global hook, so Mikael pushes `main`.
 
 Two branches are committed, tested and waiting for Mikael's review. Neither is merged or pushed.
 
@@ -16,7 +16,7 @@ Both branches replace the same sentence in `CLAUDE.md` and `AGENTS.md` (the comm
 ## Waiting on Mikael
 
 1. Review and approve the two branches above for merging, and `content/first-facts` with the fact drafts.
-2. Approve, correct or drop the fourteen draft fact entries on the branch `content/first-facts` (worktree `.claude/worktrees/first-facts`), in `docs/fact-drafts/facts.json`, outside `content/` until approved. Each was drafted from the official page and checked by `fact-checker`, and approval makes Mikael the `verifier` with the date of approval, after which the entry moves to `content/facts.json`. All fourteen pass the validator on `feat/content-validator`. `exam-question-format`, from the certification FAQ, says less than `exam-item-format` and may be dropped.
+2. Approve, correct or drop the fourteen draft fact entries on the branch `content/first-facts` (worktree `.claude/worktrees/first-facts`), in `docs/fact-drafts/facts.json`, outside `content/` until approved. Each was drafted from the official page and checked by `fact-checker`, and approval makes Mikael the `verifier` with the date of approval, after which the entry moves to `content/facts.json`. All fourteen pass the validator on `feat/content-validator`. `exam-question-format`, from the certification FAQ, overlaps `exam-item-format` but stays until it is clearly redundant (Mikael, 2026-11-09).
 3. Four of the drafts come from the exam guide (`CCAR-F`, version 1.0, effective July 2026). They cover 60 items that each state how many responses to select, twelve sample questions with four options and one answer each, 4 of 6 scenarios picked at random, and the approximate domain weights, which match `CLAUDE.md`. Mikael's copy is `~/source/repos/courses/CCAR-F/CCA-F-ExamGuide.pdf`, identical by SHA-256 to the public URL. Mikael approved allowing the guide's S3 host on 2026-11-09, and `feat/content-validator` accepts only the guide's folder on it (ADR-0025 amendment). Two decisions still wait on Mikael:
    - ADR-0023's four-option report is now backed for single-answer items only by example (the samples). The guide gives no option count and no presentation for multiple-response items, so ADR-0023 needs a note, and the revisit condition stands.
    - The guide names the exam code `CCAR-F`, while the project writes `CCA-F` throughout.
