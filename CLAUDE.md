@@ -50,7 +50,15 @@ Export the web build with the command below. The `build/web/` directory must exi
 /Applications/Godot.app/Contents/MacOS/Godot --headless --path . --export-release Web build/web/index.html
 ```
 
-Commands for running tests, validating content and running a seeded simulation should be added here as soon as they exist.
+Validate content with the Python validator ([ADR-0025](docs/adr/0025-content-validator-in-python.md)). A fresh checkout needs the virtual environment once, and the validator's own tests run with `unittest`:
+
+```
+/usr/bin/python3 -m venv .venv && .venv/bin/python -m pip install -r tools/requirements.txt
+.venv/bin/python tools/validate_content.py
+.venv/bin/python -m unittest
+```
+
+Commands for running tests and running a seeded simulation should be added here as soon as they exist.
 
 ## Architecture
 
