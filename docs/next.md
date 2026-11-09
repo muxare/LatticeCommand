@@ -1,17 +1,17 @@
 # Next
 
-Last updated 2026-11-07.
+Last updated 2026-11-09.
 
 ## Where the work stands
 
-Mikael's decisions of 2026-11-07 on every remaining choice in [the findings register](adr/findings-2026-11-04.md) and on ADR-0022's open points are committed and merged into `main` from the branch `docs/owner-decisions-2026-11-07`. [ADR-0023](adr/0023-owner-decisions-on-the-open-register.md) records them and amends ADR-0004, 0009, 0010, 0012, 0014, 0018, 0021 and 0022, and the same commit corrects the GDD, `CLAUDE.md`, `.claude/rules/content.md` and the `add-incident` and `balance-check` skills. In short, the slice's onboarding is trimmed to one colony and gains a learning measure and a browser smoke test, exam weights apply to incidents only, `verifier` is the approving person and fact entries gain `terms`, the validator runs outside Godot, the nightly fact-check covers facts older than 30 days, an incident has exactly one solution, and the repository stays public.
+Mikael's decisions of 2026-11-09 on the three points ADR-0023 left open are committed and merged into `main` as `c1bd451` from the branch `docs/owner-decisions-2026-11-09`, which is deleted. [ADR-0024](adr/0024-fun-measure-asset-storage-and-re-approval-issue.md) records them and amends ADR-0023, and the same change corrects the GDD, `CLAUDE.md` and the ADR index. In short, the slice's exit test measures fun by voluntary play among testers who do not plan to certify, source files of hand-made and bought assets stay in private storage outside the public repository, and the nightly job keeps one rolling issue for facts due for re-approval.
 
-`main` is pushed to `github.com/muxare/LatticeCommand` up to `2a495d2`, and the merged branches are deleted, so `main` is the only branch. A push to `main` from a Claude session is blocked by Mikael's global hook `~/.claude/hooks/block-dangerous-git.sh`, so Mikael pushes `main`, or the work goes through a pull request. No game code, content or test runner exists.
+`main` is pushed to `origin/main` up to `6eb3948`; the ADR-0024 commit and the handoff commit that records it are not pushed yet. A push to `main` from a Claude session is blocked by Mikael's global hook `~/.claude/hooks/block-dangerous-git.sh`, so Mikael pushes `main`, or the work goes through a pull request. No game code, content or test runner exists.
 
 ## Waiting on Mikael
 
-1. Push the handoff commit that records this state, which is the only commit on `main` not yet on `origin/main`.
-2. The points ADR-0023 leaves open: what measures fun in the slice, where hand-made and bought assets are stored, and whether the nightly job also opens an issue when an entry is due for re-approval. The palette colours for the other three colony types and the practice tests are deferred to Alpha.
+1. Push `main`, which is two commits ahead of `origin/main`. Work moves to pull requests later, on Mikael's word.
+2. Nothing else is open before Alpha. The palette colours for the other three colony types and the practice tests are deferred to Alpha, and the validator's runtime is chosen when it is built.
 
 ## Next, in the suggested order
 
