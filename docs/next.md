@@ -4,7 +4,7 @@ Last updated 2026-11-09.
 
 ## Where the work stands
 
-`main` holds the headless test runner with `sim/pcg32.gd` (ADR-0019, ADR-0020) and the Python content validator (ADR-0025), both merged on 2026-11-09 by rebasing and fast-forwarding. After the rebase the Godot suite ran 13 tests with none failing, the runner's self-test passed, and the validator and its tests passed. The commands for both are in `CLAUDE.md` and `AGENTS.md`. `.venv/` is set up in the main checkout. `origin/main` is at `9cc7106`, so the merges and the commits after it are not pushed, and Mikael pushes `main`, because his global hook blocks a push to `main` from a Claude session.
+`main` holds the headless test runner with `sim/pcg32.gd` (ADR-0019, ADR-0020) and the Python content validator (ADR-0025), both merged on 2026-11-09 by rebasing and fast-forwarding. After the rebase the Godot suite ran 13 tests with none failing, the runner's self-test passed, and the validator and its tests passed. The commands for both are in `CLAUDE.md` and `AGENTS.md`. `.venv/` is set up in the main checkout. `main` was pushed to `origin` on 2026-11-09 at `3588462`, and Mikael pushes `main`, because his global hook blocks a push to `main` from a Claude session.
 
 `CLAUDE.md` and `AGENTS.md` are now partly stale. "Project status" still says there is no test runner, and the hooks bullet still says the PostToolUse and Stop hooks wait for tooling that does not exist. Both are corrected with the hooks below.
 
