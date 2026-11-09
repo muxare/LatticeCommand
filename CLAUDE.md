@@ -91,7 +91,7 @@ Each incident file holds the scenario, the colony type, the domain and task stat
 
 ## Art pipeline
 
-Every shipped hard-surface asset comes from a script in the repo, and nothing ships from a hand-saved scene. Hand-made and bought assets, such as advisor characters, are listed in `art/third-party.md` with their author or vendor, source and licence. Each asset has one Blender Python script in `art/scripts/` that exports a `.glb` to `art/models/`.
+Every shipped hard-surface asset comes from a script in the repo, and nothing ships from a hand-saved scene. Hand-made and bought assets, such as advisor characters, are listed in `art/third-party.md` with their author or vendor, source, licence and the storage location of their source file. Those source files stay in private storage outside this public repository, which holds only exports whose licence permits public redistribution (ADR-0024). Each asset has one Blender Python script in `art/scripts/` that exports a `.glb` to `art/models/`.
 
 - **Exports.** Use binary glTF (`.glb`) with transforms applied and metric scale.
 - **Names.** Name files by kind and variant, such as `hull_frigate_a.glb`, and use Godot import suffixes such as `-col` for collision meshes.

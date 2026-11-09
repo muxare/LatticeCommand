@@ -6,7 +6,7 @@ Before starting a large feature, find the ADRs it touches below and cite them in
 
 ## Index
 
-Accepted means a person has made the decision, either by writing it down in the GDD or `CLAUDE.md`, which the ADR then records, or by accepting the ADR itself. "Accepted, amended by ADR-NNNN" means a later ADR replaced part of it and the rest stays in force. Proposed means a person still has to decide, and on 2026-11-07 no ADR has that status.
+Accepted means a person has made the decision, either by writing it down in the GDD or `CLAUDE.md`, which the ADR then records, or by accepting the ADR itself. "Accepted, amended by ADR-NNNN" means a later ADR replaced part of it and the rest stays in force. Proposed means a person still has to decide, and on 2026-11-09 no ADR has that status.
 
 | ADR | Decision | Status |
 | --- | --- | --- |
@@ -32,15 +32,16 @@ Accepted means a person has made the decision, either by writing it down in the 
 | [0020](0020-fixed-step-clock-and-numerics.md) | Integer ticks, tick-stamped commands, integer rule values and an own generator | Accepted |
 | [0021](0021-ci-on-github-actions.md) | CI on GitHub Actions with headless jobs, a pull request review and a nightly fact-check | Accepted, amended by [ADR-0023](0023-owner-decisions-on-the-open-register.md) |
 | [0022](0022-claude-config-guards-worktrees-and-fails-closed.md) | The generated-file hook guards every checkout and fails closed, and the incident and review tooling is corrected ahead of its tools | Accepted, amended by [ADR-0023](0023-owner-decisions-on-the-open-register.md) |
-| [0023](0023-owner-decisions-on-the-open-register.md) | The slice trims its onboarding to one colony, exam weights apply to incidents, and the open content, fact-sheet and CI choices are settled | Accepted |
+| [0023](0023-owner-decisions-on-the-open-register.md) | The slice trims its onboarding to one colony, exam weights apply to incidents, and the open content, fact-sheet and CI choices are settled | Accepted, amended by [ADR-0024](0024-fun-measure-asset-storage-and-re-approval-issue.md) |
+| [0024](0024-fun-measure-asset-storage-and-re-approval-issue.md) | The slice measures fun by voluntary play, bought asset sources stay out of the public repository, and the nightly job keeps one issue for facts due for re-approval | Accepted |
 
 ## Are we on track?
 
-As of 2026-11-07 the ADRs define 140 checks: 15 Active, 44 Manual and 81 Pending. So little runs because almost nothing has been built, and that is accurate for a project with no game code. The table shows what each piece of tooling would switch on, which also shows where it pays to build first. When tooling lands, the same change updates the State column in the ADRs and this table.
+As of 2026-11-09 the ADRs define 144 checks: 15 Active, 46 Manual and 83 Pending. So little runs because almost nothing has been built, and that is accurate for a project with no game code. The table shows what each piece of tooling would switch on, which also shows where it pays to build first. When tooling lands, the same change updates the State column in the ADRs and this table.
 
 | To build | Switches on checks in |
 | --- | --- |
-| CI workflows (the remote exists since 2026-11-07) | 0002, 0003, 0004, 0005, 0006, 0007, 0008, 0009, 0010, 0014, 0015, 0017, 0019, 0020, 0021, 0023 |
+| CI workflows (the remote exists since 2026-11-07) | 0002, 0003, 0004, 0005, 0006, 0007, 0008, 0009, 0010, 0014, 0015, 0017, 0019, 0020, 0021, 0023, 0024 |
 | Test runner and first simulation code | 0002, 0005, 0006, 0008, 0013, 0017, 0019, 0020, 0021 |
 | Content schemas and validator | 0005, 0009, 0010, 0011, 0012, 0013, 0016, 0017, 0019, 0021, 0022, 0023 |
 | `content/facts.json` | 0008, 0010, 0011, 0021, 0022, 0023 |
@@ -48,7 +49,7 @@ As of 2026-11-07 the ADRs define 140 checks: 15 Active, 44 Manual and 81 Pending
 | Main scene and first scene | 0004, 0007, 0009, 0017, 0020, 0021 |
 | First asset script | 0014, 0015 |
 | Live Blender setup and `.mcp.json` | 0015, 0016 |
-| Vertical slice and playtests | 0004, 0007, 0013, 0018, 0023 |
+| Vertical slice and playtests | 0004, 0007, 0013, 0018, 0023, 0024 |
 | UI code and scoring rules | 0013 |
 | A tool that flags incidents when a fact changes | 0010 |
 

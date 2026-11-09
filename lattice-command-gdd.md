@@ -484,7 +484,7 @@ Each team member does steps 1 and 3 to 5 on their own machine; step 2 is done on
 
 #### Limits and safety
 
-- Claude is strong at procedural hard-surface models and weak at organic ones. Advisor characters and any creatures are modelled by hand or bought, and each one is listed in `art/third-party.md` with its file, author or vendor, source, licence and date added ([ADR-0023](docs/adr/0023-owner-decisions-on-the-open-register.md)).
+- Claude is strong at procedural hard-surface models and weak at organic ones. Advisor characters and any creatures are modelled by hand or bought, and each one is listed in `art/third-party.md` with its file, author or vendor, source, licence, date added and the storage location of its source file ([ADR-0023](docs/adr/0023-owner-decisions-on-the-open-register.md)). Source files stay in private storage outside this public repository, which holds only an exported `.glb` whose licence permits public redistribution ([ADR-0024](docs/adr/0024-fun-measure-asset-storage-and-re-approval-issue.md)).
 - Both MCP servers run Python that Claude writes inside Blender; the official one does so with no guards. Run live mode on a machine without sensitive data, or in a virtual machine.
 - Scripted mode runs in the same sandboxed container as the rest of CI.
 
@@ -525,7 +525,7 @@ Each incident file holds: the scenario, the colony type, the domain and task sta
 
 ### Freshness
 
-- A nightly job re-checks facts whose `verified` date is older than 30 days and opens an issue for any claim its source no longer supports. A passing check changes nothing in the file, because no agent approves an entry, so a person re-approves a stale entry by updating `verified` ([ADR-0023](docs/adr/0023-owner-decisions-on-the-open-register.md)).
+- A nightly job re-checks facts whose `verified` date is older than 30 days and opens an issue for any claim its source no longer supports. Entries that pass but are due for re-approval are listed in one rolling issue, "Facts due for re-approval", which the job rewrites each night and closes when it is empty ([ADR-0024](docs/adr/0024-fun-measure-asset-storage-and-re-approval-issue.md)). A passing check changes nothing in the file, because no agent approves an entry, so a person re-approves a stale entry by updating `verified` ([ADR-0023](docs/adr/0023-owner-decisions-on-the-open-register.md)).
 - The game shows a content version and "last verified" date in the War College.
 - When a feature changes, the fact entry changes once and every incident that references it is flagged for review.
 
@@ -544,7 +544,7 @@ Phases are drawn at equal width, not to scale; the table gives the real lengths.
 | Milestone | Length | Contents | Exit test |
 | --- | --- | --- | --- |
 | 0. Paper prototype | 2 weeks | Ten incidents played as cards with a game master; sim rules in a spreadsheet | Testers name the right fix more often after playing than before |
-| 1. Vertical slice | 8 weeks | One Harbour colony in 3D, ship's log, refit menu, interlocks, three Concord doctrines, the onboarding trimmed to one colony (see "In the vertical slice") | Five players finish the slice's onboarding unaided; they describe a PreToolUse hook in their own words; testers name the right fix more often after playing than before; the web export plays the first crisis in a current desktop browser |
+| 1. Vertical slice | 8 weeks | One Harbour colony in 3D, ship's log, refit menu, interlocks, three Concord doctrines, the onboarding trimmed to one colony (see "In the vertical slice") | Five players finish the slice's onboarding unaided; they describe a PreToolUse hook in their own words; testers name the right fix more often after playing than before; the web export plays the first crisis in a current desktop browser; most testers who do not plan to certify keep playing for ten minutes after being told they may stop ([ADR-0024](docs/adr/0024-fun-measure-asset-storage-and-re-approval-issue.md)) |
 | 2. Alpha | 12 weeks | Cluster map, four colony types, full tech tree skeleton, all ten doctrines, 30 incidents, after-action reports | A full campaign is playable; readiness gauges correlate with a practice test score |
 | 3. Beta | 10 weeks | All five colony types, plus the Assay Works if it is built, 60+ incidents, War College, echoes, advisors' arcs, audio, web build | Players who finish score higher on a fresh practice test than a study-guide control group |
 | 4. Release | 4 weeks | Polish, accessibility, localization hooks, fact sheet re-verified | Content verified within 30 days of launch |

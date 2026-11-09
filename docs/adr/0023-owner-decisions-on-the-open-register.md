@@ -2,8 +2,8 @@
 
 | | |
 | --- | --- |
-| **Status** | Accepted |
-| **Date** | 2026-11-07 |
+| **Status** | Accepted, amended by [ADR-0024](0024-fun-measure-asset-storage-and-re-approval-issue.md) |
+| **Date** | 2026-11-09 |
 | **Deciders** | Mikael Axelsson |
 | **Sources** | [Findings register](findings-2026-11-04.md) items T2, T3, D1 to D3 and D5 to D12; the open points of [ADR-0022](0022-claude-config-guards-worktrees-and-fails-closed.md); GDD "Design pillars", "Content mapping", "The thin bridge", "Onboarding: the first two hours", "Art pipeline", "Content pipeline and fact accuracy" and "Scope and milestones"; `CLAUDE.md` "Project status", "Teaching rules" and "Art pipeline" |
 | **Related** | Amends [ADR-0004](0004-compatibility-renderer-single-threaded-web.md), [ADR-0009](0009-content-as-validated-json.md), [ADR-0010](0010-fact-sheet-single-source.md), [ADR-0012](0012-content-mapping-is-the-contract.md), [ADR-0014](0014-scripted-blender-art-pipeline.md), [ADR-0018](0018-vertical-slice-gate-and-scope.md), [ADR-0021](0021-ci-on-github-actions.md) and [ADR-0022](0022-claude-config-guards-worktrees-and-fails-closed.md) |
@@ -20,7 +20,7 @@ The findings register of 2026-11-04 left a set of design choices to the owner, a
 
 **The slice includes a browser smoke test.** The web build is the reason Godot was chosen ([ADR-0002](0002-godot-4-as-engine.md), [ADR-0004](0004-compatibility-renderer-single-threaded-web.md)), so the slice must show that its web export loads and plays the first crisis in at least one current desktop browser, named in the playtest record. The full web build, with its hosting and size work, stays at Beta.
 
-**The slice's exit test measures learning as well.** It adds Milestone 0's measure: players name the right fix more often after playing than before. Fun is still not measured by any exit test, and that remains open.
+**The slice's exit test measures learning as well.** It adds Milestone 0's measure: players name the right fix more often after playing than before. Fun is still not measured by any exit test, and that remains open. [ADR-0024](0024-fun-measure-asset-storage-and-re-approval-issue.md) adds a measure of voluntary play.
 
 ### Exam weights and after-action reports (D1, D2)
 
@@ -30,7 +30,7 @@ The findings register of 2026-11-04 left a set of design choices to the owner, a
 
 ### Art (D6, D7)
 
-**"Every shipped asset comes from a script" applies to hard-surface assets.** Advisor characters and creatures are modelled by hand or bought, and each such asset must be listed in `art/third-party.md` with its file, its author or vendor, its source, its licence and the date it was added. The manifest is created with the first such asset. Where those files are stored is not decided here.
+**"Every shipped asset comes from a script" applies to hard-surface assets.** Advisor characters and creatures are modelled by hand or bought, and each such asset must be listed in `art/third-party.md` with its file, its author or vendor, its source, its licence and the date it was added. The manifest is created with the first such asset. Where those files are stored is not decided here. [ADR-0024](0024-fun-measure-asset-storage-and-re-approval-issue.md) keeps their source files outside the public repository.
 
 **The colours for the Admiralty, Night Relay and Assay Works are deferred to Alpha**, because the slice has only the Harbour.
 
@@ -48,7 +48,7 @@ Beta's contents read "all five colony types, plus the Assay Works if it is built
 
 ### CI's nightly fact-check (T2, T3)
 
-**The nightly job re-checks facts whose `verified` date is older than 30 days**, not all content, which keeps its cost bounded and matches the release test. **A source counts as changed when the `fact-checker` finds that the page no longer supports the claim**, not when the page's bytes change, because documentation pages are reworded often and a hash would raise false alarms. A contradicted claim opens an issue. A passing check changes nothing in the file, because no agent approves an entry, so a person re-approves a stale entry by updating `verified` after reading the check.
+**The nightly job re-checks facts whose `verified` date is older than 30 days**, not all content, which keeps its cost bounded and matches the release test. **A source counts as changed when the `fact-checker` finds that the page no longer supports the claim**, not when the page's bytes change, because documentation pages are reworded often and a hash would raise false alarms. A contradicted claim opens an issue. [ADR-0024](0024-fun-measure-asset-storage-and-re-approval-issue.md) adds one rolling issue for entries due for re-approval. A passing check changes nothing in the file, because no agent approves an entry, so a person re-approves a stale entry by updating `verified` after reading the check.
 
 **The repository stays public.** It has a GitHub remote, `github.com/muxare/LatticeCommand`, which Mikael created on 2026-11-07, and he chose to keep it public over the session's recommendation of a private repository. This settles ADR-0021's open point on visibility. The costs are that GitHub disables scheduled workflows in a public repository after 60 days without activity, that pull requests from forks need the workflows' secrets handled with care, and that every incident's exam-format rewrite is published as it is written, while the GDD's open question on licensing exam-style content is still unanswered.
 
@@ -82,7 +82,7 @@ The first fact entry can be written, since its fields and its approval are now d
 
 The four-option report rests on a claim about the exam that has no fact entry yet, and the domain tables are no longer held to the weights, so a domain could end up thin in systems while meeting its incident count.
 
-Several points stay open: what measures fun, where hand-made and bought assets are stored, the remaining three palette colours, whether the nightly job also opens an issue for an entry that is due for re-approval, and the runtime of the validator.
+Several points stay open: what measures fun, where hand-made and bought assets are stored, the remaining three palette colours, whether the nightly job also opens an issue for an entry that is due for re-approval, and the runtime of the validator. [ADR-0024](0024-fun-measure-asset-storage-and-re-approval-issue.md) settles fun, asset storage and the re-approval issue.
 
 **On acceptance.** In the same change, the GDD, `CLAUDE.md`, `.claude/rules/content.md`, `.claude/skills/add-incident` and `.claude/skills/balance-check` were corrected, the findings register recorded the outcome, and each amended ADR took the status "Accepted, amended by ADR-0023" with a one-sentence pointer beside the passage this ADR replaces.
 
