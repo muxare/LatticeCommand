@@ -64,10 +64,10 @@ Several points stay open. The incident schema does not yet say how a file record
 | --- | --- | --- |
 | Edit and Write calls on generated paths are denied in the main checkout and in worktrees, unusable input is denied, and other paths pass | `deny-generated-edits.sh` through PreToolUse; verified on 2026-11-04 by a 74-case piped table, which is not kept in the repository, and by two live denials in a session (`build/` and `.claude/worktrees/probe/art/models/`); on 2026-11-07, after `onFailure` was set, an ordinary path piped in was allowed with exit 0 and an `art/models/` path was denied with exit 2. A hook that fails to start, crashes or times out has not been provoked in a live session | Active |
 | `add-incident` reports each pipeline step as passed, failed or not run | The skill's own instructions, reviewed by the person approving the incident | Manual |
-| `balance-check` fails a solution that does not resolve and any other play that does | `balance-check` skill | Pending (needs the seeded simulation runner and a schema field for orders needed together) |
+| `balance-check` fails a solution that does not resolve and any other play that does | `balance-check` skill | Pending (needs the seeded simulation runner; the incident schema's `solution` list records orders needed together) |
 | Modelled Claude behaviour in a `sim/` diff is backed by a fact id or reported as unverified | `sim-reviewer` subagent, invoked by hand | Manual |
 | The PreToolUse handler keeps `"onFailure": "block"`, and `.claude/worktrees/` stays ignored | Pull request review of `.claude/settings.json` and `.gitignore`; on 2026-11-07 `jq` read `block` from the settings and `git check-ignore` matched a path under `.claude/worktrees/` | Manual |
-| Each fact entry was drafted from the current official documentation, verified by `fact-checker` and approved by a person | Review by the person approving the entry | Pending (needs `content/facts.json`) |
+| Each fact entry was drafted from the current official documentation, verified by `fact-checker` and approved by a person | Review by the person approving the entry | Manual |
 
 **Drift signals.** The hook starts stripping `$CLAUDE_PROJECT_DIR` again, or gains an `exit 0` on a failed parse. The handler loses `onFailure`, or `.claude/worktrees/` leaves `.gitignore`. A fact entry arrives with no `fact-checker` result or no named person behind it. A report from `add-incident` omits a step instead of saying it was not run. A review from `sim-reviewer` passes a behaviour without citing a fact id.
 

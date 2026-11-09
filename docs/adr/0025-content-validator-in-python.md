@@ -39,7 +39,7 @@ The PostToolUse and Stop hooks and the CI content job can now be built, and auth
 | Check | Enforced by | State |
 | --- | --- | --- |
 | The validator passes valid fixtures and fails each invalid fixture with exactly its expected errors | `python -m unittest` under `tools/tests/` | Active (run by hand; CI pending [ADR-0021](0021-ci-on-github-actions.md)) |
-| Every file in `content/` validates | `tools/validate_content.py` | Active (run by hand); the PostToolUse hook, the Stop hook and the CI job are Pending |
+| Every file in `content/` validates | `tools/validate_content.py` | Active (PostToolUse hook `.claude/hooks/validate-content.sh`, Stop hook `.claude/hooks/stop-checks.sh` and by hand); the CI job is Pending |
 | A fact source outside the allowlist fails | Facts schema | Active |
 
 **Drift signals.** A file appears under `content/` with no schema and the validator is changed to skip it. A host is added to the allowlist without an ADR. `requirements.txt` gains an unpinned package. Content edits pass locally because `.venv` is missing and the hook's failure was ignored.

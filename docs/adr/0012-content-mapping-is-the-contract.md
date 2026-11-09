@@ -42,9 +42,9 @@ The contract constrains design, because a good idea with no concept behind it ha
 
 | Check | Enforced by | State |
 | --- | --- | --- |
-| Incident share per domain matches the weights at launch | Coverage report from the validator over `content/` | Pending (needs incident files, the validator and a decided tolerance) |
-| Each doctrine appears at least four times, and about one incident in eight needs two orders | The same coverage report | Pending (needs incident files, the validator and a definition of "appears") |
-| Each incident's domain and doctrine tags are valid values | JSON Schema for incidents | Pending (needs the schema and the validator) |
+| Incident share per domain matches the weights at launch | Coverage report from the validator over `content/` | Pending (needs incident files, a coverage report in the validator and a decided tolerance) |
+| Each doctrine appears at least four times, and about one incident in eight needs two orders | The same coverage report | Pending (needs incident files, a coverage report in the validator and a definition of "appears") |
+| Each incident's domain and doctrine tags are valid values | JSON Schema for incidents, `tools/schemas/incident.schema.json`, run by the validator | Active (PostToolUse and Stop hooks; CI pending [ADR-0021](0021-ci-on-github-actions.md)) |
 | A new or changed game system has its row in the mapping tables | Pull request review | Manual |
 | System share per domain follows the weights, which it does not on 2026-11-04 | Review of the GDD tables against the weights | Manual |
 | A system's behaviour matches the concept in its row | `sim-reviewer` subagent on changes under `sim/`, then human review. [ADR-0022](0022-claude-config-guards-worktrees-and-fails-closed.md) amends this, because `sim-reviewer` now accepts a modelled Claude behaviour only when a fact id in `content/facts.json` backs it, and reports any other as unverified rather than passing it. | Manual |

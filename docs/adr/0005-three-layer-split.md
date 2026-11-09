@@ -54,8 +54,8 @@ The costs are real. Every player action needs a command and every visible result
 | No engine calls enter `sim/` in a diff | `sim-reviewer` subagent, which is invoked by hand and has no hook | Manual |
 | Presentation changes state only through commands | Pull request review by a person; `sim-reviewer` covers only the simulation core | Manual |
 | The engine-call and state-assignment patterns below find nothing | A CI grep step | Pending (needs CI, [ADR-0021](0021-ci-on-github-actions.md)) |
-| Every rule test runs headlessly with no scene tree | Headless test run | Pending (needs the test runner, [ADR-0019](0019-test-framework.md), and `sim/` code) |
-| Content validates against its schema | Content validator, PostToolUse hook and CI | Pending (needs validator and schema, [ADR-0009](0009-content-as-validated-json.md)) |
+| Every rule test runs headlessly with no scene tree | Headless test run | Pending (needs the first `sim/` rule) |
+| Content validates against its schema | Content validator `tools/validate_content.py`, run by the PostToolUse hook `.claude/hooks/validate-content.sh`, the Stop hook and CI | Active (PostToolUse and Stop hooks; CI pending [ADR-0021](0021-ci-on-github-actions.md)) |
 
 **Drift signals.** In `sim/`, this pattern finds anything: `grep -rnE '\bextends +(Node|Control|Resource|CanvasItem)|\b(get_tree|get_node|add_child)\(|\b(Input|Engine|OS|Time|DisplayServer|RenderingServer)\.|\$[A-Za-z_"]' --include='*.gd' sim/`. A presentation script assigns to a simulation field, which `grep -rnE '\bsim\.[A-Za-z_.]+ *([-+*/]?=)[^=]' --include='*.gd' scenes/ ui/` finds as long as the reference is called `sim`; that name is illustrative until the command API exists. A rule lands in a scene script, or a scene script computes an outcome the simulation should have decided. A simulation test needs a scene, an autoload or a frame to pass. A new incident requires a code change. A bug report cannot be reproduced from its seed and command list.
 

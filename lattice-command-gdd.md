@@ -421,12 +421,12 @@ lattice-command/
 | Hook | Matcher and handler `if` | Purpose |
 | --- | --- | --- |
 | PreToolUse | Matcher `Edit\|Write` | Deny edits to generated files: `.godot/`, `*.import`, exported builds, `art/models/**` |
-| PostToolUse | Matcher `Edit\|Write`; handler `if` `Edit(/content/**)` | Run the content validator and return errors to Claude immediately |
+| PostToolUse | Matcher `Edit\|Write`; the script filters `content/` | Run the content validator and return errors to Claude immediately |
 | Stop | (no matcher) | Block "done" until headless sim tests and content validation pass |
 
 Hook commands use absolute paths via `$CLAUDE_PROJECT_DIR`, so they work from any subdirectory.
 
-A matcher tests the tool name only, so a path condition goes in the handler's `if` field, which holds one permission rule. In permission rules `Edit(path)` applies to all built-in tools that edit files and `Write(path)` never matches; whether `Edit(/content/**)` also catches Write in a hook's `if` has not been tested and must be checked when this hook is added. Stop takes no matcher and no `if`, because a hook with `if` set never runs on Stop. A Stop hook should check `stop_hook_active` in its input, which is true when Claude Code is already continuing because of a stop hook, and Claude Code overrides a Stop hook after eight consecutive blocks with no tool call in between, a cap that `CLAUDE_CODE_STOP_HOOK_BLOCK_CAP` can raise. "Block" in the table above is therefore limited by that cap (corrected 2026-11-04).
+A matcher tests the tool name only, so a path condition goes in the handler's `if` field, which holds one permission rule. In permission rules `Edit(path)` applies to all built-in tools that edit files and `Write(path)` never matches; whether `Edit(/content/**)` also catches Write in a hook's `if` has not been tested and must be checked when this hook is added. When the hook was added on 2026-11-09 it used no `if` at all, because a `/` pattern anchors to the project root while a worktree's files live elsewhere, so the script filters the path from the checkout that holds the file instead (corrected 2026-11-09). Stop takes no matcher and no `if`, because a hook with `if` set never runs on Stop. A Stop hook should check `stop_hook_active` in its input, which is true when Claude Code is already continuing because of a stop hook, and Claude Code overrides a Stop hook after eight consecutive blocks with no tool call in between, a cap that `CLAUDE_CODE_STOP_HOOK_BLOCK_CAP` can raise. "Block" in the table above is therefore limited by that cap (corrected 2026-11-04).
 
 ### Subagents
 

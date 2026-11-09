@@ -49,7 +49,7 @@ The costs are ongoing discipline and fragile recordings. Convenient engine featu
 | Sessions touching `sim/` are told the rule; this informs and does not verify | `.claude/rules/sim.md` | Active |
 | Diffs under `sim/` replay from a seed and a command list | `sim-reviewer` subagent, whose definition covers this and which is invoked by hand | Manual |
 | The forbidden-call pattern below finds nothing in `sim/` | A CI grep step | Pending (needs CI, [ADR-0021](0021-ci-on-github-actions.md)) |
-| Two runs from the same seed and commands give identical events and final state | Headless test | Pending (needs the test runner, [ADR-0019](0019-test-framework.md), and `sim/` code) |
+| Two runs from the same seed and commands give identical events and final state | Headless test | Pending (needs `sim/` code that takes a command list and emits events; the test runner exists) |
 | Incidents give the same result per order under fixed seeds | `balance-check` skill, which stops by design until its runner exists | Pending (needs seeded simulation runner) |
 
 **Drift signals.** `grep -rnE '\b(randi|randf|randi_range|randf_range|randfn|randomize|seed)\(|\.(shuffle|pick_random)\(|\bTime\.|\bget_instance_id\(' --include='*.gd' sim/` finds anything. A `sort_custom` comparator in `sim/` can return false both ways for two different elements. A `_process`, `delta` or timer appears in `sim/`. Simulation results change when the frame rate or the window changes. A test is marked flaky or retried. A bug report arrives that cannot be reproduced from its seed and commands, and the response is to add logging instead of finding the source of the variation.

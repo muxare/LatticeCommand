@@ -40,9 +40,9 @@ The costs are that writing tests first slows the first draft of every rule, and 
 | --- | --- | --- |
 | A simulation change has a test, and the author shows that it failed first | `.claude/rules/sim.md` as guidance, then pull request review; `sim-reviewer` checks coverage but cannot see commit order from the code alone | Manual |
 | Large features start from a plan citing the GDD section and ADRs | The person approving the plan | Manual |
-| Simulation tests pass headlessly in CI | CI job from [ADR-0021](0021-ci-on-github-actions.md) | Pending (needs the test runner from [ADR-0019](0019-test-framework.md), the first tests, and CI) |
-| Claude cannot finish a turn with failing tests, within the documented continuation cap | Stop hook described in [ADR-0016](0016-claude-code-config-as-worked-example.md) | Pending (needs the headless test command and the content validator that the GDD also names for this hook) |
-| GDScript parses on the pinned engine, which catches some Godot 3 syntax but not all of it | CI parse check named in the GDD's risk table | Pending (needs game code and CI) |
+| Simulation tests pass headlessly in CI | CI job from [ADR-0021](0021-ci-on-github-actions.md) | Pending (needs CI, [ADR-0021](0021-ci-on-github-actions.md)) |
+| Claude cannot finish a turn with failing tests, within the documented continuation cap | Stop hook `.claude/hooks/stop-checks.sh`, described in [ADR-0016](0016-claude-code-config-as-worked-example.md) | Active |
+| GDScript parses on the pinned engine, which catches some Godot 3 syntax but not all of it | CI parse check named in the GDD's risk table | Pending (needs CI, [ADR-0021](0021-ci-on-github-actions.md)) |
 | Visual changes come with a windowed screenshot that has been inspected | Pull request review | Pending (needs a main scene, since `project.godot` has none, and a capture method) |
 
 **Drift signals.** A commit adds or changes a rule under `sim/` with no change under `tests/`. A test is deleted, skipped or loosened in the same change that makes it pass. A test needs a display, a scene tree or a `Node`. A pull request for `scenes/` or `ui/` claims success with no screenshot. A long feature appears with no plan that cites its GDD section. The test runner lands and `CLAUDE.md` still has no test command.

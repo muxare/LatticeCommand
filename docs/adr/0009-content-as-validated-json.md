@@ -38,8 +38,8 @@ The promise has a limit: content is free of code only while it uses mechanics th
 
 | Check | Enforced by | State |
 | --- | --- | --- |
-| Every file in `content/` validates against its schema, and a failure fails the build | Content validator in a CI job | Pending (needs the schemas, the validator and the CI workflow from [ADR-0021](0021-ci-on-github-actions.md)) |
-| Validation errors return to the author after each edit under `content/**` | PostToolUse hook in `.claude/settings.json`, which as of 2026-11-04 holds only the PreToolUse hook for generated files | Pending (needs the validator) |
+| Every file in `content/` validates against its schema, and a failure fails the build | Content validator in a CI job | Pending (needs the CI workflow from [ADR-0021](0021-ci-on-github-actions.md)) |
+| Validation errors return to the author after each edit under `content/**` | PostToolUse hook `.claude/hooks/validate-content.sh`, wired in `.claude/settings.json` on 2026-11-09 | Active |
 | Sessions working in `content/**` are told what an incident must hold | Path-scoped rule `.claude/rules/content.md`, which instructs but does not enforce | Active |
 | Adding an incident changes nothing outside `content/` unless it needs a new rule | Pull request review | Manual |
 | The JSON content is present and loads in the exported web build | A check on the web export | Pending (needs a main scene, first content and the CI workflow) |

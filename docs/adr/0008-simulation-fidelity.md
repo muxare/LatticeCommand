@@ -48,11 +48,11 @@ The cost is that the game is tied to a moving target. A Claude change can turn a
 | --- | --- | --- |
 | Rules in a `sim/` diff match the Claude behaviour they model | `sim-reviewer` subagent, invoked by hand; it has only Read, Grep and Glob, so its brief must carry the documented behaviour. [ADR-0022](0022-claude-config-guards-worktrees-and-fails-closed.md) amends this, because `sim-reviewer` now accepts a modelled behaviour only when a fact id in `content/facts.json` backs it, never on its brief, and reports any other as unverified. | Manual |
 | Sessions touching `sim/` are told rules must match the real system; this informs and does not verify | `.claude/rules/sim.md` | Active |
-| PostToolUse never prevents a side effect, a subagent sees only its delegation from the parent, and batches respect the 24-hour limit | Headless rule tests | Pending (needs the test runner, [ADR-0019](0019-test-framework.md), and `sim/` code) |
-| The ship's log holds every `tool_use`, `tool_result` and `stop_reason`, in order | Headless rule tests | Pending (needs the test runner, [ADR-0019](0019-test-framework.md), and `sim/` code) |
+| PostToolUse never prevents a side effect, a subagent sees only its delegation from the parent, and batches respect the 24-hour limit | Headless rule tests | Pending (needs those rules in `sim/`; the test runner exists) |
+| The ship's log holds every `tool_use`, `tool_result` and `stop_reason`, in order | Headless rule tests | Pending (needs those rules in `sim/`; the test runner exists) |
 | No wrong order closes an incident at the causal layer | `balance-check` skill, which stops by design until its runner exists | Pending (needs seeded simulation runner) |
-| Every claim behind a rule matches its official source | `fact-checker` subagent | Pending (needs `content/facts.json`, [ADR-0010](0010-fact-sheet-single-source.md)) |
-| Claims are re-verified nightly | Scheduled headless run | Pending (needs CI, [ADR-0021](0021-ci-on-github-actions.md), and `content/facts.json`) |
+| Every claim behind a rule matches its official source | `fact-checker` subagent, invoked by hand | Manual |
+| Claims are re-verified nightly | Scheduled headless run | Pending (needs CI, [ADR-0021](0021-ci-on-github-actions.md)) |
 
 **Drift signals.** A PostToolUse handler in `sim/` returns early before applying a side effect or sets a flag such as `cancelled`. A subagent craft reads a field of its parent's history. A batch has a constant duration or always succeeds. Log lines are composed for display from something other than the message record, or a `stop_reason` is missing from one. A simulated loop tests only for `end_turn`. A playtester reports that strengthening a prompt fixed an incident permanently. An incident closes after a fix at a layer other than its causal one. A rule's pull request justifies itself with "feels better" or cites no source.
 

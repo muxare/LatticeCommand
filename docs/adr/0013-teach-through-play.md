@@ -45,9 +45,9 @@ The costs are real too. Delay makes each incident harder to build and harder to 
 | Check | Enforced by | State |
 | --- | --- | --- |
 | Every session is told the teaching rules | `CLAUDE.md`, which instructs but does not enforce | Active |
-| Every tooltip, menu and log line carries the real term | An automated check over UI strings and a screenshot review | Pending (needs UI code, a decided home for UI text, and the test runner from [ADR-0019](0019-test-framework.md)) |
-| A wrong-layer fix appears to work and then recurs, and the correct fix closes the incident | Seeded simulation tests and the `balance-check` skill | Pending (needs the simulation, the test runner and the seeded runner) |
-| Every wrong order declares a delayed consequence | JSON Schema for incidents | Pending (needs the schema and the validator) |
+| Every tooltip, menu and log line carries the real term | An automated check over UI strings and a screenshot review | Pending (needs UI code and a decided home for UI text) |
+| A wrong-layer fix appears to work and then recurs, and the correct fix closes the incident | Seeded simulation tests and the `balance-check` skill | Pending (needs the simulation and the seeded runner) |
+| Every wrong order declares a delayed consequence | JSON Schema for incidents, `tools/schemas/incident.schema.json`, run by the validator | Active (PostToolUse and Stop hooks; CI pending [ADR-0021](0021-ci-on-github-actions.md)) |
 | The incident log shows the causal chain back to the decision | Simulation test against the event stream, plus playtest | Pending (needs the simulation core and incident log) |
 | No score or reward depends on resolving an incident quickly | Simulation test once scoring exists, and pull request review | Pending (needs the scoring rules) |
 | Nothing interrupts a crisis, and reports can be skipped | Windowed playtest and pull request review of `scenes/` and `ui/` | Manual |

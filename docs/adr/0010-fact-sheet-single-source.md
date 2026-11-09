@@ -40,10 +40,10 @@ The nightly job as specified is also harder than it reads. The fact-checker comp
 
 | Check | Enforced by | State |
 | --- | --- | --- |
-| Every entry has all six fields and an official-docs source | JSON Schema for the fact sheet, run by the validator in CI | Pending (needs `content/facts.json`, the schema, the validator and the CI workflow) |
-| Referenced fact ids resolve, and no feature name appears without one | Content validator | Pending (needs the validator and a defined way to recognise a feature name) |
-| Claims in new or changed content match their sources | `fact-check` skill, forked into the `fact-checker` subagent; both exist | Pending (needs `content/facts.json` and content to check) |
-| Facts are re-verified nightly, at the scope the owner decides | Scheduled `claude -p` job in CI | Pending (needs the fact sheet and the workflow from [ADR-0021](0021-ci-on-github-actions.md), with its scope corrected) |
+| Every entry has all seven fields, including `terms`, and an official-docs source | JSON Schema for the fact sheet, run by the validator in CI | Pending (needs the CI workflow, [ADR-0021](0021-ci-on-github-actions.md)) |
+| Referenced fact ids resolve, and no feature name appears without one | Content validator `tools/validate_content.py`, which recognises a feature name by the glossary of fact `terms` ([ADR-0023](0023-owner-decisions-on-the-open-register.md)) | Active (PostToolUse and Stop hooks; CI pending [ADR-0021](0021-ci-on-github-actions.md)) |
+| Claims in new or changed content match their sources | `fact-check` skill, forked into the `fact-checker` subagent, invoked by hand | Manual |
+| Facts are re-verified nightly, at the scope the owner decides | Scheduled `claude -p` job in CI | Pending (needs the workflow from [ADR-0021](0021-ci-on-github-actions.md); [ADR-0023](0023-owner-decisions-on-the-open-register.md) set the scope) |
 | Changing a fact flags each incident that references it | A tool that the sources do not yet specify | Pending (needs that tool to be defined and built) |
 | Sessions working in `content/**` and the content-writer are told the fact-id rule | `.claude/rules/content.md` and `.claude/agents/content-writer.md`, which instruct but do not enforce | Active |
 

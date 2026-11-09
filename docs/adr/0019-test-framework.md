@@ -46,9 +46,9 @@ The costs are real. The project owns a small piece of test infrastructure and it
 
 | Check | Enforced by | State |
 | --- | --- | --- |
-| The runner exits non-zero on failed check, runtime error, parse error and zero tests | Broken-fixture self-test run in CI | Pending (needs `tests/run.gd`, its fixtures and CI, [ADR-0021](0021-ci-on-github-actions.md)) |
-| Simulation tests pass headlessly on a fresh checkout | CI job that runs `--import` and then the test command | Pending (needs the runner, first tests and CI) |
-| Claude cannot report done with failing tests | Stop hook | Pending (needs the test command and, as the GDD specifies, the content validator) |
+| The runner exits non-zero on failed check, runtime error, parse error and zero tests | Broken-fixture self-test run in CI | Pending (needs CI, [ADR-0021](0021-ci-on-github-actions.md); `tests/self_test.sh` runs by hand) |
+| Simulation tests pass headlessly on a fresh checkout | CI job that runs `--import` and then the test command | Pending (needs CI, [ADR-0021](0021-ci-on-github-actions.md)) |
+| Claude cannot report done with failing tests, within the documented continuation cap | Stop hook `.claude/hooks/stop-checks.sh` | Active |
 | The test command is listed in `CLAUDE.md` and `tests/` is excluded from exports | Pull request review of the change adding the runner | Manual |
 | Rule tests use no scene tree and no addon | `sim-reviewer` subagent, invoked by hand | Manual |
 

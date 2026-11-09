@@ -92,14 +92,14 @@ Several points stay open: what measures fun, where hand-made and bought assets a
 | --- | --- | --- |
 | The slice builds no research, second colony or after-action report | Review of plans and pull requests against this ADR and ADR-0018 | Manual |
 | The slice's playtest records the onboarding result, the before-and-after measure and the browser smoke test with the browser named | Milestone 1 playtest record | Pending (needs the vertical slice) |
-| Domain balance is judged by incident counts | Review of incident pull requests; a coverage count in the content validator | Manual; the count is Pending (needs the validator) |
+| Domain balance is judged by incident counts | Review of incident pull requests; a coverage count in the content validator | Manual; the count is Pending (needs a coverage count in the validator) |
 | The four-option report rests on a verified fact about the exam's format | `content/facts.json` entries `exam-item-format` and `exam-sample-questions-four-options`, cited by the report's design | Pending (the entries exist since 2026-11-09; needs the report's design, see ADR-0026) |
 | Hand-made and bought assets are listed in `art/third-party.md` | Pull request review | Manual |
-| Every fact entry names a person as `verifier` and lists its `terms` | Content schema | Pending (needs the schemas and validator) |
-| Content naming a glossary term without the fact id fails | Content validator | Pending (needs the validator) |
+| Every fact entry names a person as `verifier` and lists its `terms` | Content schema `tools/schemas/facts.schema.json`, and the validator's check that rejects agent names | Active (PostToolUse and Stop hooks; CI pending [ADR-0021](0021-ci-on-github-actions.md)) |
+| Content naming a glossary term without the fact id fails | Content validator `tools/validate_content.py` | Active (PostToolUse and Stop hooks; CI pending [ADR-0021](0021-ci-on-github-actions.md)) |
 | The nightly job checks only entries older than 30 days and opens an issue only for a contradicted claim | Scheduled workflow | Pending (needs the workflow, see ADR-0021) |
 | The nightly workflow shows activity within 60 days, so the public repository's schedule is not disabled | Scheduled workflow history | Pending (needs the workflow) |
-| An incident has one solution, recorded as one list of order ids | Incident schema; `balance-check` | Pending (needs the schema and the seeded simulation runner) |
+| An incident has one solution, recorded as one list of order ids | Incident schema; `balance-check` | Active for the schema (PostToolUse and Stop hooks); `balance-check` Pending (needs the seeded simulation runner) |
 
 **Drift signals.** A slice plan adds a research screen, a second colony or a report "just as a stub". A domain is called balanced because of its row count. A fact entry names a subagent as `verifier`, or a nightly job edits `verified` itself. An incident file lists two alternative correct answers. A bought model arrives without a manifest line.
 

@@ -42,7 +42,7 @@ The costs follow directly from what C# would have given. Typing rests on convent
 | Sessions touching `scenes/**` or `ui/**` get the same rule again | `.claude/rules/scenes.md`; `.claude/rules/sim.md` does not repeat it, so `sim/**` and `tests/**` rely on `CLAUDE.md` alone. [ADR-0022](0022-claude-config-guards-worktrees-and-fails-closed.md) amends this, because `sim.md` now repeats the rule, so only `tests/**` relies on `CLAUDE.md` alone. | Active |
 | Declarations are typed and no Godot 3 pattern gets through | Pull request review | Manual |
 | No C# source or .NET project file enters the repository | Pull request review | Manual |
-| All GDScript parses on the pinned engine | The CI parse check named in the GDD's risk table | Pending (needs CI, [ADR-0021](0021-ci-on-github-actions.md), and GDScript files to check) |
+| All GDScript parses on the pinned engine | The CI parse check named in the GDD's risk table | Pending (needs CI, [ADR-0021](0021-ci-on-github-actions.md)) |
 | The engine reports untyped declarations | `UNTYPED_DECLARATION` warning in `project.godot` | Pending (needs the open point above decided, and game code) |
 
 **Drift signals.** A diff contains `yield(`, `export var`, `onready var`, `setget`, `connect("signal_name", self, "method")` or `KinematicBody`. A `.cs`, `.csproj` or `.sln` file appears, or `project.godot` gains a `[dotnet]` section. New functions or variables lack type annotations, or a change disables a typing warning. CI moves to the .NET build of Godot. A plan proposes a C# simulation library as a fresh idea without a superseding ADR.

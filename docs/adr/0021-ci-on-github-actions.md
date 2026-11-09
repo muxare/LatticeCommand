@@ -43,12 +43,12 @@ The costs are Actions minutes and API usage on every pull request and every nigh
 | Check | Enforced by | State |
 | --- | --- | --- |
 | The repository has a GitHub remote and the workflows run on pull requests | Repository settings and `.github/workflows/` | Pending (needs the workflow files; the remote `github.com/muxare/LatticeCommand` exists since 2026-11-07) |
-| Simulation tests run headlessly after `--import` | CI job | Pending (needs a remote, the test command that [ADR-0019](0019-test-framework.md) settles, and tests) |
-| Content validates against its schemas | CI job | Pending (needs the validator and schemas from [ADR-0009](0009-content-as-validated-json.md)) |
+| Simulation tests run headlessly after `--import` | CI job | Pending (needs the workflow) |
+| Content validates against its schemas | CI job | Pending (needs the workflow) |
 | The web build exports on Godot 4.7.2 with matching templates, and `build/web/` is created first | CI job | Pending (needs the workflow, and a main scene before the exported build can run) |
 | The workflow's Godot version equals the `CLAUDE.md` pin | CI step comparing `godot --version` with the pin | Pending (needs the workflow) |
-| Pull requests are reviewed with a prompt and `--max-turns` in `claude_args` | Claude Code GitHub Action | Pending (needs a remote, the Claude GitHub App or custom app, and a secret) |
-| Nightly fact-check runs and opens issues | Scheduled workflow | Pending (needs `content/facts.json`, a resolved scope and the items above) |
+| Pull requests are reviewed with a prompt and `--max-turns` in `claude_args` | Claude Code GitHub Action | Pending (needs the Claude GitHub App or custom app, and a secret) |
+| Nightly fact-check runs and opens issues | Scheduled workflow | Pending (needs the items above; [ADR-0023](0023-owner-decisions-on-the-open-register.md) set the scope) |
 | Flags and action inputs still match the docs when the workflows change | Pull request review, per [ADR-0016](0016-claude-code-config-as-worked-example.md) | Manual |
 
 **Drift signals.** A workflow installs "latest" Godot or templates of another version. `godot --version` in a CI log is not `4.7.2.stable.official.ed1daf0bf`. A workflow passes `max_turns` or `direct_prompt`, which are beta inputs. A review run finishes with no comment on the pull request. A nightly job reports success with no subagent loaded, or hits its turn limit night after night. The schedule stops after 60 quiet days. Tests pass locally and fail in CI on a float. Interactive-only flags appear in a workflow, the very mistake the game's Hand doctrine teaches against.

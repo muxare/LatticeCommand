@@ -39,14 +39,13 @@ Accepted means a person has made the decision, either by writing it down in the 
 
 ## Are we on track?
 
-As of 2026-11-09 the ADRs define 144 checks: 15 Active, 46 Manual and 83 Pending. So little runs because almost nothing has been built, and that is accurate for a project with no game code. The table shows what each piece of tooling would switch on, which also shows where it pays to build first. When tooling lands, the same change updates the State column in the ADRs and this table.
+As of 2026-11-09 the ADRs define 150 checks: 33 Active, 52 Manual and 65 Pending. The headless test runner, the content validator, the fact sheet and the PostToolUse and Stop hooks switched on most of the Active checks, and most of what is still Pending waits for CI, simulation rules or the vertical slice. Checks run only by a skill or subagent that a person invokes are counted as Manual. The table shows what each piece of tooling would switch on, which also shows where it pays to build first. When tooling lands, the same change updates the State column in the ADRs and this table.
 
 | To build | Switches on checks in |
 | --- | --- |
-| CI workflows (the remote exists since 2026-11-07) | 0002, 0003, 0004, 0005, 0006, 0007, 0008, 0009, 0010, 0014, 0015, 0017, 0019, 0020, 0021, 0023, 0024 |
-| Test runner and first simulation code | 0002, 0005, 0006, 0008, 0013, 0017, 0019, 0020, 0021 |
-| Content schemas and validator | 0005, 0009, 0010, 0011, 0012, 0013, 0016, 0017, 0019, 0021, 0022, 0023 |
-| `content/facts.json` | 0008, 0010, 0011, 0021, 0022, 0023 |
+| CI workflows (the remote exists since 2026-11-07) | 0002, 0003, 0004, 0005, 0006, 0007, 0008, 0009, 0010, 0014, 0015, 0017, 0019, 0020, 0021, 0023, 0024, 0025 |
+| First simulation rules (tick clock, event queue, commands and events) | 0005, 0006, 0008, 0013, 0020 |
+| Coverage report in the content validator | 0012, 0023 |
 | Seeded simulation runner | 0006, 0008, 0011, 0013, 0016, 0022, 0023 |
 | Main scene and first scene | 0004, 0007, 0009, 0017, 0020, 0021 |
 | First asset script | 0014, 0015 |
@@ -54,5 +53,6 @@ As of 2026-11-09 the ADRs define 144 checks: 15 Active, 46 Manual and 83 Pending
 | Vertical slice and playtests | 0004, 0007, 0013, 0018, 0023, 0024 |
 | UI code and scoring rules | 0013 |
 | A tool that flags incidents when a fact changes | 0010 |
+| After-action report design | 0023, 0026 |
 
 Beyond the checks, the signals to watch are the "Drift signals" paragraph in each ADR. Disagreements found between the GDD, `CLAUDE.md`, `.claude/` and official documentation while these were written are tracked in [`findings-2026-11-04.md`](findings-2026-11-04.md).

@@ -14,7 +14,7 @@ Architecture decisions are recorded in `docs/adr/`, with an index and the state 
 
 ## Project status
 
-The project structure and Claude Code setup are in place, but there is no game code, content or test runner yet. The first milestones are a two-week paper prototype and then an eight-week vertical slice (one Harbour colony in 3D, ship's log, refit menu, interlocks, three Concord doctrines, and the onboarding trimmed to that one colony). The slice is the go/no-go point, so do not build the strategy layer ahead of it.
+The project structure, the Claude Code setup, the headless test runner with `sim/pcg32.gd`, the content validator and the first fourteen approved facts are in place, but there are no simulation rules, incidents or scenes yet. The first milestones are a two-week paper prototype and then an eight-week vertical slice (one Harbour colony in 3D, ship's log, refit menu, interlocks, three Concord doctrines, and the onboarding trimmed to that one colony). The slice is the go/no-go point, so do not build the strategy layer ahead of it.
 
 ## Tools
 
@@ -57,6 +57,8 @@ Run the simulation tests headlessly ([ADR-0019](docs/adr/0019-test-framework.md)
 /Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script res://tests/run.gd
 sh tests/self_test.sh
 ```
+
+Test the PostToolUse and Stop hooks with `sh tests/hooks_test.sh`, which pipes sample input into each hook against scratch copies of the checkout.
 
 Validate content with the Python validator ([ADR-0025](docs/adr/0025-content-validator-in-python.md)). A fresh checkout needs the virtual environment once, and the validator's own tests run with `unittest`:
 
@@ -121,7 +123,7 @@ Live Blender sessions over MCP are for exploring a look before freezing it, and 
 
 The project's Claude Code configuration is itself a worked example of Domain 3, and the GDD's "Building it with Claude Code" section specifies it. Verify frontmatter fields, hook event names and settings keys against the current documentation when changing them.
 
-- **Hooks.** PreToolUse denies Edit and Write on `.godot/`, `build/`, `*.import` and `art/models/**`. It judges each path from the root of the checkout holding the file, so worktrees are covered, and it denies when it cannot judge a path or when `jq` or `realpath` is missing. Its handler sets `"onFailure": "block"`, so a hook that cannot start, crashes or times out also denies, which needs Claude Code v2.1.295 or later. It does not cover Bash, which is how generated files get regenerated. Two hooks wait for tooling that does not exist yet: PostToolUse on `content/**` needs the content validator, and Stop needs the headless test command and the content validator. Add each one with its tool, using absolute paths through `$CLAUDE_PROJECT_DIR`.
+- **Hooks.** PreToolUse denies Edit and Write on `.godot/`, `build/`, `*.import` and `art/models/**`. It judges each path from the root of the checkout holding the file, so worktrees are covered, and it denies when it cannot judge a path or when `jq` or `realpath` is missing. Its handler sets `"onFailure": "block"`, so a hook that cannot start, crashes or times out also denies, which needs Claude Code v2.1.295 or later. It does not cover Bash, which is how generated files get regenerated. PostToolUse on Edit and Write runs the content validator when the edited file is under `content/`, in the checkout holding the file, and returns its errors to Claude with exit 2; it cannot undo the edit. Stop runs the import step, the headless tests and the content validator in the checkout holding the session's working directory, and blocks with exit 2 while any of them fails. A missing Godot or `.venv` blocks only the first attempt, and Claude Code overrides a Stop hook after eight consecutive blocks with no tool call between them, so Stop is not a hard gate. Both filter paths in their scripts rather than in a handler `if`, because a rule such as `Edit(/content/**)` anchors to the project root and would miss edits in worktrees.
 - **Path-scoped rules in `.claude/rules/`.** `sim.md`, `content.md`, `scenes.md` and `art.md`.
 - **Skills in `.claude/skills/`.** `add-incident`, `balance-check` and `fact-check`. `balance-check` cannot run until the seeded simulation runner exists.
 - **Subagents in `.claude/agents/`.** `content-writer`, `sim-reviewer` and `fact-checker`.

@@ -58,9 +58,9 @@ The costs: rates and formulas are more awkward without float, and any curve must
 
 | Check | Enforced by | State |
 | --- | --- | --- |
-| The same seed and commands give the same digest whatever the steps-per-frame pattern | Headless test | Pending (needs the runner, [ADR-0019](0019-test-framework.md), and `sim/` clock) |
-| `Pcg32` matches its golden values, including the first `randi` values and hash above | Headless test | Pending (needs the runner and `Pcg32`) |
-| No forbidden numeric or RNG use in `sim/` | CI grep step using the pattern below | Pending (needs CI, [ADR-0021](0021-ci-on-github-actions.md), and `sim/` code) |
+| The same seed and commands give the same digest whatever the steps-per-frame pattern | Headless test | Pending (needs the `sim/` clock) |
+| `Pcg32` matches its golden values, including the first `randi` values and hash above | Headless test in `tests/test_pcg32.gd` | Active (Stop hook and run by hand; CI pending [ADR-0021](0021-ci-on-github-actions.md)) |
+| No forbidden numeric or RNG use in `sim/` | CI grep step using the pattern below | Pending (needs CI, [ADR-0021](0021-ci-on-github-actions.md)) |
 | A recorded replay gives one digest on native Linux, native macOS and web | CI job using headless Chrome, the method used in this probe | Pending (needs a replay runner, a main scene and CI) |
 | New simulation code keeps to the model, and step ordering is unchanged | `sim-reviewer` subagent by hand; its definition does not mention numerics yet | Manual |
 
