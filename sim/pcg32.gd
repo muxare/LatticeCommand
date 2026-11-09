@@ -21,6 +21,7 @@ const MULTIPLIER: int = 6364136223846793005
 const DEFAULT_INC_64: int = 1442695040888963407
 const MASK_32: int = 0xFFFFFFFF
 const TWO_POW_32: int = 0x100000000
+const MAX_INT: int = 9223372036854775807
 
 var _state: int = 0
 var _inc: int = 0
@@ -51,8 +52,14 @@ func next_u32() -> int:
 
 ## Returns an unbiased int in [0, bound) for 1 <= bound <= 2^32, by the
 ## rejection method of pcg32_boundedrand_r, which the engine's randi_range uses.
+## Any other bound logs an error, returns 0 and consumes no draw. Invalid
+## input is checked explicitly rather than with an assertion, because release
+## builds strip assertions and would then draw where debug builds do not, which
+## would break replay between builds (ADR-0006).
 func next_below(bound: int) -> int:
-	assert(bound >= 1 and bound <= TWO_POW_32, "Pcg32.next_below: bound out of range")
+	if bound < 1 or bound > TWO_POW_32:
+		push_error("Pcg32.next_below: bound %d is outside [1, 2^32]" % bound)
+		return 0
 	var threshold: int = (TWO_POW_32 - bound) % bound
 	while true:
 		var r: int = next_u32()
@@ -62,25 +69,40 @@ func next_below(bound: int) -> int:
 
 
 ## Returns an int in the closed range between from and to, in either order,
-## matching the engine generator's inclusive integer range for 32-bit arguments. The span
-## must not exceed 2^32 values.
+## matching the engine generator's inclusive integer range for 32-bit arguments.
+## A span of more than 2^32 values logs an error, returns the lower end and
+## consumes no draw. Like the engine, range_inclusive(x, x) returns x without
+## drawing, so changing a content range to a single value shifts every later
+## draw in the run.
 func range_inclusive(from: int, to: int) -> int:
 	if from == to:
 		return from
 	var low: int = mini(from, to)
 	var high: int = maxi(from, to)
+	# high - low can overflow int64 only when low is negative; this test of the
+	# span cannot overflow itself.
+	if (low < 0 and high > MAX_INT + low) or high - low >= TWO_POW_32:
+		push_error("Pcg32.range_inclusive: span from %d to %d exceeds 2^32 values" % [low, high])
+		return low
 	return low + next_below(high - low + 1)
 
 
 ## Returns an index into weights with probability weight / total, using one
 ## bounded draw over the integer total. Weights must be non-negative, at
-## least one must be positive, and the total must not exceed 2^32.
+## least one must be positive, and the total must not exceed 2^32; otherwise
+## it logs an error, returns -1 and consumes no draw.
 func pick_weighted(weights: PackedInt64Array) -> int:
 	var total: int = 0
 	for weight: int in weights:
-		assert(weight >= 0, "Pcg32.pick_weighted: negative weight")
+		# Each weight and the running total stay at most 2^32, so the sum
+		# cannot overflow.
+		if weight < 0 or weight > TWO_POW_32 or total + weight > TWO_POW_32:
+			push_error("Pcg32.pick_weighted: weights must be non-negative and total at most 2^32")
+			return -1
 		total += weight
-	assert(total >= 1 and total <= TWO_POW_32, "Pcg32.pick_weighted: total out of range")
+	if total < 1:
+		push_error("Pcg32.pick_weighted: weights are empty or all zero")
+		return -1
 	var roll: int = next_below(total)
 	for i: int in weights.size():
 		roll -= weights[i]
