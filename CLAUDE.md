@@ -50,6 +50,14 @@ Export the web build with the command below. The `build/web/` directory must exi
 /Applications/Godot.app/Contents/MacOS/Godot --headless --path . --export-release Web build/web/index.html
 ```
 
+Run the simulation tests headlessly ([ADR-0019](docs/adr/0019-test-framework.md)). A fresh checkout needs the import step once, and `tests/self_test.sh` checks that the runner fails on its broken fixtures:
+
+```
+/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --import
+/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script res://tests/run.gd
+sh tests/self_test.sh
+```
+
 Validate content with the Python validator ([ADR-0025](docs/adr/0025-content-validator-in-python.md)). A fresh checkout needs the virtual environment once, and the validator's own tests run with `unittest`:
 
 ```
@@ -58,7 +66,7 @@ Validate content with the Python validator ([ADR-0025](docs/adr/0025-content-val
 .venv/bin/python -m unittest
 ```
 
-Commands for running tests and running a seeded simulation should be added here as soon as they exist.
+The command for running a seeded simulation should be added here as soon as it exists.
 
 ## Architecture
 
