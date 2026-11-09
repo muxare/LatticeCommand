@@ -1,15 +1,18 @@
 extends RefCounted
 ## Base class for every test script that tests/run.gd discovers (ADR-0019).
 ##
-## A test is a method whose name starts with "test_" and that returns true as
-## its last statement. GDScript has no exceptions, so a runtime error ends the
-## method early and makes it return its default value (false for "-> bool",
-## as observed on Godot 4.7.2); the runner counts anything other than true as a
-## test that did not run to its end. A base class is used instead of
-## class_name helpers so that test files depend only on res:// paths. Keep these helpers thin so that a
-## later move to a framework stays a mechanical rewrite.
+## A test is a method whose name starts with "test_", takes no arguments and
+## returns true as its last statement. GDScript has no exceptions, so a runtime
+## error ends the method early and makes it return its default value (false
+## for "-> bool", as observed on Godot 4.7.2); the runner counts anything other
+## than true as a test that did not run to its end, and it also fails a test on
+## any engine error logged while it runs, even inside a function it calls. A
+## base class is used instead of class_name helpers so that test files depend
+## only on res:// paths. Keep these helpers thin so that a later move to a
+## framework stays a mechanical rewrite.
 
 var failures: PackedStringArray = PackedStringArray()
+var expected_errors: PackedStringArray = PackedStringArray()
 
 
 ## Records a failure unless the condition holds, and returns the condition.
@@ -29,3 +32,10 @@ func check_eq(got: Variant, want: Variant, message: String = "") -> bool:
 			message, var_to_str(got), type_string(typeof(got)),
 			var_to_str(want), type_string(typeof(want))])
 	return same
+
+
+## Declares that exactly one engine error containing text will be logged during
+## this test. Each declaration absorbs one matching error; an undeclared error
+## or a declaration that no error matches fails the test.
+func expect_error(text: String) -> void:
+	expected_errors.append(text)
