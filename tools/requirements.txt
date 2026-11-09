@@ -1,0 +1,10 @@
+# Dependencies of the content validator, tools/validate_content.py (ADR-0023).
+# jsonschema is the direct dependency; the other lines are its transitive
+# dependencies, pinned so that a local run, the hooks and CI resolve the same
+# versions. Tested with the system Python 3.9.6 on macOS.
+jsonschema==4.25.1
+attrs==26.1.0
+jsonschema-specifications==2025.9.1
+referencing==0.36.2
+rpds-py==0.27.1
+typing_extensions==4.16.0

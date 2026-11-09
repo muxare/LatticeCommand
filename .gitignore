@@ -15,3 +15,6 @@ CLAUDE.local.md
 *.blend1
 __pycache__/
 .DS_Store
+
+# Python virtual environment for the content validator (tools/requirements.txt)
+.venv/
