@@ -109,4 +109,5 @@ The project's Claude Code configuration is itself a worked example of Domain 3, 
 - **Path-scoped rules in `.claude/rules/`.** `sim.md`, `content.md`, `scenes.md` and `art.md`.
 - **Skills in `.claude/skills/`.** `add-incident`, `balance-check` and `fact-check`. `balance-check` cannot run until the seeded simulation runner exists.
 - **Subagents in `.claude/agents/`.** `content-writer`, `sim-reviewer` and `fact-checker`.
+- **Codex mirrors.** `AGENTS.md` mirrors this file, `.agents/skills/` mirrors the skills and `.codex/agents/` mirrors the subagents, with the same names and instructions. This file is the source, and a change to it or to a skill or subagent is made in its mirror in the same commit.
 - **MCP.** `.mcp.json` does not exist yet, because live Blender mode has not been set up.
