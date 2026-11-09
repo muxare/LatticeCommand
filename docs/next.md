@@ -8,12 +8,11 @@ Last updated 2026-11-09.
 
 `CLAUDE.md` and `AGENTS.md` are now partly stale. "Project status" still says there is no test runner, and the hooks bullet still says the PostToolUse and Stop hooks wait for tooling that does not exist. Both are corrected with the hooks below.
 
-`main` also holds the fourteen approved facts in `content/facts.json` and ADR-0026, which amends ADR-0023 on the after-action report's format and renames `CCA-F` to `CCAR-F`, fast-forwarded on 2026-11-09. The superseded worktree `.claude/worktrees/first-facts` is removed, but the branch `content/first-facts` remains, because its drafts were never merged and the global git hook blocks a force delete from a Claude session.
+`main` also holds the fourteen approved facts in `content/facts.json` and ADR-0026, which amends ADR-0023 on the after-action report's format and renames `CCA-F` to `CCAR-F`, fast-forwarded on 2026-11-09. The superseded branch `content/first-facts` and its worktree are deleted.
 
 ## Waiting on Mikael
 
-1. Delete `content/first-facts` with `git branch -D content/first-facts`.
-2. ADR-0026 adds three wrong orders beside a set solution's orders, which the guide does not confirm. The guide calls its questions, options and scenarios confidential, and says its samples come from the practice test, so incidents and after-action reports must not quote or paraphrase them.
+1. ADR-0026 adds three wrong orders beside a set solution's orders, which the guide does not confirm. The guide calls its questions, options and scenarios confidential, and says its samples come from the practice test, so incidents and after-action reports must not quote or paraphrase them.
 
 Work merges into `main` locally for now, and moves to pull requests later on Mikael's word.
 
