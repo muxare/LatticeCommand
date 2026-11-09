@@ -405,7 +405,8 @@ lattice-command/
   art/
     scripts/                # Blender Python, one script per asset
     models/                 # generated .glb files (committed, never hand-edited)
-  tests/                    # headless sim tests + content validation
+  tests/                    # headless sim tests
+  tools/                    # content validator and its schemas, outside Godot (ADR-0025, corrected 2026-11-09)
 ```
 
 ### CLAUDE.md essentials
@@ -443,7 +444,7 @@ A matcher tests the tool name only, so a path condition goes in the handler's `i
 
 ### CI with Claude Code
 
-- GitHub Actions runs Godot headless: sim tests, content validation, web export.
+- GitHub Actions runs Godot headless for the sim tests and the web export, and runs the content validator in Python outside Godot ([ADR-0025](docs/adr/0025-content-validator-in-python.md), corrected 2026-11-09).
 - The Claude Code GitHub Action reviews each pull request with a review prompt and a turn limit. The turn limit goes in the action's `claude_args` input as `--max-turns`.
 - A nightly headless job (`claude -p` with `--max-turns` and JSON output) re-runs the fact-checker over facts whose `verified` date is older than 30 days. The job passes `--agents` and `--allowedTools` explicitly, because the documentation says that `--bare`, which skips auto-discovery of subagents, hooks, skills and CLAUDE.md, will become the default for `-p`. Bare mode offers only Bash, file read and file edit tools, `--allowedTools` only pre-approves tools, and bare mode needs an API key rather than a subscription login, so whether the fact-checker keeps WebFetch there has to be tested before the job is relied on. The fact-checker has only WebFetch and Read, so a job step parses the JSON output and runs `gh issue create` for any claim its source no longer supports, which is what a changed source means here, because a hash of a reworded page would raise false alarms ([ADR-0023](docs/adr/0023-owner-decisions-on-the-open-register.md)).
 

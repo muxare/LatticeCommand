@@ -34,6 +34,7 @@ Accepted means a person has made the decision, either by writing it down in the 
 | [0022](0022-claude-config-guards-worktrees-and-fails-closed.md) | The generated-file hook guards every checkout and fails closed, and the incident and review tooling is corrected ahead of its tools | Accepted, amended by [ADR-0023](0023-owner-decisions-on-the-open-register.md) |
 | [0023](0023-owner-decisions-on-the-open-register.md) | The slice trims its onboarding to one colony, exam weights apply to incidents, and the open content, fact-sheet and CI choices are settled | Accepted, amended by [ADR-0024](0024-fun-measure-asset-storage-and-re-approval-issue.md) |
 | [0024](0024-fun-measure-asset-storage-and-re-approval-issue.md) | The slice measures fun by voluntary play, bought asset sources stay out of the public repository, and the nightly job keeps one issue for facts due for re-approval | Accepted |
+| [0025](0025-content-validator-in-python.md) | The content validator is Python with pinned `jsonschema`, schemas live in `tools/schemas/`, and fact sources come from an allowlist of official hosts | Accepted |
 
 ## Are we on track?
 
