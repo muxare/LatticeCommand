@@ -32,9 +32,10 @@ Accepted means a person has made the decision, either by writing it down in the 
 | [0020](0020-fixed-step-clock-and-numerics.md) | Integer ticks, tick-stamped commands, integer rule values and an own generator | Accepted |
 | [0021](0021-ci-on-github-actions.md) | CI on GitHub Actions with headless jobs, a pull request review and a nightly fact-check | Accepted, amended by [ADR-0023](0023-owner-decisions-on-the-open-register.md) |
 | [0022](0022-claude-config-guards-worktrees-and-fails-closed.md) | The generated-file hook guards every checkout and fails closed, and the incident and review tooling is corrected ahead of its tools | Accepted, amended by [ADR-0023](0023-owner-decisions-on-the-open-register.md) |
-| [0023](0023-owner-decisions-on-the-open-register.md) | The slice trims its onboarding to one colony, exam weights apply to incidents, and the open content, fact-sheet and CI choices are settled | Accepted, amended by [ADR-0024](0024-fun-measure-asset-storage-and-re-approval-issue.md) |
+| [0023](0023-owner-decisions-on-the-open-register.md) | The slice trims its onboarding to one colony, exam weights apply to incidents, and the open content, fact-sheet and CI choices are settled | Accepted, amended by [ADR-0024](0024-fun-measure-asset-storage-and-re-approval-issue.md) and [ADR-0026](0026-report-format-follows-the-exam-guide.md) |
 | [0024](0024-fun-measure-asset-storage-and-re-approval-issue.md) | The slice measures fun by voluntary play, bought asset sources stay out of the public repository, and the nightly job keeps one issue for facts due for re-approval | Accepted |
 | [0025](0025-content-validator-in-python.md) | The content validator is Python with pinned `jsonschema`, schemas live in `tools/schemas/`, and fact sources come from an allowlist of official hosts | Accepted |
+| [0026](0026-report-format-follows-the-exam-guide.md) | After-action reports follow the exam guide's item format, and the project uses the guide's exam code CCAR-F | Accepted |
 
 ## Are we on track?
 

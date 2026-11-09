@@ -4,7 +4,7 @@ Nov 4, 2026 · Mikael Axelsson · Live version with diagrams: https://claude.ai/
 
 ## Vision
 
-**Lattice Command is a 3D grand strategy game where you run an autonomous logistics network keeping a star cluster's colonies alive against a rival power. Players learn the Claude Certified Architect – Foundations (CCA-F) content without studying, because the game's rules are the certification's concepts.**
+**Lattice Command is a 3D grand strategy game where you run an autonomous logistics network keeping a star cluster's colonies alive against a rival power. Players learn the Claude Certified Architect – Foundations (CCAR-F) content without studying, because the game's rules are the certification's concepts.**
 
 The model is Terra Invicta: players learn world geography because countries are the board. Here, agents, tools, hooks, context and delegation are the board.
 
@@ -25,9 +25,9 @@ Design pillars:
 3. **The simulation behaves like the real system.** A PostToolUse interlock can never stop an action. A subagent knows nothing of the parent conversation except its delegation message, and a fork is the exception because it inherits the whole conversation (corrected 2026-11-04). A batch can take up to 24 hours and expires if processing has not finished by then (corrected 2026-11-04). A wrong rule teaches a wrong answer.
 4. **Distractors are tempting moves.** The exam's recurring wrong answers (stronger prompt, self-rated confidence, more retries, wider window) are offered as cheap, attractive options in the game. They work just often enough to tempt, and fail at the moments that matter.
 5. **Delayed, traceable consequences.** Damage from a misconfiguration surfaces later, as an event scheduled at an absolute simulation tick, which on the strategic layer means several turns after the decision ([ADR-0020](docs/adr/0020-fixed-step-clock-and-numerics.md)). The incident log always shows the causal chain back to the decision.
-6. **A thin bridge to the exam's format.** After-action reports are written as exam scenarios (situation, symptom, question, four options), so intuition from play becomes recall under exam conditions.
+6. **A thin bridge to the exam's format.** After-action reports are written as exam scenarios (situation, symptom, question, and four options, or more for a select-two crisis; corrected 2026-11-09, [ADR-0026](docs/adr/0026-report-format-follows-the-exam-guide.md)), so intuition from play becomes recall under exam conditions.
 
-The exam's structure, distilled from two 60-question practice tests and the CCA-F question decoder in this project, sets the targets:
+The exam's structure, distilled from two 60-question practice tests and the CCAR-F question decoder in this project, sets the targets:
 
 | Exam property | Design target |
 | --- | --- |
@@ -241,7 +241,7 @@ Four advisors, one per AI Fluency competency, comment on every crisis: the Quart
 When an incident closes, the Signals Officer files a one-screen report:
 
 1. The scenario in exam phrasing ("A customer support agent issues refunds without verifying eligibility in 12% of cases…").
-2. Four of the orders that were on the table, written as answer options: the correct answer, shown as one option when it is a set of orders, and the three most tempting wrong orders, including the Concord's suggestions. This rests on the exam's four-option format, which needs a fact entry, including how select-two questions are shown, before reports are built ([ADR-0023](docs/adr/0023-owner-decisions-on-the-open-register.md)).
+2. The orders that were on the table, written as answer options: the correct order and the three most tempting wrong orders, including the Concord's suggestions, which makes four options as in the exam guide's sample questions. When the solution is a set of orders, the report is a multiple-response item that lists each order of the set as its own option, states how many responses to select, and adds the three most tempting wrong orders (corrected 2026-11-09, [ADR-0026](docs/adr/0026-report-format-follows-the-exam-guide.md); facts `exam-item-format` and `exam-sample-questions-four-options`).
 3. Which order the player chose, which one fixed the cause, and why the others fail.
 4. The doctrine each distractor belongs to.
 
@@ -557,7 +557,7 @@ Total: about nine months for a team of two or three with Claude Code doing most 
 - Multiplayer.
 - Procedurally generated incidents (hand-authored only, for accuracy).
 - Live calls to the Claude API during play. The simulation models Claude's behaviour; it doesn't call it, which keeps the game deterministic, offline and free to run.
-- Content beyond the CCA-F and its supporting courses. The schema leaves room for future certifications as new campaigns.
+- Content beyond the CCAR-F and its supporting courses. The schema leaves room for future certifications as new campaigns.
 
 ## Risks and open questions
 

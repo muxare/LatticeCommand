@@ -22,7 +22,7 @@ The incident targets are arithmetically sound. The counts total 60, the weights 
 
 The systems target does not hold as of 2026-11-04. The domain tables have 8, 7, 8, 6 and 6 rows out of 35, which is 22.9%, 20%, 22.9%, 17.1% and 17.1%, against the 9.45, 6.3, 7, 7 and 5.25 rows the weights would give. D1 and D4 are short, and D2, D3 and D5 are over. The sources do not say that a table row is the unit of "system", and the five supporting-course rows belong to no domain. The GDD also uses a third measure in one place, saying the weights set "how much play time each domain gets". Under [ADR-0001](0001-record-architecture-decisions.md) this is a defect to resolve, by either correcting the tables or redefining the target; this ADR does not choose.
 
-Two open questions remain outside this decision: the audience, which changes pacing and the War College's weight, and which practice test benchmarks learning and who owns that study. In addition, the exam structure is "distilled from two 60-question practice tests and the CCA-F question decoder in this project", and none of those files is in the repository, so the weights have no checkable source here.
+Two open questions remain outside this decision: the audience, which changes pacing and the War College's weight, and which practice test benchmarks learning and who owns that study. In addition, the exam structure is "distilled from two 60-question practice tests and the CCAR-F question decoder in this project", and none of those files is in the repository, so the weights have no checkable source here.
 
 ## Alternatives considered
 

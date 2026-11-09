@@ -2,7 +2,7 @@
 
 This file is the entry point for Codex and mirrors `CLAUDE.md`, which is the source. When the two disagree, `CLAUDE.md` wins, and a change to one must be made in the other in the same commit.
 
-Lattice Command is a 3D grand strategy game in which the player runs an autonomous logistics network that keeps a star cluster's colonies alive against a rival power. Players learn the Claude Certified Architect – Foundations (CCA-F) content without studying, because the game's rules are the certification's concepts.
+Lattice Command is a 3D grand strategy game in which the player runs an autonomous logistics network that keeps a star cluster's colonies alive against a rival power. Players learn the Claude Certified Architect – Foundations (CCAR-F) content without studying, because the game's rules are the certification's concepts.
 
 The design source of truth is `lattice-command-gdd.md`, and this file only distils what is needed on every task. Read the relevant GDD section before implementing a feature, and cite it in the plan. If the GDD turns out to be wrong during implementation, record the correction there instead of quietly building something else.
 

@@ -2,7 +2,7 @@
 
 | | |
 | --- | --- |
-| **Status** | Accepted, amended by [ADR-0024](0024-fun-measure-asset-storage-and-re-approval-issue.md) |
+| **Status** | Accepted, amended by [ADR-0024](0024-fun-measure-asset-storage-and-re-approval-issue.md) and [ADR-0026](0026-report-format-follows-the-exam-guide.md) |
 | **Date** | 2026-11-09 |
 | **Deciders** | Mikael Axelsson |
 | **Sources** | [Findings register](findings-2026-11-04.md) items T2, T3, D1 to D3 and D5 to D12; the open points of [ADR-0022](0022-claude-config-guards-worktrees-and-fails-closed.md); GDD "Design pillars", "Content mapping", "The thin bridge", "Onboarding: the first two hours", "Art pipeline", "Content pipeline and fact accuracy" and "Scope and milestones"; `CLAUDE.md` "Project status", "Teaching rules" and "Art pipeline" |
@@ -26,7 +26,7 @@ The findings register of 2026-11-04 left a set of design choices to the owner, a
 
 **The exam weights apply to incidents, not to systems or play time.** Systems follow the concepts the certification covers, and a domain's table may have more or fewer rows than its weight implies. The launch targets of about 16, 11, 12, 12 and 9 incidents stand. The GDD's phrase that the weights set "how much play time each domain gets" is replaced.
 
-**An after-action report shows four options, selected from the incident's orders.** They are the correct answer and the three most tempting wrong orders, and an incident whose solution is a set of orders shows that set as one option. This rests on the GDD's statement that the exam uses four options, which comes from the practice tests (D12) and has no fact entry yet. It must be checked against the exam's documented format, including how "select TWO" questions are presented, before after-action reports are built at Alpha, and if the exam shows select-two questions differently this choice is revisited.
+**An after-action report shows four options, selected from the incident's orders.** They are the correct answer and the three most tempting wrong orders, and an incident whose solution is a set of orders shows that set as one option. This rests on the GDD's statement that the exam uses four options, which comes from the practice tests (D12) and has no fact entry yet. It must be checked against the exam's documented format, including how "select TWO" questions are presented, before after-action reports are built at Alpha, and if the exam shows select-two questions differently this choice is revisited. [ADR-0026](0026-report-format-follows-the-exam-guide.md) made that check against the exam guide on 2026-11-09 and replaced the single combined option: a set solution's report is a multiple-response item that lists each order separately and states how many to select.
 
 ### Art (D6, D7)
 
@@ -80,7 +80,7 @@ The slice is smaller and closer to its eight weeks, and its exit test now measur
 
 The first fact entry can be written, since its fields and its approval are now defined, and the validator has a clear shape. Both cost a dependency outside Godot, and every person who approves a fact, or re-approves a stale one, is now on the critical path for content.
 
-The four-option report rests on a claim about the exam that has no fact entry yet, and the domain tables are no longer held to the weights, so a domain could end up thin in systems while meeting its incident count.
+The four-option report rests on a claim about the exam that has no fact entry yet (settled by [ADR-0026](0026-report-format-follows-the-exam-guide.md) on 2026-11-09), and the domain tables are no longer held to the weights, so a domain could end up thin in systems while meeting its incident count.
 
 Several points stay open: what measures fun, where hand-made and bought assets are stored, the remaining three palette colours, whether the nightly job also opens an issue for an entry that is due for re-approval, and the runtime of the validator. [ADR-0024](0024-fun-measure-asset-storage-and-re-approval-issue.md) settles fun, asset storage and the re-approval issue.
 
@@ -93,7 +93,7 @@ Several points stay open: what measures fun, where hand-made and bought assets a
 | The slice builds no research, second colony or after-action report | Review of plans and pull requests against this ADR and ADR-0018 | Manual |
 | The slice's playtest records the onboarding result, the before-and-after measure and the browser smoke test with the browser named | Milestone 1 playtest record | Pending (needs the vertical slice) |
 | Domain balance is judged by incident counts | Review of incident pull requests; a coverage count in the content validator | Manual; the count is Pending (needs the validator) |
-| The four-option report rests on a verified fact about the exam's format | `content/facts.json` entry cited by the report's design | Pending (needs the fact entry, before Alpha) |
+| The four-option report rests on a verified fact about the exam's format | `content/facts.json` entries `exam-item-format` and `exam-sample-questions-four-options`, cited by the report's design | Pending (the entries exist since 2026-11-09; needs the report's design, see ADR-0026) |
 | Hand-made and bought assets are listed in `art/third-party.md` | Pull request review | Manual |
 | Every fact entry names a person as `verifier` and lists its `terms` | Content schema | Pending (needs the schemas and validator) |
 | Content naming a glossary term without the fact id fails | Content validator | Pending (needs the validator) |

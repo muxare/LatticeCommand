@@ -10,7 +10,7 @@
 
 ## Context
 
-The vision is that players learn the CCA-F content without studying, because the game's rules are the certification's concepts. That can fail in two opposite ways. If the game behaves like a study tool, it stops being a game, and players who are not preparing for the exam leave. If the fiction takes over, players learn the metaphor and not the concept, which the GDD names as its biggest risk: someone who knows "interlocks" but not "PreToolUse hook" gains nothing in the exam. Many small interface and scoring choices, each harmless in isolation, can push the game either way.
+The vision is that players learn the CCAR-F content without studying, because the game's rules are the certification's concepts. That can fail in two opposite ways. If the game behaves like a study tool, it stops being a game, and players who are not preparing for the exam leave. If the fiction takes over, players learn the metaphor and not the concept, which the GDD names as its biggest risk: someone who knows "interlocks" but not "PreToolUse hook" gains nothing in the exam. Many small interface and scoring choices, each harmless in isolation, can push the game either way.
 
 ## Decision
 
