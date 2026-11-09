@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lattice-command.invalid/schemas/incident.schema.json",
+  "title": "Incident (content/incidents/<id>.json)",
+  "$comment": "GDD 'Incident schema', CLAUDE.md 'Content and fact accuracy', ADR-0009 and ADR-0023. Cross-references between orders, the solution and fact ids are checked in tools/validate_content.py. No campaign field (ADR-0009).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "colony_type",
+    "domain",
+    "task_statement",
+    "scenario",
+    "orders",
+    "solution",
+    "wrong_orders",
+    "fact_ids",
+    "exam_rewrite"
+  ],
+  "properties": {
+    "id": {
+      "$comment": "Must equal the file name without .json.",
+      "$ref": "#/$defs/slug"
+    },
+    "colony_type": {
+      "$comment": "The colony types in the GDD's 'Setting and fiction' table.",
+      "enum": ["Harbour", "Survey Conclave", "Shipyard", "Admiralty", "Night Relay", "Assay Works"]
+    },
+    "domain": { "enum": ["D1", "D2", "D3", "D4", "D5"] },
+    "task_statement": {
+      "$comment": "The exam guide's task statement number, such as 1.4. Its leading digit must match the domain.",
+      "type": "string",
+      "description": "must be a task statement number such as 1.4",
+      "pattern": "^[1-5]\\.[1-9][0-9]*$"
+    },
+    "scenario": { "$ref": "#/$defs/text" },
+    "orders": {
+      "$comment": "Every order on the table. Each is either in the solution or a wrong order, never both and never neither.",
+      "type": "array",
+      "minItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "text"],
+        "properties": {
+          "id": { "$ref": "#/$defs/slug" },
+          "text": { "$ref": "#/$defs/text" }
+        }
+      }
+    },
+    "solution": {
+      "$comment": "Exactly one solution, recorded as one list of order ids: one order, or one set of orders needed together (ADR-0023).",
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/slug" }
+    },
+    "wrong_orders": {
+      "$comment": "Three or four tempting wrong orders, each tagged with its doctrine and its delayed consequence.",
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["order", "doctrine", "consequence"],
+        "properties": {
+          "order": { "$ref": "#/$defs/slug" },
+          "doctrine": {
+            "enum": ["Plea", "Mirror", "Latewatch", "Envoy", "Liar", "Tower", "Brute", "Scroll", "Hand", "Silencer"]
+          },
+          "consequence": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["delay_ticks", "text"],
+            "properties": {
+              "delay_ticks": {
+                "$comment": "Ticks between the order and the damage surfacing (ADR-0020: one tick is one simulated minute, values are integers within 2^40). At least one tick, because the consequence is delayed.",
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 1099511627776
+              },
+              "text": { "$ref": "#/$defs/text" }
+            }
+          }
+        }
+      }
+    },
+    "fact_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "description": "must be a fact id: lowercase dotted segments such as hooks.pretooluse.deny",
+        "type": "string",
+        "pattern": "^[a-z0-9][a-z0-9_-]*(\\.[a-z0-9][a-z0-9_-]*)*$"
+      }
+    },
+    "exam_rewrite": {
+      "$comment": "The scenario in exam phrasing for the after-action report. The report's answer options are taken from the orders (ADR-0023), so they are not repeated here.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stem"],
+      "properties": {
+        "stem": { "$ref": "#/$defs/text" }
+      }
+    }
+  },
+  "$defs": {
+    "slug": {
+      "type": "string",
+      "description": "must be lowercase words joined by hyphens",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "text": {
+      "type": "string",
+      "description": "must be non-empty text without leading or trailing whitespace",
+      "pattern": "^\\S([\\s\\S]*\\S)?$"
+    }
+  }
+}

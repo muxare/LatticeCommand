@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lattice-command.invalid/schemas/facts.schema.json",
+  "title": "Fact sheet (content/facts.json)",
+  "$comment": "GDD 'The fact sheet', ADR-0010 and ADR-0023. Checks a schema cannot express (unique ids, one sentence, a person as verifier) are in tools/validate_content.py.",
+  "type": "array",
+  "items": { "$ref": "#/$defs/fact" },
+  "$defs": {
+    "fact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "claim", "source", "verified", "verifier", "domains", "terms"],
+      "properties": {
+        "id": {
+          "$comment": "Dotted lowercase segments, as in the GDD's example hooks.pretooluse.deny.",
+          "description": "must be lowercase dotted segments such as hooks.pretooluse.deny",
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9_-]*(\\.[a-z0-9][a-z0-9_-]*)*$"
+        },
+        "claim": {
+          "$comment": "One plain sentence on one line, ending with a full stop, question mark or exclamation mark. The validator also rejects a second sentence inside it.",
+          "description": "must be one sentence on one line, ending with '.', '?' or '!'",
+          "type": "string",
+          "pattern": "^[^\\s][^\\n]*[.!?]$"
+        },
+        "source": {
+          "$comment": "An https URL on an official Claude documentation host. The host must be followed directly by a slash, so user info, ports and look-alike hosts fail.",
+          "description": "must be an https URL on code.claude.com, platform.claude.com, docs.claude.com, docs.anthropic.com or support.claude.com",
+          "type": "string",
+          "pattern": "^https://(code\\.claude\\.com|platform\\.claude\\.com|docs\\.claude\\.com|docs\\.anthropic\\.com|support\\.claude\\.com)/[^\\s]*$"
+        },
+        "verified": {
+          "$comment": "The date a person approved the entry (ADR-0023), as YYYY-MM-DD.",
+          "type": "string",
+          "format": "date",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+        },
+        "verifier": {
+          "$comment": "The person who approved the entry. A subagent never counts (ADR-0023); the validator rejects agent names.",
+          "description": "must be a person's name without leading or trailing whitespace",
+          "type": "string",
+          "pattern": "^[^\\s].*[^\\s]$"
+        },
+        "domains": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "enum": ["D1", "D2", "D3", "D4", "D5"] }
+        },
+        "terms": {
+          "$comment": "Feature names this entry backs; their union is the glossary (ADR-0023). May be empty for a claim that backs no feature name.",
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "description": "must be a feature name without leading or trailing whitespace",
+            "type": "string",
+            "pattern": "^[^\\s](.*[^\\s])?$"
+          }
+        }
+      }
+    }
+  }
+}
