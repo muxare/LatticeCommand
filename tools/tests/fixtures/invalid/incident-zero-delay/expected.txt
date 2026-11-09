@@ -1,0 +1,1 @@
+content/incidents/fixture-harbour-single.json: /wrong_orders/0/consequence/delay_ticks: 0 is less than the minimum of 1

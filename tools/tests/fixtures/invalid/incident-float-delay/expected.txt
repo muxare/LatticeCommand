@@ -1,0 +1,1 @@
+content/incidents/fixture-harbour-single.json: /wrong_orders/0/consequence/delay_ticks: number 10080.0 must be written as an integer; content holds no fractional or exponent numbers (ADR-0020)

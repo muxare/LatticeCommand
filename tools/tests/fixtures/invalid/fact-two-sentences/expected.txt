@@ -1,0 +1,1 @@
+content/facts.json: /0/claim: claim must be one sentence

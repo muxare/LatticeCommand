@@ -1,0 +1,1 @@
+content/incidents/fixture-harbour-single.json: /orders/1/text: names the feature 'Gizmo Mode', but fact_ids lists none of the facts that back it: fixture.gizmo.mode

@@ -1,0 +1,2 @@
+content/incidents/fixture-harbour-single.json: /solution/0: ['fit-widget-hook'] is not of type 'string'
+content/incidents/fixture-harbour-single.json: /solution/1: ['audit-later'] is not of type 'string'

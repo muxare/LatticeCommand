@@ -1,0 +1,2 @@
+content/incidents/fixture-harbour-single.json: /wrong_orders/0/consequence/delay_ticks: integer 1099511627777 is outside +/-2^40 (ADR-0020)
+content/incidents/fixture-harbour-single.json: /wrong_orders/0/consequence/delay_ticks: 1099511627777 is greater than the maximum of 1099511627776

@@ -1,0 +1,1 @@
+content/incidents/fixture-harbour-single.json: /solution: has 0 item(s); at least 1 are required

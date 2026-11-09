@@ -1,0 +1,1 @@
+content/facts.json: /0/domains/0: 'D6' is not one of ['D1', 'D2', 'D3', 'D4', 'D5']

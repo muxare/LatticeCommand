@@ -1,0 +1,1 @@
+content/incidents/fixture-harbour-single.json: /wrong_orders/0/doctrine: 'Shouter' is not one of ['Plea', 'Mirror', 'Latewatch', 'Envoy', 'Liar', 'Tower', 'Brute', 'Scroll', 'Hand', 'Silencer']

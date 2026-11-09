@@ -1,0 +1,1 @@
+content/doctrines/plea.json: /: no schema covers this file; add one in tools/schemas/ and tools/validate_content.py before adding a new kind of content

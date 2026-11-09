@@ -1,0 +1,41 @@
+[
+  {
+    "id": "fixture.widget.alpha",
+    "claim": "A Widget Hook is an invented feature used only by the validator tests.",
+    "source": "https://code.claude.com/docs/en/fixture-page-for-validator-tests",
+    "verified": "2026-11-09",
+    "verifier": "Test Person",
+    "domains": [
+      "D6"
+    ],
+    "terms": [
+      "Widget Hook"
+    ]
+  },
+  {
+    "id": "fixture.gizmo.mode",
+    "claim": "Gizmo Mode is a second invented feature used only by the validator tests.",
+    "source": "https://platform.claude.com/docs/en/fixture-page-for-validator-tests",
+    "verified": "2026-11-09",
+    "verifier": "Test Person",
+    "domains": [
+      "D1",
+      "D3"
+    ],
+    "terms": [
+      "Gizmo Mode",
+      "--gizmo-flag"
+    ]
+  },
+  {
+    "id": "fixture.exam.format",
+    "claim": "This invented claim backs no feature name, so its terms list is empty.",
+    "source": "https://code.claude.com/docs/en/fixture-page-for-validator-tests",
+    "verified": "2026-11-09",
+    "verifier": "Test Person",
+    "domains": [
+      "D1"
+    ],
+    "terms": []
+  }
+]

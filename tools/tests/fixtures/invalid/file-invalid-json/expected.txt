@@ -1,0 +1,1 @@
+content/incidents/broken.json: /: invalid JSON: Expecting ',' delimiter (line 1, column 12)

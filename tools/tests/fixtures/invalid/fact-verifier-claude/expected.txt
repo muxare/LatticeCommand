@@ -1,0 +1,1 @@
+content/facts.json: /0/verifier: verifier 'Claude Opus' names an agent; it must be the person who approved the entry (ADR-0023)

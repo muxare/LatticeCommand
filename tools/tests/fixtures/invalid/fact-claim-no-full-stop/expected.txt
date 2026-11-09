@@ -1,0 +1,1 @@
+content/facts.json: /0/claim: 'A Widget Hook is invented' is not valid: must be one sentence on one line, ending with '.', '?' or '!'

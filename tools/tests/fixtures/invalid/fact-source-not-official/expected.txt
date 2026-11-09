@@ -1,0 +1,1 @@
+content/facts.json: /0/source: 'https://example.com/docs/hooks' is not valid: must be an https URL on code.claude.com, platform.claude.com, docs.claude.com, docs.anthropic.com or support.claude.com

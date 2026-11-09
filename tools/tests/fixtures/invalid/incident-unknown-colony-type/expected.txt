@@ -1,0 +1,1 @@
+content/incidents/fixture-harbour-single.json: /colony_type: 'Spaceport' is not one of ['Harbour', 'Survey Conclave', 'Shipyard', 'Admiralty', 'Night Relay', 'Assay Works']

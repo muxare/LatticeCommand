@@ -1,0 +1,60 @@
+{
+  "id": "fixture-harbour-single",
+  "colony_type": "Harbour",
+  "domain": "D1",
+  "task_statement": "1.2",
+  "scenario": "Fixture scenario: a craft issues credits before the Widget Hook checks the claim.",
+  "orders": [
+    {
+      "id": "fit-widget-hook",
+      "text": "Fit the Widget Hook before the credit is issued."
+    },
+    {
+      "id": "shout-louder",
+      "text": "Add IMPORTANT to the craft's orders."
+    },
+    {
+      "id": "ask-confidence",
+      "text": "Ask the craft how sure it is before each credit."
+    },
+    {
+      "id": "audit-later",
+      "text": "Audit the credits at the end of the week."
+    }
+  ],
+  "solution": [
+    "fit-widget-hook"
+  ],
+  "wrong_orders": [
+    {
+      "order": "shout-louder",
+      "doctrine": "Plea",
+      "consequence": {
+        "delay_ticks": 10080.0,
+        "text": "Fixture consequence: credits still leak a week later."
+      }
+    },
+    {
+      "order": "ask-confidence",
+      "doctrine": "Mirror",
+      "consequence": {
+        "delay_ticks": 2880,
+        "text": "Fixture consequence: the craft is sure and wrong."
+      }
+    },
+    {
+      "order": "audit-later",
+      "doctrine": "Latewatch",
+      "consequence": {
+        "delay_ticks": 1440,
+        "text": "Fixture consequence: the audit finds credits already spent."
+      }
+    }
+  ],
+  "fact_ids": [
+    "fixture.widget.alpha"
+  ],
+  "exam_rewrite": {
+    "stem": "Fixture stem: which change stops unverified credits?"
+  }
+}

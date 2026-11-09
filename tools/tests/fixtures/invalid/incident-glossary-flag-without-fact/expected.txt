@@ -1,0 +1,1 @@
+content/incidents/fixture-harbour-single.json: /exam_rewrite/stem: names the feature '--gizmo-flag', but fact_ids lists none of the facts that back it: fixture.gizmo.mode

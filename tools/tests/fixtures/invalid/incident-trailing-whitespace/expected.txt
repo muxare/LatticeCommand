@@ -1,0 +1,1 @@
+content/incidents/fixture-harbour-single.json: /scenario: string has leading or trailing whitespace

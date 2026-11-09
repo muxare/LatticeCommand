@@ -1,0 +1,78 @@
+{
+  "id": "fixture-shipyard-pair",
+  "colony_type": "Shipyard",
+  "domain": "D3",
+  "task_statement": "3.1",
+  "scenario": "Fixture scenario: two orders are needed together, and gizmo mode is named in lower case.",
+  "orders": [
+    {
+      "id": "enable-gizmo",
+      "text": "Turn on Gizmo Mode for the yard."
+    },
+    {
+      "id": "pass-flag",
+      "text": "Pass --gizmo-flag to the unattended craft."
+    },
+    {
+      "id": "retry-all",
+      "text": "Retry every job three more times."
+    },
+    {
+      "id": "add-router",
+      "text": "Add a dispatcher in front of the yard."
+    },
+    {
+      "id": "personal-settings",
+      "text": "Put the setting in one captain's personal file."
+    },
+    {
+      "id": "use-familiar-tool",
+      "text": "Use the tool the crew already knows."
+    }
+  ],
+  "solution": [
+    "enable-gizmo",
+    "pass-flag"
+  ],
+  "wrong_orders": [
+    {
+      "order": "retry-all",
+      "doctrine": "Brute",
+      "consequence": {
+        "delay_ticks": 60,
+        "text": "Fixture consequence: the retries burn credits."
+      }
+    },
+    {
+      "order": "add-router",
+      "doctrine": "Tower",
+      "consequence": {
+        "delay_ticks": 20160,
+        "text": "Fixture consequence: the dispatcher misroutes jobs."
+      }
+    },
+    {
+      "order": "personal-settings",
+      "doctrine": "Scroll",
+      "consequence": {
+        "delay_ticks": 10080,
+        "text": "Fixture consequence: the other captains never load it."
+      }
+    },
+    {
+      "order": "use-familiar-tool",
+      "doctrine": "Hand",
+      "consequence": {
+        "delay_ticks": 4320,
+        "text": "Fixture consequence: the tool's contract does not fit."
+      }
+    }
+  ],
+  "fact_ids": [
+    "fixture.gizmo.mode",
+    "fixture.exam.format"
+  ],
+  "exam_rewrite": {
+    "stem": "Fixture stem: which TWO changes keep the yard running?"
+  }
+}

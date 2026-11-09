@@ -1,0 +1,1 @@
+content/incidents/fixture-harbour-single.json: /: Additional properties are not allowed ('campaign' was unexpected)
